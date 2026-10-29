@@ -1,1254 +1,1289 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ARX Wyceny – System Pomiarowy i Kalkulator</title>
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --card-border: #334155;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #f97316;
-      --accent-hover: #ea580c;
-      --success: #22c55e;
-      --danger: #ef4444;
-      --info: #3b82f6;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 60px; font-size: 15px; }
-    
-    /* Nagłówek i przełącznik trybu */
-    header {
-      background: #020617;
-      border-bottom: 2px solid var(--accent);
-      padding: 12px 14px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand { display: flex; align-items: center; gap: 8px; }
-    .brand-logo {
-      background: var(--accent);
-      color: #fff;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 6px;
-      letter-spacing: 1px;
-      font-size: 16px;
-    }
-    .brand-sub { font-size: 12px; color: var(--muted); }
-    .mode-btn {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .mode-btn.client-active { background: var(--info); border-color: #60a5fa; color: #fff; }
-
-    /* Zakładki nawigacyjne */
-    .tabs {
-      display: flex;
-      background: #090d16;
-      border-bottom: 1px solid var(--card-border);
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 12px 6px;
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 13px;
-      border-bottom: 3px solid transparent;
-      cursor: pointer;
-    }
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      background: rgba(249, 115, 22, 0.08);
-    }
-
-    .container { max-width: 760px; margin: 0 auto; padding: 12px; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-    .card-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #475569;
-      background: #0f172a;
-      color: var(--text);
-      font-size: 15px;
-      margin-bottom: 10px;
-    }
-    input:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-
-    .btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.1s;
-    }
-    .btn:active { transform: scale(0.98); }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-success { background: var(--success); color: #052e16; }
-    .btn-info { background: var(--info); color: #fff; }
-    .btn-danger { background: var(--danger); color: #fff; }
-    .btn-outline { background: transparent; border: 1px solid #475569; color: var(--text); }
-
-    /* Sekcja mikrofonu 30s */
-    .voice-box {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 2px solid var(--accent);
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 14px;
-      text-align: center;
-    }
-    .voice-btn {
-      background: var(--accent);
-      color: #fff;
-      font-size: 16px;
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
-      width: 100%;
-      font-weight: 900;
-      cursor: pointer;
-    }
-    .voice-btn.listening {
-      background: var(--danger);
-      animation: pulse 1.2s infinite;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-      70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-    }
-    .voice-status {
-      margin-top: 8px;
-      font-size: 13px;
-      color: #fde047;
-      font-weight: 700;
-      min-height: 20px;
-    }
-    .confirm-bar {
-      display: none;
-      margin-top: 10px;
-      gap: 8px;
-    }
-
-    /* Układ wariantu NR:1 - NR:7 z rysunkiem po prawej stronie */
-    .variant-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #0f172a;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #475569;
-      margin-bottom: 10px;
-    }
-    .variant-left { flex: 1; }
-    .variant-left select { margin-bottom: 6px; }
-    .variant-svg-box {
-      width: 122px;
-      height: 98px;
-      flex-shrink: 0;
-      background: #ffffff;
-      border-radius: 8px;
-      border: 2px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Lista pozycji zamówienia */
-    .item-row {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .item-main { font-weight: 700; font-size: 14px; color: #f8fafc; }
-    .item-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
-    .item-price { font-weight: 900; font-size: 15px; color: var(--accent); text-align: right; }
-
-    /* Podsumowanie finansowe */
-    .summary-box {
-      background: #020617;
-      border: 1px solid var(--accent);
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 10px;
-    }
-    .sum-line {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      font-size: 14px;
-    }
-    .sum-line.total {
-      font-size: 19px;
-      font-weight: 900;
-      color: var(--success);
-      border-top: 1px solid #334155;
-      padding-top: 10px;
-      margin-top: 6px;
-    }
-    .worker-only {
-      border-top: 1px dashed #475569;
-      margin-top: 8px;
-      padding-top: 8px;
-      color: #38bdf8;
-    }
-    body.client-mode .worker-only { display: none !important; }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 7px;
-      border-radius: 5px;
-      font-size: 11px;
-      font-weight: 700;
-      background: #334155;
-      color: #fff;
-    }
-    .alert-outside {
-      display: none;
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid var(--danger);
-      color: #fca5a5;
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ARX Wyceny | Systemy Osłon Okiennych</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}
+</script>
+<style>
+body{background-color:#0b0f19;color:#f1f5f9;-webkit-tap-highlight-color:transparent;}
+.card-bg{background-color:#131926;border:1px solid #1e293b;}
+.input-bg{background-color:#0b0f19;border:1px solid #1e293b;}
+.input-bg:focus{border-color:#f59e0b;outline:none;}
+input[type="range"]{accent-color:#f59e0b;}
+.no-scrollbar::-webkit-scrollbar{display:none;}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
+</style>
 </head>
-<body>
+<body class="font-sans min-h-screen pb-28">
 
-<header>
-  <div class="brand">
-    <div class="brand-logo">ARX</div>
-    <div>
-      <div style="font-weight: 800; font-size: 14px;">Systemy Osłonowe</div>
-      <div class="brand-sub" id="modeSubtitle">Tryb Roboczy (Pełna Marża i B2B)</div>
-    </div>
-  </div>
-  <button class="mode-btn" id="toggleModeBtn" onclick="przelaczTryb()">👁️ Tryb Kliencki</button>
-</header>
-
-<div class="tabs">
-  <button class="tab-btn active" onclick="pokazZakladke('wycena', this)">📏 Wycena i Pomiar</button>
-  <button class="tab-btn worker-only" onclick="pokazZakladke('projekty', this)">📂 Projekty i Zysk</button>
-  <button class="tab-btn worker-only" onclick="pokazZakladke('ustawienia', this)">⚙️ Cennik i Tabele</button>
+<div id="toastBox" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-sm">
+  <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
 </div>
 
-<div class="container">
-
-  <!-- ZAKŁADKA 1: WYCENA I POMIAR -->
-  <div id="tab-wycena" class="tab-content active">
-
-    <!-- Pomiar głosowy 30 sekund -->
-    <div class="voice-box">
-      <button id="voiceStartBtn" class="voice-btn" onclick="uruchomPomiar30s()">
-        🎤 SZYBKI POMIAR GŁOSOWY (30 SEK)
+<header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-3 pb-2.5">
+  <div class="max-w-md mx-auto">
+    <div class="flex justify-between items-center mb-2.5">
+      <div class="flex items-center gap-2.5">
+        <div id="brandShortBadge" class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-extrabold text-sm shadow-md">ARX</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="brandHeaderTitle" class="font-extrabold text-base tracking-tight text-white">ARX Wyceny</span>
+            <span id="modeBadge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30">B2B ROBOCZY</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Systemy Osłon Okiennych • Pomiar</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <button type="button" onclick="openSavedModal()" title="Zapisane pomiary i raporty" class="h-9 px-2.5 rounded-xl card-bg flex items-center gap-1.5 text-xs font-bold text-slate-200 active:scale-95 transition">
+          <i class="fa-solid fa-folder text-amber-500"></i><span id="savedCount" class="bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">0</span>
+        </button>
+        <button type="button" onclick="openSettingsModal()" title="Ustawienia i Cennik" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
+          <i class="fa-solid fa-gear text-sm"></i>
+        </button>
+        <button type="button" onclick="resetAll()" title="Wyczyść pomiar" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition">
+          <i class="fa-solid fa-rotate-right text-xs"></i>
+        </button>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-1.5 bg-[#131926] p-1 rounded-xl border border-slate-800">
+      <button type="button" id="btnModeWork" onclick="switchMode('work')" class="py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Tryb Roboczy
       </button>
-      <div id="voiceStatus" class="voice-status">
-        Kliknij i powiedz np. „Kuchnia 140 na 140” – odetnie automatycznie po 2 liczbach!
+      <button type="button" id="btnModeClient" onclick="switchMode('client')" class="py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 hover:text-white transition">
+        <i class="fa-solid fa-user"></i> Widok dla Klienta
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-md mx-auto px-3 pt-3 space-y-3.5">
+
+  <section class="card-bg rounded-2xl p-3.5 shadow-lg">
+    <div class="mb-2.5">
+      <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1"><i class="fa-solid fa-user-tag text-amber-500 mr-1"></i> KLIENT / ADRES POMIARU</label>
+      <input type="text" id="clientAddress" value="" placeholder="np. adres lub nazwa klienta..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-medium text-white">
+    </div>
+    <div>
+      <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1"><i class="fa-solid fa-phone text-amber-500 mr-1"></i> TELEFON / TERMIN</label>
+      <div class="flex gap-2">
+        <input type="tel" id="clientPhone" value="" placeholder="np. numer telefonu..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-mono text-white">
+        <button type="button" onclick="saveProject()" class="px-4 py-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 font-bold text-xs whitespace-nowrap flex items-center gap-1.5 active:scale-95 transition">
+          <i class="fa-solid fa-floppy-disk"></i> Zapisz
+        </button>
       </div>
-      <div id="voiceConfirmBar" class="confirm-bar">
-        <button class="btn btn-success" onclick="potwierdzGlosowoRecznie(true)">✅ TAK, DODAJ</button>
-        <button class="btn btn-danger" onclick="potwierdzGlosowoRecznie(false)">❌ POWTÓRZ</button>
+    </div>
+  </section>
+
+  <section id="clientBanner" class="hidden bg-gradient-to-br from-blue-950/60 to-slate-900 border border-blue-500/30 rounded-2xl p-4 shadow-lg">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400"><i class="fa-solid fa-shield-halved text-lg"></i></div>
+        <div>
+          <h2 class="font-bold text-sm text-white">Podsumowanie Pomiaru i Wyceny</h2>
+          <p class="text-xs text-slate-300 mt-0.5">Wycena obejmuje produkt na wymiar oraz profesjonalny montaż.</p>
+        </div>
+      </div>
+      <button type="button" onclick="switchMode('work')" class="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap">+ Dodaj okno</button>
+    </div>
+  </section>
+
+  <!-- 2. SZYBKI POMIAR GŁOSOWY (PRZYCISK "POMIAR" - 30 SEKUND) -->
+  <section id="voiceSection" class="card-bg rounded-2xl p-3.5 shadow-lg border-amber-500/30">
+    <div class="flex justify-between items-center mb-2">
+      <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
+      <span id="voiceStateBadge" class="text-[11px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-medium">Gotowy (1 klik -> wymiar -> „Tak”)</span>
+    </div>
+    <button type="button" id="btnVoiceStart" onclick="startVoiceFlow()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-base tracking-wide shadow-md flex items-center justify-center gap-2 active:scale-95 transition">
+      <i class="fa-solid fa-microphone"></i> <span>POMIAR</span>
+    </button>
+    <div id="voiceActiveBanner" class="hidden mt-2.5 bg-slate-950 border border-amber-500/60 rounded-xl p-3">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
+          <span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz pokój i wymiar w cm (np. „Rybki 65 na 125”)</span>
+        </div>
+        <button type="button" onclick="stopAllVoice()" class="text-xs text-slate-400 px-2 py-0.5 rounded bg-slate-800">Stop</button>
+      </div>
+      <div id="voiceHeardPreview" class="text-sm font-mono font-bold text-white mt-2 hidden"></div>
+      <div id="voiceConfirmButtons" class="hidden flex gap-2 mt-2.5 pt-2 border-t border-slate-800">
+        <button type="button" onclick="confirmVoiceItem(true)" class="flex-1 py-2 rounded-lg bg-emerald-500 text-slate-950 font-extrabold text-xs"><i class="fa-solid fa-check"></i> TAK (LUB POWIEDZ „TAK”)</button>
+        <button type="button" onclick="confirmVoiceItem(false)" class="flex-1 py-2 rounded-lg bg-slate-800 text-slate-300 font-bold text-xs"><i class="fa-solid fa-xmark"></i> ODRZUĆ („NIE”)</button>
+      </div>
+      <div id="voiceBlockedFallback" class="hidden mt-2 pt-2 border-t border-slate-800 space-y-1.5">
+        <p class="text-[11px] text-amber-300">Wpisz lub podyktuj wymiar poniżej (i dopowiedz „tak”):</p>
+        <input type="text" id="voiceFallbackInput" oninput="onFallbackInput()" placeholder="np. Rybki 65 na 125..." class="w-full input-bg rounded-xl px-3 py-2 text-xs text-white">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. NOWA POZYCJA POMIAROWA -->
+  <section id="editorSection" class="card-bg rounded-2xl p-3.5 shadow-lg space-y-3.5">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+      <div class="flex items-center gap-2">
+        <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs"><i class="fa-solid fa-ruler-combined"></i></span>
+        <h2 class="font-bold text-sm text-white">Nowa pozycja pomiarowa</h2>
+      </div>
+      <button type="button" onclick="openSettingsModal()" class="text-[11px] font-bold text-amber-400 hover:underline flex items-center gap-1">
+        <i class="fa-solid fa-gear"></i> Edytuj cennik
+      </button>
+    </div>
+
+    <div>
+      <label class="block text-xs font-semibold text-slate-300 mb-1.5">1. Kolor osprzętu / profilu</label>
+      <div class="relative">
+        <select id="itemColor" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9">
+          <option value="Biały">Biały</option>
+          <option value="Brązowy">Brązowy</option>
+          <option value="Antracyt (RAL 7016)">Antracyt (RAL 7016)</option>
+          <option value="Złoty Dąb">Złoty Dąb</option>
+          <option value="Orzech">Orzech</option>
+          <option value="Winchester">Winchester</option>
+          <option value="Mahoń">Mahoń</option>
+        </select>
+        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
       </div>
     </div>
 
-    <!-- Dane klienta -->
-    <div class="card">
-      <div class="card-title">👤 Dane Klienta / Zlecenia</div>
-      <div class="grid-2">
-        <div>
-          <label>Klient / Miejscowość</label>
-          <input type="text" id="klientNazwa" placeholder="np. Kowalski - Kórnik">
-        </div>
-        <div>
-          <label>Telefon klienta</label>
-          <input type="tel" id="klientTel" placeholder="np. 600100200">
-        </div>
+    <div>
+      <label class="block text-xs font-semibold text-slate-300 mb-1.5">2. Wybierz system osłonowy</label>
+      <div class="relative">
+        <select id="itemSystem" onchange="onSystemChange()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select>
+        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
       </div>
     </div>
 
-    <!-- Formularz dodawania pozycji -->
-    <div class="card">
-      <div class="card-title">
-        <span>➕ Dodaj Pozycję Pomiarową</span>
-        <span class="badge" id="typKalkulacjiBadge">m² / obwód</span>
-      </div>
-
-      <div class="grid-2">
-        <div>
-          <label>Rodzaj systemu</label>
-          <select id="systemTyp" onchange="zmienSystemUI()">
-            <option value="ramkowa">Moskitiera ramkowa (okienna)</option>
-            <option value="drzwiowa">Moskitiera drzwiowa (zawiasy)</option>
-            <option value="plisowana">Moskitiera plisowana (Wg tabeli)</option>
-            <option value="aluprof">Moskitiera przesuwna Aluprof (Wg tabeli)</option>
-            <option value="slim">Moskitiera przesuwna Slim (Wg tabeli)</option>
-            <option value="dachowa">Moskitiera dachowa</option>
-            <option value="roleta_kaseta">Roleta w kasecie (prowadnice)</option>
-            <option value="roleta_dn">Roleta Dzień-Noc</option>
-            <option value="plisa">Plisa okienna</option>
-            <option value="roleta_zewn">Roleta zewnętrzna (Intrax)</option>
+    <!-- WARIANT POMIAROWY WIDOCZNY WYŁĄCZNIE DLA MOSKITIERY RAMKOWEJ OKIENNEJ (LISTA PO LEWEJ + RYSUNEK PO PRAWEJ) -->
+    <div id="variantSectionBox">
+      <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Wariant pomiarowy (Moskitiera ramkowa)</label>
+      <div class="flex items-center gap-2.5">
+        <div class="relative flex-1">
+          <select id="itemVariant" onchange="updateVariantDrawing()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9 border-amber-500/30">
+            <option value="Wariant nr 1">Wariant nr 1 (NR:1)</option>
+            <option value="Wariant nr 2">Wariant nr 2 (NR:2)</option>
+            <option value="Wariant nr 3">Wariant nr 3 (NR:3)</option>
+            <option value="Wariant nr 4">Wariant nr 4 (NR:4)</option>
+            <option value="Wariant nr 5">Wariant nr 5 (NR:5)</option>
+            <option value="Wariant nr 6">Wariant nr 6 (NR:6)</option>
+            <option value="Wariant nr 7">Wariant nr 7 (Nr 7)</option>
           </select>
+          <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
         </div>
-        <div>
-          <label>Pomieszczenie / Opis okna</label>
-          <input type="text" id="pomieszczenie" placeholder="np. Kuchnia, Salon, Balkon">
-        </div>
-      </div>
-
-      <!-- Sekcja wariantów NR:1 - NR:7 z rysunkiem po prawej stronie (tylko dla moskitiery ramkowej) -->
-      <div id="sekcjaWariantuRamki" class="variant-row">
-        <div class="variant-left">
-          <label for="wariantPomiaru">Sposób pomiarowania (Wzór 1–7):</label>
-          <select id="wariantPomiaru" onchange="aktualizujRysunekWariantu(this.value)">
-            <option value="1">Wzór 1 (NR:1) – Wewn. ↔ Wewn. / Wewn. ↕ Wewn.</option>
-            <option value="2">Wzór 2 (NR:2) – Lewa zewn. / Reszta wewn.</option>
-            <option value="3">Wzór 3 (NR:3) – Szer. zewn. ↔ zewn. / Wys. wewn.</option>
-            <option value="4">Wzór 4 (NR:4) – Góra zewn. / Reszta wewn.</option>
-            <option value="5">Wzór 5 (NR:5) – Całość zewn. ↔ zewn. / ↕ zewn.</option>
-            <option value="6">Wzór 6 (NR:6) – Lewa i góra zewn. / Prawa i dół wewn.</option>
-            <option value="7">Wzór 7 (Nr 7) – Lewa, prawa i góra zewn. / Dół wewn.</option>
-          </select>
-
-          <label for="blaszkaRozmiar">Rozmiar blaszki / uchwytu:</label>
-          <select id="blaszkaRozmiar" style="margin-bottom:0;">
-            <option value="Dobór na warsztacie">Dobór na warsztacie</option>
-            <option value="Blaszka 0 mm">Blaszka 0 mm</option>
-            <option value="Blaszka 3 mm">Blaszka 3 mm</option>
-            <option value="Blaszka 6 mm">Blaszka 6 mm</option>
-            <option value="Blaszka 9 mm">Blaszka 9 mm</option>
-            <option value="Blaszka 12 mm">Blaszka 12 mm</option>
-            <option value="Blaszka 15 mm">Blaszka 15 mm</option>
-            <option value="Profil zlicowany">Profil zlicowany</option>
-          </select>
-        </div>
-
         <!-- Rysunek bezpośrednio po prawej stronie -->
-        <div id="podgladWariantuSvg" class="variant-svg-box"></div>
+        <div id="variantDrawingBox" class="w-[116px] h-[88px] shrink-0 bg-white rounded-xl border-2 border-amber-500/60 flex items-center justify-center shadow-inner overflow-hidden"></div>
       </div>
-
-      <div id="alertPozaTabela" class="alert-outside">
-        ⚠️ UWAGA: Podany wymiar przekracza maksymalny zakres tabeli produkcyjnej dla tego systemu!
-      </div>
-
-      <div class="grid-3">
-        <div>
-          <label>Szerokość (cm)</label>
-          <input type="number" id="szerokosc" step="0.1" placeholder="np. 140" oninput="podgladCenyNaZywo()">
-        </div>
-        <div>
-          <label>Wysokość (cm)</label>
-          <input type="number" id="wysokosc" step="0.1" placeholder="np. 140" oninput="podgladCenyNaZywo()">
-        </div>
-        <div>
-          <label>Ilość (szt.)</label>
-          <input type="number" id="ilosc" value="1" min="1" oninput="podgladCenyNaZywo()">
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div>
-          <label>Kolor profilu / osprzętu (bez dopłat)</label>
-          <select id="kolorProfilu">
-            <option value="Antracyt">Antracyt (RAL 7016)</option>
-            <option value="Biały">Biały</option>
-            <option value="Złoty Dąb">Złoty Dąb</option>
-            <option value="Orzech">Orzech</option>
-            <option value="Brąz">Brąz</option>
-            <option value="Winchester">Winchester</option>
-            <option value="Mahoń">Mahoń</option>
-          </select>
-        </div>
-        <div>
-          <label>Podgląd ceny pozycji</label>
-          <input type="text" id="podgladCenyInput" readonly value="0,00 zł" style="font-weight: 900; color: #22c55e; text-align: center;">
-        </div>
-      </div>
-
-      <button class="btn btn-primary" onclick="dodajPozycjeDoListy()">➕ Dodaj pozycję do wyceny</button>
     </div>
 
-    <!-- Lista dodanych pozycji i podsumowanie -->
-    <div class="card">
-      <div class="card-title">
-        <span>📋 Pozycje w wycenie (<span id="licznikPozycji">0</span>)</span>
-        <button class="mode-btn" onclick="wyczyscBiezacaWycene()" style="font-size:11px; padding:4px 8px;">🗑️ Wyczyść</button>
+    <div>
+      <label class="block text-xs font-semibold text-slate-300 mb-1.5">4. Pomieszczenie / Notatka</label>
+      <input type="text" id="itemRoom" placeholder="np. Rybki, Pokój Amelii, Kuchnia lewe..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm text-white mb-2">
+      <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
+        <button type="button" onclick="appendRoomTag('Salon')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Salon</button>
+        <button type="button" onclick="appendRoomTag('Kuchnia')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Kuchnia</button>
+        <button type="button" onclick="appendRoomTag('Sypialnia')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Sypialnia</button>
+        <button type="button" onclick="appendRoomTag('Balkon / Taras')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Balkon / Taras</button>
+        <button type="button" onclick="appendRoomTag('Pokój')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Pokój</button>
+        <button type="button" onclick="appendRoomTag('Łazienka')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Łazienka</button>
+        <button type="button" onclick="appendRoomTag('Dachowe')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Dachowe</button>
+        <button type="button" onclick="appendRoomTag('Lewe')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Lewe</button>
+        <button type="button" onclick="appendRoomTag('Prawe')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Prawe</button>
+      </div>
+    </div>
+
+    <div class="space-y-2.5">
+      <div class="grid grid-cols-3 gap-2">
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1">Szerokość (cm)</label>
+          <input type="number" step="0.1" id="itemWidth" value="80" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2.5 text-center font-mono font-bold text-base text-white">
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1">Wysokość (cm)</label>
+          <input type="number" step="0.1" id="itemHeight" value="140" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2.5 text-center font-mono font-bold text-base text-white">
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-400 mb-1">Ilość sztuk</label>
+          <div class="flex items-center input-bg rounded-xl overflow-hidden h-[44px]">
+            <button type="button" onclick="changeQty(-1)" class="w-9 h-full text-slate-300 font-bold text-lg">−</button>
+            <input type="number" id="itemQty" value="1" oninput="recalcCurrentItem()" class="w-full bg-transparent text-center font-mono font-bold text-base text-white focus:outline-none">
+            <button type="button" onclick="changeQty(1)" class="w-9 h-full text-amber-400 font-bold text-lg">+</button>
+          </div>
+        </div>
       </div>
 
-      <div id="listaPozycjiKontener">
-        <div style="text-align:center; color:var(--muted); padding: 14px;">Brak dodanych pozycji. Zmierz okno głosowo lub wpisz wymiar powyżej.</div>
+      <div id="guideRailBox" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-xl p-2.5">
+        <label class="block text-xs font-bold text-amber-400 mb-1"><i class="fa-solid fa-arrows-left-right mr-1"></i> Długość prowadnic (cm):</label>
+        <input type="number" step="0.1" id="itemGuideLength" value="200" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2 font-mono font-bold text-sm text-white border-amber-500/40">
       </div>
 
-      <!-- Dwustrefowy rabat -->
-      <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #334155;">
-        <label>🎁 Dwustrefowy System Rabatowy</label>
-        <div class="grid-3">
+      <div class="bg-slate-950/90 border border-slate-800/80 rounded-xl px-3 py-2 flex justify-between text-xs text-slate-300">
+        <span>Powierzchnia: <strong id="calcArea" class="font-mono text-white">1.12 m²</strong></span>
+        <span>Obwód: <strong id="calcPerim" class="font-mono text-white">4.40 mb</strong></span>
+      </div>
+    </div>
+
+    <!-- KALKULACJA B2B I NARZUTU -->
+    <div class="bg-[#0e1420] border border-amber-500/25 rounded-2xl p-3 space-y-3">
+      <div class="flex justify-between items-center">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-500"><i class="fa-solid fa-calculator mr-1"></i> KALKULACJA B2B I NARZUTU (UKRYTE DLA KLIENTA)</span>
+      </div>
+
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex justify-between items-center">
+        <div>
+          <div class="text-[11px] text-slate-400">Wyliczony koszt B2B (wg Twojego cennika ⚙️):</div>
+          <div id="formulaB2BText" class="text-[11px] font-mono text-slate-400 mt-0.5">1.12 m² × 95 zł/m²</div>
+        </div>
+        <div id="estB2BDisplay" class="text-lg font-mono font-bold text-white">106 zł</div>
+      </div>
+
+      <div>
+        <label id="manualB2BLabel" class="block text-[11px] text-slate-400 mb-1">Ręczna cena B2B 1 szt. z tabeli / od dostawcy (zł):</label>
+        <input type="number" id="manualB2B" oninput="recalcCurrentItem()" placeholder="Wpisz kwotę z tabeli hurtowni (zastępuje przelicznik)..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-mono text-white">
+      </div>
+
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-xs text-slate-300 font-medium">Twój narzut na produkcie (%):</span>
+          <div class="flex items-center gap-2">
+            <span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+42 zł / szt.</span>
+            <span id="marginPctBadge" class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono font-bold text-xs">40%</span>
+          </div>
+        </div>
+        <input type="range" id="marginSlider" min="0" max="150" step="5" value="40" oninput="setMarginPct(this.value)" class="w-full my-1">
+        <div class="grid grid-cols-6 gap-1 mt-1">
+          <button type="button" onclick="setMarginPct(0)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">0%</button>
+          <button type="button" onclick="setMarginPct(25)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">25%</button>
+          <button type="button" onclick="setMarginPct(40)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-amber-400 border border-amber-500/40">40%</button>
+          <button type="button" onclick="setMarginPct(50)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">50%</button>
+          <button type="button" onclick="setMarginPct(65)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">65%</button>
+          <button type="button" onclick="setMarginPct(80)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">80%</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-xs text-slate-300 font-medium">Stawka montażu za 1 szt. (zł):</span>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button type="button" onclick="changeInstall(-10)" class="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 font-mono font-bold text-xs text-slate-200">-10</button>
+          <div class="relative flex-1">
+            <input type="number" id="installFee" value="50" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-sm text-white">
+          </div>
+          <button type="button" onclick="changeInstall(10)" class="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 font-mono font-bold text-xs text-slate-200">+10</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="previewB2B" class="font-mono font-bold text-sm text-white mt-0.5">106 zł</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+92 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">42 narzut + 50 montaż</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena dla klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">198 zł</div></div>
+      </div>
+    </div>
+
+    <button type="button" onclick="addItemToCart()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
+      <i class="fa-solid fa-plus-circle text-base"></i> DODAJ POZYCJĘ DO WYCENY
+    </button>
+  </section>
+
+  <section class="card-bg rounded-2xl p-3.5 shadow-lg">
+    <div class="flex justify-between items-center mb-3">
+      <div class="flex items-center gap-2"><i class="fa-solid fa-list-check text-amber-500"></i><h2 class="font-bold text-sm text-white">Koszyk pomiarowy</h2></div>
+      <span id="cartCountBadge" class="text-xs font-mono bg-slate-800 text-slate-300 px-2.5 py-1 rounded-lg">0 poz. (0 szt.)</span>
+    </div>
+    <div id="cartItemsContainer" class="space-y-2.5"></div>
+  </section>
+
+  <section class="card-bg rounded-2xl p-3.5 shadow-lg">
+    <div class="flex justify-between items-center mb-2.5">
+      <div class="flex items-center gap-2"><i class="fa-solid fa-percent text-emerald-400 text-sm"></i><span class="font-bold text-xs text-slate-200">Rabat dla klienta</span></div>
+      <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs">
+        <button type="button" id="btnDiscPln" onclick="setDiscountMode('pln')" class="px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold">zł</button>
+        <button type="button" id="btnDiscPct" onclick="setDiscountMode('pct')" class="px-3 py-1 rounded-lg text-slate-400 font-bold">%</button>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <input type="number" id="discountInput" value="0" oninput="renderCartAndTotals()" class="w-full input-bg rounded-xl px-3 py-2.5 font-mono font-bold text-sm text-white">
+      <button type="button" onclick="applyQuickDiscount10()" class="px-3 py-2.5 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-bold text-xs whitespace-nowrap">-10% Rabat</button>
+      <button type="button" onclick="clearDiscount()" class="px-3 py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </section>
+
+  <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-3">
+    <div id="financialWorkBox" class="space-y-3">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2"><i class="fa-solid fa-coins text-amber-500"></i><h2 class="font-bold text-xs uppercase tracking-wider text-white">PODSUMOWANIE FINANSOWE</h2></div>
+        <span id="profitShareBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Udział zysku: 0%</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
+          <div class="text-[11px] text-slate-400">Koszt zakupu B2B</div>
+          <div id="sumB2BCost" class="font-mono font-extrabold text-lg text-white mt-1">0 zł</div>
+          <div id="sumMarginInstallBreak" class="text-[11px] text-slate-400 mt-1">Narzut: 0 zł | Montaż: 0 zł</div>
+        </div>
+        <div class="bg-emerald-950/25 border border-emerald-500/30 rounded-xl p-3">
+          <div class="text-[11px] text-emerald-300">Twój czysty zysk</div>
+          <div id="sumNetProfit" class="font-mono font-extrabold text-lg text-emerald-400 mt-1">+0 zł</div>
+          <div class="text-[11px] text-slate-400 mt-1">Po odjęciu rabatu</div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-slate-950 border border-amber-500/40 rounded-xl p-3.5">
+      <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
+        <span>Suma przed rabatem: <strong id="sumBeforeDisc" class="font-mono text-slate-200">0 zł</strong></span>
+        <span class="text-amber-400">Rabat: <strong id="sumDiscAmount" class="font-mono">-0 zł</strong></span>
+      </div>
+      <div class="text-[11px] uppercase tracking-wider text-amber-400 font-bold">DO ZAPŁATY PRZEZ KLIENTA</div>
+      <div class="flex justify-between items-baseline mt-1">
+        <div id="sumClientTotal" class="font-mono font-extrabold text-2xl text-white">0 zł</div>
+        <span class="text-xs text-slate-400">Z montażem</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. EKSPORT + PUSTA BAZA MAILI HURTOWNI -->
+  <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
+    <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">EKSPORT WYCENY I ZAMÓWIENIA</h2></div>
+    <button type="button" onclick="exportOfferSMS()" class="w-full py-3 px-4 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2">
+      <i class="fa-brands fa-whatsapp text-base text-emerald-400"></i> Kopiuj gotową ofertę (SMS / WhatsApp)
+    </button>
+    <div id="b2bExportSection" class="space-y-2.5 pt-1">
+      <button type="button" onclick="exportOrderB2B()" class="w-full py-3 px-4 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-2">
+        <i class="fa-solid fa-industry"></i> Kopiuj zestawienie dla hurtowni B2B
+      </button>
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+        <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-envelope text-amber-500 mr-1"></i> Baza adresów e-mail hurtowni</span>
+        <div class="flex gap-1.5">
+          <select id="supplierEmailSelect" class="flex-1 input-bg rounded-xl px-3 py-2 text-xs font-mono text-white"></select>
+          <button type="button" onclick="deleteSelectedEmail()" class="px-2.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="flex gap-1.5">
+          <input type="email" id="newSupplierEmail" placeholder="Wpisz e-mail hurtowni..." class="flex-1 input-bg rounded-xl px-3 py-2 text-xs text-white">
+          <button type="button" onclick="addSupplierEmail()" class="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-amber-400 font-bold text-xs whitespace-nowrap">+ Dodaj do bazy</button>
+        </div>
+        <button type="button" onclick="sendOrderByEmail()" class="w-full py-2.5 px-4 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow">
+          <i class="fa-solid fa-paper-plane"></i> Wyślij zamówienie mailem do hurtowni
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="fixed bottom-0 left-0 right-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-t border-slate-800 px-3 py-2.5">
+  <div class="max-w-md mx-auto flex items-center justify-between gap-2">
+    <div id="footerProfitCol">
+      <div class="text-[10px] font-bold uppercase text-slate-400">TWÓJ ZYSK</div>
+      <div id="footerProfitVal" class="font-mono font-extrabold text-base text-emerald-400">+0 zł</div>
+    </div>
+    <div>
+      <div id="footerClientLabel" class="text-[10px] font-bold uppercase text-slate-400">DLA KLIENTA</div>
+      <div id="footerClientVal" class="font-mono font-extrabold text-lg text-amber-400">0 zł</div>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <button type="button" onclick="exportOfferSMS()" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1.5 shadow">
+        <i class="fa-brands fa-whatsapp text-sm"></i> Oferta SMS
+      </button>
+      <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300">
+        <i class="fa-solid fa-arrow-up text-xs"></i>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL EKSPORTU TEKSTU -->
+<div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3">
+    <div class="flex justify-between items-center">
+      <h3 id="modalTitle" class="font-bold text-base text-white">Gotowy tekst</h3>
+      <button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <textarea id="modalTextarea" rows="10" class="w-full input-bg rounded-xl p-3 font-mono text-xs text-slate-100"></textarea>
+    <div class="flex gap-2">
+      <button type="button" onclick="copyModalTextAgain()" class="flex-1 py-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">Kopiuj ponownie</button>
+      <button type="button" onclick="closeExportModal()" class="px-5 py-3 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ZAPISANYCH POMIARÓW I RAPORTÓW -->
+<div id="savedModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
+  <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[90vh] flex flex-col">
+    <div class="flex justify-between items-center">
+      <h3 class="font-bold text-base text-white"><i class="fa-solid fa-folder-open text-amber-500 mr-1.5"></i> Zapisane pomiary i Raporty</h3>
+      <button type="button" onclick="closeSavedModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-2">
+      <div class="grid grid-cols-3 gap-1 bg-slate-900 p-1 rounded-lg text-xs">
+        <button type="button" id="tabPeriodMonth" onclick="setReportPeriod('month')" class="py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold">Miesięczne</button>
+        <button type="button" id="tabPeriodYear" onclick="setReportPeriod('year')" class="py-1.5 rounded-md text-slate-300 font-medium">Roczne</button>
+        <button type="button" id="tabPeriodAll" onclick="setReportPeriod('all')" class="py-1.5 rounded-md text-slate-300 font-medium">Wszystkie</button>
+      </div>
+      <div class="flex gap-2">
+        <select id="reportFilterSelect" onchange="renderSavedAndReports()" class="flex-1 input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono text-white"></select>
+        <select id="reportStatusFilter" onchange="renderSavedAndReports()" class="input-bg rounded-lg px-2.5 py-1.5 text-xs text-slate-300">
+          <option value="all">Wszystkie</option>
+          <option value="done">Zrealizowane</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-3 gap-1.5 pt-1 text-center">
+        <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Obrót</div><div id="repTotalRevenue" class="font-mono font-bold text-xs text-white mt-0.5">0 zł</div></div>
+        <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="repTotalB2B" class="font-mono font-bold text-xs text-slate-300 mt-0.5">0 zł</div></div>
+        <div class="bg-emerald-950/30 rounded-lg p-2 border border-emerald-500/30"><div class="text-[10px] text-emerald-300">Czysty Zysk</div><div id="repTotalProfit" class="font-mono font-extrabold text-xs text-emerald-400 mt-0.5">+0 zł</div></div>
+      </div>
+      <div id="repCountInfo" class="text-[10px] text-slate-400 text-center font-mono">Liczba pomiarów: 0</div>
+    </div>
+    <div id="savedProjectsList" class="space-y-2 overflow-y-auto flex-1 pr-1"></div>
+    <button type="button" onclick="closeSavedModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
+  </div>
+</div>
+
+<!-- MODAL USTAWIEŃ, CENNIKA DOSTAWCÓW I KOPII ZAPASOWEJ (⚙️) -->
+<div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-3">
+  <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[92vh] flex flex-col">
+    <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
+      <h3 class="font-bold text-base text-white"><i class="fa-solid fa-gear text-amber-500 mr-1.5"></i> Ustawienia Firmy i Cennik Dostawców</h3>
+      <button type="button" onclick="closeSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="overflow-y-auto flex-1 space-y-4 pr-1">
+      <!-- 1. PERSONALIZACJA FIRMY (WHITE-LABEL) -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
+        <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-id-card mr-1"></i> 1. Dane Twojej Firmy (White-Label)</div>
+        <div class="grid grid-cols-3 gap-2">
           <div>
-            <label>Rabat (%)</label>
-            <input type="number" id="rabatProcent" value="0" min="0" max="50" oninput="przeliczPodsumowanie()">
+            <label class="block text-[10px] text-slate-400 mb-1">Skrót logo (3-4 zn.)</label>
+            <input type="text" id="setBrandShort" maxlength="5" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-bold text-white uppercase">
           </div>
-          <div>
-            <label>Rabat kwotowy (zł)</label>
-            <input type="number" id="rabatKwota" value="0" min="0" oninput="przeliczPodsumowanie()">
+          <div class="col-span-2">
+            <label class="block text-[10px] text-slate-400 mb-1">Nazwa firmy (nagłówek i SMS)</label>
+            <input type="text" id="setBrandFull" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-bold text-white">
           </div>
-          <div style="display:flex; align-items:flex-end; padding-bottom:10px;">
-            <button class="btn btn-outline" onclick="naliczKuponSasiedzki()" style="font-size:12px; padding:10px 6px;">🏘️ Kupon Sąsiedzki</button>
-          </div>
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 mb-1">Podpis / Telefon kontaktowy w ofercie dla klienta</label>
+          <input type="text" id="setBrandContact" placeholder="np. ARX Rolety Moskitiery • tel. 600 000 000" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs text-white">
         </div>
       </div>
 
-      <!-- Podsumowanie -->
-      <div class="summary-box">
-        <div class="sum-line">
-          <span>Wartość przed rabatem:</span>
-          <strong id="sumaBruttoPrzed">0,00 zł</strong>
+      <!-- 2. CENNIK SYSTEMÓW OD DOSTAWCÓW -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Twój Cennik Zakupu (B2B) i Montażu</span>
         </div>
-        <div class="sum-line" style="color:#fde047;">
-          <span>Przyznany rabat łącznie:</span>
-          <strong id="sumaRabat">-0,00 zł</strong>
-        </div>
-        <div class="sum-line total">
-          <span>DO ZAPŁATY (KLIENT):</span>
-          <span id="sumaKoncowaKlient">0,00 zł</span>
-        </div>
-
-        <!-- Sekcja tylko w Trybie Roboczym -->
-        <div class="worker-only">
-          <div class="sum-line">
-            <span>Koszt materiału / hurtowni (B2B):</span>
-            <strong id="sumaKosztB2B">0,00 zł</strong>
-          </div>
-          <div class="sum-line">
-            <span>Ryczałt 5,5% od przychodu:</span>
-            <strong id="sumaPodatekRyczalt">0,00 zł</strong>
-          </div>
-          <div class="sum-line" style="font-size:16px; color:#38bdf8; font-weight:900;">
-            <span>💰 TWÓJ CZYSTY ZYSK (NA RĘKĘ):</span>
-            <span id="sumaCzystyZysk">0,00 zł</span>
-          </div>
-        </div>
+        <p class="text-[11px] text-slate-400">Ustaw ceny od swoich dostawców. Dla małych okien możesz wpisać <strong>Cenę min. (zł)</strong>, poniżej której koszt zakupu nigdy nie spadnie.</p>
+        <div id="settingsCatalogList" class="space-y-2.5"></div>
       </div>
 
-      <!-- Przyciski akcji i eksportu -->
-      <div class="grid-2" style="margin-top: 12px;">
-        <button class="btn btn-success" onclick="zapiszProjektWBazie()">💾 Zapisz projekt</button>
-        <button class="btn btn-info" onclick="wyslijWhatsApp()">💬 Wyślij WhatsApp</button>
-      </div>
-      <div class="grid-2" style="margin-top: 8px;">
-        <button class="btn btn-outline" onclick="wyslijSMS()">📱 Wyślij ofertę SMS</button>
-        <button class="btn btn-outline worker-only" onclick="wyslijZamowienieHurtownia()">🏭 E-mail do Hurtowni</button>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ZAKŁADKA 2: BAZA PROJEKTÓW I RAPORT ZYSKÓW -->
-  <div id="tab-projekty" class="tab-content">
-    <div class="card">
-      <div class="card-title">📊 Raport Finansowy Zapisanych Zleceń</div>
-      <div class="grid-3" style="text-align:center;">
-        <div style="background:#0f172a; padding:10px; border-radius:8px;">
-          <div style="font-size:11px; color:var(--muted);">PRZYCHÓD</div>
-          <div id="raportPrzychod" style="font-weight:900; font-size:16px; color:#fff; margin-top:4px;">0 zł</div>
-        </div>
-        <div style="background:#0f172a; padding:10px; border-radius:8px;">
-          <div style="font-size:11px; color:var(--muted);">KOSZTY B2B</div>
-          <div id="raportKoszty" style="font-weight:900; font-size:16px; color:#f87171; margin-top:4px;">0 zł</div>
-        </div>
-        <div style="background:#0f172a; padding:10px; border-radius:8px;">
-          <div style="font-size:11px; color:var(--muted);">CZYSTY ZYSK</div>
-          <div id="raportZysk" style="font-weight:900; font-size:16px; color:var(--success); margin-top:4px;">0 zł</div>
+      <!-- 3. KOPIA ZAPASOWA (EKSPORT / IMPORT) -->
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-400"><i class="fa-solid fa-shield-halved mr-1"></i> 3. Kopia Zapasowa (Cennik + Pomiary)</div>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="exportBackupJSON()" class="py-2 px-3 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-download text-amber-400"></i> Pobierz kopię
+          </button>
+          <label class="py-2 px-3 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 flex items-center justify-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-upload text-emerald-400"></i> Wczytaj kopię
+            <input type="file" accept=".json" onchange="importBackupJSON(event)" class="hidden">
+          </label>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">📂 Zapisane Projekty Klientów</div>
-      <div id="bazaProjektowLista"></div>
+    <div class="flex gap-2 pt-2 border-t border-slate-800">
+      <button type="button" onclick="saveSettingsFromModal()" class="flex-1 py-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs shadow">
+        <i class="fa-solid fa-floppy-disk mr-1"></i> ZAPISZ USTAWIENIA I CENNIK
+      </button>
+      <button type="button" onclick="closeSettingsModal()" class="px-4 py-3 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">
+        Anuluj
+      </button>
     </div>
   </div>
-
-  <!-- ZAKŁADKA 3: USTAWIENIA, CENNIKI I TABELE -->
-  <div id="tab-ustawienia" class="tab-content">
-    <div class="card">
-      <div class="card-title">🏢 Dane Firmy i Hurtowni</div>
-      <label>Nazwa firmy w stopce SMS/WhatsApp</label>
-      <input type="text" id="ustFirma" value="ARX Systemy Osłonowe – Radosław Hałupka">
-      <label>Adres e-mail hurtowni / produkcji (do zamówień B2B)</label>
-      <input type="email" id="ustEmailHurtowni" value="zamowienia@hurtownia.pl">
-    </div>
-
-    <div class="card">
-      <div class="card-title">📐 Tabele Cenowe (Plisowana, Aluprof, Slim)</div>
-      <p style="font-size:12px; color:var(--muted); margin-bottom:10px;">
-        Wpisz progi cenowe B2B (zakup) oraz narzut/montaż (zł). Aplikacja automatycznie dopasowuje wymiar z pomiaru do progu z tabeli!
-      </p>
-      <label>Narzut + montaż do systemów tabelarycznych (Plisowana / Aluprof / Slim) [zł/szt.]:</label>
-      <input type="number" id="ustMarzaTabelaryczne" value="350">
-
-      <label>Tabela Moskitiera Plisowana (format JSON – progi szerokości i wysokości w cm):</label>
-      <textarea id="ustTabelaPlisowana" rows="5" style="font-family:monospace; font-size:12px;"></textarea>
-
-      <label>Tabela Przesuwna Aluprof (format JSON):</label>
-      <textarea id="ustTabelaAluprof" rows="5" style="font-family:monospace; font-size:12px;"></textarea>
-
-      <label>Tabela Przesuwna Slim (format JSON):</label>
-      <textarea id="ustTabelaSlim" rows="5" style="font-family:monospace; font-size:12px;"></textarea>
-
-      <button class="btn btn-success" onclick="zapiszUstawieniaCennika()">💾 Zapisz tabele i ustawienia</button>
-    </div>
-  </div>
-
 </div>
 
 <script>
-// ============================================================================
-// 1. DEFINICJA 7 WARIANTÓW POMIAROWANIA RAMKI + RYSUNEK PO PRAWEJ STRONIE
-// ============================================================================
-const WARIANTY_RAMKI = {
-  "1": { label: "NR:1", opis: "Wewn. ↔ Wewn. / Wewn. ↕ Wewn.", left: "wewn", right: "wewn", top: "wewn", bottom: "wewn" },
-  "2": { label: "NR:2", opis: "Lewa zewn. / Reszta wewn.", left: "zewn", right: "wewn", top: "wewn", bottom: "wewn" },
-  "3": { label: "NR:3", opis: "Szer. zewn. ↔ zewn. / Wys. wewn.", left: "zewn", right: "zewn", top: "wewn", bottom: "wewn" },
-  "4": { label: "NR:4", opis: "Góra zewn. / Reszta wewn.", left: "wewn", right: "wewn", top: "zewn", bottom: "wewn" },
-  "5": { label: "NR:5", opis: "Całość zewn. ↔ zewn. / ↕ zewn.", left: "zewn", right: "zewn", top: "zewn", bottom: "zewn" },
-  "6": { label: "NR:6", opis: "Lewa i góra zewn. / Prawa i dół wewn.", left: "zewn", right: "wewn", top: "zewn", bottom: "wewn" },
-  "7": { label: "Nr 7", opis: "Lewa, prawa i góra zewn. / Dół wewn.", left: "zewn", right: "zewn", top: "zewn", bottom: "wewn" }
+const DEFAULT_SYSTEMS=[
+  {id:'mosk_ramk',name:'Moskitiera ramkowa okienna',calcType:'m2',rate:95,minPrice:65,install:50,guide:0,variants:1},
+  {id:'mosk_drzw',name:'Moskitiera drzwiowa otwierana',calcType:'m2',rate:180,minPrice:220,install:90,guide:0,variants:0},
+  {id:'mosk_plis',name:'Moskitiera plisowana (drzwiowa/tarasowa)',calcType:'manual',rate:310,minPrice:450,install:140,guide:0,variants:0},
+  {id:'mosk_alu',name:'Moskitiera przesuwna Aluprof',calcType:'manual',rate:340,minPrice:520,install:150,guide:1,variants:0},
+  {id:'mosk_slim',name:'Moskitiera przesuwna Slim',calcType:'manual',rate:310,minPrice:460,install:140,guide:1,variants:0},
+  {id:'mosk_dach',name:'Moskitiera na okno dachowe',calcType:'m2',rate:240,minPrice:180,install:70,guide:0,variants:0},
+  {id:'rol_dach',name:'Roletka na okno dachowe',calcType:'m2',rate:190,minPrice:150,install:65,guide:0,variants:0},
+  {id:'rol_kas_gl',name:'Roleta w kasecie z prowadnicami (tkanina gładka)',calcType:'m2',rate:145,minPrice:110,install:55,guide:0,variants:0},
+  {id:'rol_kas_dn',name:'Roleta w kasecie (Dzień / Noc)',calcType:'m2',rate:185,minPrice:135,install:55,guide:0,variants:0},
+  {id:'rol_zew',name:'Roleta zewnętrzna (z napędem elektrycznym)',calcType:'m2',rate:480,minPrice:650,install:220,guide:0,variants:0}
+];
+
+const DEFAULT_BRAND={
+  shortName:'ARX',
+  fullName:'ARX Wyceny',
+  contactLine:'ARX Rolety Moskitiery Montaż'
 };
 
-function aktualizujRysunekWariantu(nr) {
-  const w = WARIANTY_RAMKI[nr] || WARIANTY_RAMKI["1"];
-  const xL = w.left === "zewn" ? 8 : 22;
-  const xR = w.right === "zewn" ? 112 : 98;
-  const yT = w.top === "zewn" ? 8 : 20;
-  const yB = w.bottom === "zewn" ? 88 : 76;
-  const midY = 48;
-  const midX = 60;
-
-  const svg = `
-    <svg width="118" height="92" viewBox="0 0 120 96" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="104" height="80" fill="none" stroke="#0f172a" stroke-width="2.2"/>
-      <rect x="22" y="20" width="76" height="56" fill="none" stroke="#0f172a" stroke-width="2.2"/>
-      <text x="25" y="33" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0f172a">${w.label}</text>
-      <line x1="${xL}" y1="${midY}" x2="${xR}" y2="${midY}" stroke="#dc2626" stroke-width="2.2"/>
-      <polyline points="${xL + 6},${midY - 4} ${xL},${midY} ${xL + 6},${midY + 4}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
-      <polyline points="${xR - 6},${midY - 4} ${xR},${midY} ${xR - 6},${midY + 4}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
-      <line x1="${midX}" y1="${yT}" x2="${midX}" y2="${yB}" stroke="#dc2626" stroke-width="2.2"/>
-      <polyline points="${midX - 4},${yT + 6} ${midX},${yT} ${midX + 4},${yT + 6}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
-      <polyline points="${midX - 4},${yB - 6} ${midX},${yB} ${midX + 4},${yB - 6}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
-    </svg>
-  `;
-  const box = document.getElementById("podgladWariantuSvg");
-  if (box) box.innerHTML = svg;
-}
-
-// ============================================================================
-// 2. TABELE CENOWE (PLISOWANA, ALUPROF, SLIM) + CENNIK STANDARDOWY
-// ============================================================================
-const DOMYSLNE_TABELE = {
-  plisowana: {
-    widths: [100, 140, 180, 220, 260, 300],
-    heights: [200, 230, 250],
-    // Ceny B2B [wysokość_idx][szerokość_idx]
-    prices: [
-      [520, 610, 720, 840, 960, 1090],
-      [560, 660, 780, 910, 1040, 1180],
-      [610, 720, 850, 990, 1130, 1280]
-    ]
-  },
-  aluprof: {
-    widths: [100, 140, 180, 200],
-    heights: [210, 230, 250],
-    prices: [
-      [480, 560, 650, 720],
-      [520, 610, 710, 790],
-      [570, 670, 780, 860]
-    ]
-  },
-  slim: {
-    widths: [90, 120, 150, 180],
-    heights: [200, 220, 240],
-    prices: [
-      [410, 480, 560, 640],
-      [450, 520, 610, 690],
-      [490, 570, 660, 750]
-    ]
-  }
+// DEFINICJA RYSUNKÓW WARIANTÓW NR:1 - NR:7 (PO PRAWEJ STRONIE)
+const VARIANT_DRAWINGS={
+  'Wariant nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
+  'Wariant nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
+  'Wariant nr 3':{label:'NR:3',l:'out',r:'out',t:'in',b:'in'},
+  'Wariant nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},
+  'Wariant nr 5':{label:'NR:5',l:'out',r:'out',t:'out',b:'out'},
+  'Wariant nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},
+  'Wariant nr 7':{label:'Nr 7',l:'out',r:'out',t:'out',b:'in'}
 };
 
-let tabeleCenowe = JSON.parse(localStorage.getItem("arx_tabele_v2")) || DOMYSLNE_TABELE;
-let marzaTabelaryczne = parseFloat(localStorage.getItem("arx_marza_tab")) || 350;
-
-const NAZWY_SYSTEMOW = {
-  ramkowa: "Moskitiera ramkowa (okienna)",
-  drzwiowa: "Moskitiera drzwiowa",
-  plisowana: "Moskitiera plisowana",
-  aluprof: "Moskitiera przesuwna Aluprof",
-  slim: "Moskitiera przesuwna Slim",
-  dachowa: "Moskitiera dachowa",
-  roleta_kaseta: "Roleta w kasecie",
-  roleta_dn: "Roleta Dzień-Noc",
-  plisa: "Plisa okienna",
-  roleta_zewn: "Roleta zewnętrzna (Intrax)"
-};
-
-// Funkcja pobierająca cenę z tabeli (zaokrąglenie w górę do progu tabeli)
-function pobierzCeneZTabeli(typ, szerCm, wysCm) {
-  const tab = tabeleCenowe[typ];
-  if (!tab) return null;
-
-  let wIdx = tab.widths.findIndex(w => szerCm <= w);
-  let hIdx = tab.heights.findIndex(h => wysCm <= h);
-
-  if (wIdx === -1 || hIdx === -1) {
-    return { pozaZakresem: true, kosztB2B: 0, cenaKlient: 0 };
-  }
-
-  const kosztB2B = tab.prices[hIdx][wIdx];
-  const cenaKlient = kosztB2B + marzaTabelaryczne;
-  const progOpis = `Tabela: do ${tab.widths[wIdx]}×${tab.heights[hIdx]} cm`;
-  return { pozaZakresem: false, kosztB2B, cenaKlient, progOpis };
+function updateVariantDrawing(){
+  const sel=document.getElementById('itemVariant');
+  const box=document.getElementById('variantDrawingBox');
+  if(!sel||!box)return;
+  const cfg=VARIANT_DRAWINGS[sel.value]||VARIANT_DRAWINGS['Wariant nr 1'];
+  const xL=cfg.l==='out'?6:20;
+  const xR=cfg.r==='out'?110:96;
+  const yT=cfg.t==='out'?6:18;
+  const yB=cfg.b==='out'?82:70;
+  const mX=58,mY=44;
+  box.innerHTML=`
+    <svg width="112" height="84" viewBox="0 0 116 88" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="6" width="104" height="76" fill="none" stroke="#0f172a" stroke-width="2"/>
+      <rect x="20" y="18" width="76" height="52" fill="none" stroke="#0f172a" stroke-width="2"/>
+      <text x="23" y="30" font-family="Inter,Arial,sans-serif" font-size="9.5" font-weight="800" fill="#0f172a">${cfg.label}</text>
+      <line x1="${xL}" y1="${mY}" x2="${xR}" y2="${mY}" stroke="#dc2626" stroke-width="2"/>
+      <polyline points="${xL+5},${mY-3.5} ${xL},${mY} ${xL+5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+      <polyline points="${xR-5},${mY-3.5} ${xR},${mY} ${xR-5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+      <line x1="${mX}" y1="${yT}" x2="${mX}" y2="${yB}" stroke="#dc2626" stroke-width="2"/>
+      <polyline points="${mX-3.5},${yT+5} ${mX},${yT} ${mX+3.5},${yT+5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+      <polyline points="${mX-3.5},${yB-5} ${mX},${yB} ${mX+3.5},${yB-5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+    </svg>`;
 }
 
-function wyliczPozycje(typ, szerCm, wysCm, ilosc) {
-  if (!szerCm || !wysCm || szerCm <= 0 || wysCm <= 0) {
-    return { kosztB2B: 0, cenaKlient: 0, pozaZakresem: false, opisDodatkowy: "" };
-  }
+let appMode='work',discountMode='pln',cart=[],pendingVoiceItem=null,activeRecognition=null,fallbackTimer=null,reportPeriod='month';
+let voice30sTimer=null,voice30sStart=0,voiceListening30s=false;
+let systemsCatalog=[],brandConfig={...DEFAULT_BRAND};
+const NL=String.fromCharCode(10);
 
-  const m2 = Math.max(0.5, (szerCm / 100) * (wysCm / 100));
-  const obwodM = ((szerCm + wysCm) * 2) / 100;
+function showToast(m){
+  const b=document.getElementById('toastBox');
+  document.getElementById('toastMsg').innerText=m;
+  b.classList.remove('hidden');
+  setTimeout(()=>b.classList.add('hidden'),2400);
+}
 
-  // Systemy z tabeli (Plisowana, Aluprof, Slim)
-  if (typ === "plisowana" || typ === "aluprof" || typ === "slim") {
-    const wynikTab = pobierzCeneZTabeli(typ, szerCm, wysCm);
-    if (wynikTab.pozaZakresem) {
-      return { kosztB2B: 0, cenaKlient: 0, pozaZakresem: true, opisDodatkowy: "POZA TABELĄ" };
+function playBeep(f=880,d=120){
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();
+    o.frequency.value=f;g.gain.value=0.15;o.connect(g);g.connect(c.destination);o.start();
+    setTimeout(()=>{o.stop();c.close();},d);
+  }catch(e){}
+}
+
+function formatCm(v){
+  const n=parseFloat(v)||0;
+  return Number.isInteger(n)?n.toString():n.toFixed(1).replace(/\.0$/,'');
+}
+
+// WCZYTYWANIE I ZAPISYWANIE KONFIGURACJI ORAZ CENNIKA DOSTAWCÓW
+function loadAppConfig(){
+  try{
+    const rawBrand=localStorage.getItem('arx_brand_config_v6');
+    if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
+  }catch(e){brandConfig={...DEFAULT_BRAND};}
+
+  try{
+    const rawCat=localStorage.getItem('arx_systems_catalog_v6');
+    if(rawCat){
+      const parsed=JSON.parse(rawCat);
+      systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
+        const found=parsed.find(x=>x.id===def.id||x.name===def.name);
+        return found?{...def,...found}:def;
+      });
+    }else{
+      systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));
     }
-    return {
-      kosztB2B: Math.round(wynikTab.kosztB2B * ilosc),
-      cenaKlient: Math.round(wynikTab.cenaKlient * ilosc),
-      pozaZakresem: false,
-      opisDodatkowy: wynikTab.progOpis
-    };
+  }catch(e){
+    systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));
   }
-
-  // Pozostałe systemy
-  let kosztSzt = 0;
-  let klientSzt = 0;
-
-  switch (typ) {
-    case "ramkowa":
-      kosztSzt = Math.max(15, Math.round(obwodM * 6)); // Niski koszt warsztatowy
-      klientSzt = Math.max(110, Math.round(obwodM * 30));
-      break;
-    case "drzwiowa":
-      kosztSzt = Math.round(140 + m2 * 40);
-      klientSzt = Math.round(420 + m2 * 80);
-      break;
-    case "dachowa":
-      kosztSzt = Math.round(180 + m2 * 60);
-      klientSzt = Math.round(390 + m2 * 110);
-      break;
-    case "roleta_kaseta":
-      kosztSzt = Math.round(95 + m2 * 75);
-      klientSzt = Math.round(210 + m2 * 130);
-      break;
-    case "roleta_dn":
-      kosztSzt = Math.round(115 + m2 * 90);
-      klientSzt = Math.round(240 + m2 * 155);
-      break;
-    case "plisa":
-      kosztSzt = Math.round(85 + m2 * 80);
-      klientSzt = Math.round(195 + m2 * 145);
-      break;
-    case "roleta_zewn":
-      kosztSzt = Math.round(380 + m2 * 220);
-      klientSzt = Math.round(650 + m2 * 360);
-      break;
-  }
-
-  return {
-    kosztB2B: kosztSzt * ilosc,
-    cenaKlient: klientSzt * ilosc,
-    pozaZakresem: false,
-    opisDodatkowy: `${m2.toFixed(2)} m²`
-  };
+  applyBrandToUI();
+  populateSystemsDropdown();
 }
 
-function zmienSystemUI() {
-  const typ = document.getElementById("systemTyp").value;
-  const sekcjaRamki = document.getElementById("sekcjaWariantuRamki");
-  const badge = document.getElementById("typKalkulacjiBadge");
-
-  if (typ === "ramkowa") {
-    sekcjaRamki.style.display = "flex";
-    badge.textContent = "Wzór 1–7 / Obwód";
-  } else if (typ === "plisowana" || typ === "aluprof" || typ === "slim") {
-    sekcjaRamki.style.display = "none";
-    badge.textContent = "Rozmiar wg tabeli";
-  } else {
-    sekcjaRamki.style.display = "none";
-    badge.textContent = "Stawka m² + montaż";
-  }
-  podgladCenyNaZywo();
+function applyBrandToUI(){
+  document.getElementById('brandShortBadge').innerText=(brandConfig.shortName||'ARX').substring(0,5);
+  document.getElementById('brandHeaderTitle').innerText=brandConfig.fullName||'ARX Wyceny';
 }
 
-function podgladCenyNaZywo() {
-  const typ = document.getElementById("systemTyp").value;
-  const szer = parseFloat(document.getElementById("szerokosc").value) || 0;
-  const wys = parseFloat(document.getElementById("wysokosc").value) || 0;
-  const ilosc = parseInt(document.getElementById("ilosc").value) || 1;
-
-  const wyliczenie = wyliczPozycje(typ, szer, wys, ilosc);
-  const alertBox = document.getElementById("alertPozaTabela");
-  const inputCena = document.getElementById("podgladCenyInput");
-
-  if (wyliczenie.pozaZakresem) {
-    alertBox.style.display = "block";
-    inputCena.value = "POZA TABELĄ!";
-    inputCena.style.color = "#ef4444";
-  } else {
-    alertBox.style.display = "none";
-    inputCena.value = `${wyliczenie.cenaKlient.toFixed(2)} zł`;
-    inputCena.style.color = "#22c55e";
-  }
-}
-
-// ============================================================================
-// 3. POMIAR GŁOSOWY 30 SEKUND + ODCIĘCIE PO 2 LICZBACH + POTWIERDZENIE "TAK"
-// ============================================================================
-let aktywnyPomiar30s = false;
-let odliczanieInterwal = null;
-let pozostaloSekund = 30;
-let instancjaRecognition = null;
-let oczekujacyPomiar = null;
-
-function pikniecieDzwiek(czestotliwosc = 880, czasMs = 140) {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.value = czestotliwosc;
-    gain.gain.value = 0.15;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    setTimeout(() => { osc.stop(); ctx.close(); }, czasMs);
-  } catch (e) {}
-}
-
-function uruchomPomiar30s() {
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const statusEl = document.getElementById("voiceStatus");
-  const btn = document.getElementById("voiceStartBtn");
-  document.getElementById("voiceConfirmBar").style.display = "none";
-
-  if (!SpeechRec) {
-    statusEl.textContent = "⚠️ Przeglądarka nie obsługuje mikrofonu. Wpisz wymiar ręcznie poniżej.";
-    document.getElementById("szerokosc").focus();
-    return;
-  }
-
-  // Jeśli nasłuch już trwa – zatrzymaj
-  if (aktywnyPomiar30s) {
-    zatrzymajPomiar30s("Nasłuch zatrzymany.");
-    return;
-  }
-
-  aktywnyPomiar30s = true;
-  pozostaloSekund = 30;
-  let zlapanoDwieLiczby = false;
-
-  btn.classList.add("listening");
-  btn.textContent = `🛑 NASŁUCHUJE... (${pozostaloSekund}s) – MÓW WYMIAR`;
-  statusEl.textContent = "🎙️ Powiedz np. „Salon 140 na 220” (odetnie od razu po 2 liczbach)";
-  pikniecieDzwiek(660, 120);
-
-  clearInterval(odliczanieInterwal);
-  odliczanieInterwal = setInterval(() => {
-    pozostaloSekund--;
-    if (pozostaloSekund > 0 && aktywnyPomiar30s) {
-      btn.textContent = `🛑 NASŁUCHUJE... (${pozostaloSekund}s) – MÓW WYMIAR`;
-    } else if (pozostaloSekund <= 0) {
-      zatrzymajPomiar30s("⏱️ Minęło 30 sekund. Kliknij ponownie, aby zmierzyć.");
-    }
-  }, 1000);
-
-  instancjaRecognition = new SpeechRec();
-  instancjaRecognition.lang = "pl-PL";
-  instancjaRecognition.continuous = true;
-  instancjaRecognition.interimResults = true;
-
-  instancjaRecognition.onresult = (event) => {
-    let tekst = "";
-    for (let i = 0; i < event.results.length; i++) {
-      tekst += event.results[i][0].transcript + " ";
-    }
-    statusEl.textContent = `Słyszę: "${tekst.trim()}"`;
-
-    // Szukamy dwóch liczb (obsługa przecinków i kropek)
-    const liczby = tekst.replace(/,/g, ".").match(/\d+(\.\d+)?/g);
-    if (liczby && liczby.length >= 2 && !zlapanoDwieLiczby) {
-      zlapanoDwieLiczby = true;
-      aktywnyPomiar30s = false;
-      clearInterval(odliczanieInterwal);
-      try { instancjaRecognition.stop(); } catch (e) {}
-
-      let szer = parseFloat(liczby[0]);
-      let wys = parseFloat(liczby[1]);
-
-      // Automatyczne przeliczenie mm -> cm
-      if (szer > 350) szer = +(szer / 10).toFixed(1);
-      if (wys > 350) wys = +(wys / 10).toFixed(1);
-
-      const nazwaPom = tekst.split(/\d/)[0].replace(/na|wymiar|okno/gi, "").trim() || "Okno";
-
-      pikniecieDzwiek(1050, 180);
-      przejdzDoPotwierdzeniaGlosowego(nazwaPom, szer, wys);
-    }
-  };
-
-  // Podtrzymanie nasłuchu na Androidzie podczas ciszy przed upływem 30 sekund
-  instancjaRecognition.onend = () => {
-    if (aktywnyPomiar30s && !zlapanoDwieLiczby && pozostaloSekund > 0) {
-      try { instancjaRecognition.start(); } catch (e) {}
-    }
-  };
-
-  try { instancjaRecognition.start(); } catch (e) {}
-}
-
-function zatrzymajPomiar30s(komunikat) {
-  aktywnyPomiar30s = false;
-  clearInterval(odliczanieInterwal);
-  try { if (instancjaRecognition) instancjaRecognition.stop(); } catch (e) {}
-  const btn = document.getElementById("voiceStartBtn");
-  btn.classList.remove("listening");
-  btn.textContent = "🎤 SZYBKI POMIAR GŁOSOWY (30 SEK)";
-  if (komunikat) document.getElementById("voiceStatus").textContent = komunikat;
-}
-
-function przejdzDoPotwierdzeniaGlosowego(pomieszczenie, szer, wys) {
-  zatrzymajPomiar30s();
-  oczekujacyPomiar = { pomieszczenie, szer, wys };
-
-  // Wpisujemy od razu do pól formularza
-  document.getElementById("pomieszczenie").value = pomieszczenie;
-  document.getElementById("szerokosc").value = szer;
-  document.getElementById("wysokosc").value = wys;
-  podgladCenyNaZywo();
-
-  const statusEl = document.getElementById("voiceStatus");
-  statusEl.textContent = `✅ Złapano: ${pomieszczenie} – ${szer} cm × ${wys} cm. Powiedz „TAK” lub kliknij przycisk poniżej:`;
-  document.getElementById("voiceConfirmBar").style.display = "grid";
-  document.getElementById("voiceConfirmBar").style.gridTemplateColumns = "1fr 1fr";
-
-  const komunikatMowy = `${pomieszczenie}. Szerokość ${szer}, wysokość ${wys} centymetrów. Powiedz tak, aby zapisać.`;
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(komunikatMowy);
-    utter.lang = "pl-PL";
-    utter.onend = () => nasluchujSlowaTak();
-    window.speechSynthesis.speak(utter);
-  } else {
-    nasluchujSlowaTak();
-  }
-}
-
-function nasluchujSlowaTak() {
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRec || !oczekujacyPomiar) return;
-
-  try {
-    const recTak = new SpeechRec();
-    recTak.lang = "pl-PL";
-    recTak.continuous = false;
-    recTak.interimResults = false;
-
-    recTak.onresult = (e) => {
-      const odp = e.results[0][0].transcript.toLowerCase();
-      if (odp.includes("tak") || odp.includes("ok") || odp.includes("dobrze") || odp.includes("dodaj")) {
-        potwierdzGlosowoRecznie(true);
-      } else if (odp.includes("nie") || odp.includes("powtórz")) {
-        potwierdzGlosowoRecznie(false);
-      }
-    };
-    recTak.start();
-  } catch (e) {}
-}
-
-function potwierdzGlosowoRecznie(czyDodac) {
-  document.getElementById("voiceConfirmBar").style.display = "none";
-  if (czyDodac && oczekujacyPomiar) {
-    dodajPozycjeDoListy();
-    document.getElementById("voiceStatus").textContent = "🎉 Pozycja zatwierdzona i dodana do wyceny!";
-    oczekujacyPomiar = null;
-  } else {
-    oczekujacyPomiar = null;
-    uruchomPomiar30s();
-  }
-}
-
-// ============================================================================
-// 4. ZARZĄDZANIE POZYCJAMI WYCENY, RABATAMI I EKSPORTEM
-// ============================================================================
-let pozycjeWyceny = [];
-
-function dodajPozycjeDoListy() {
-  const typ = document.getElementById("systemTyp").value;
-  const nazwaSystemu = NAZWY_SYSTEMOW[typ];
-  const pomieszczenie = document.getElementById("pomieszczenie").value.trim() || "Okno";
-  const szer = parseFloat(document.getElementById("szerokosc").value);
-  const wys = parseFloat(document.getElementById("wysokosc").value);
-  const ilosc = parseInt(document.getElementById("ilosc").value) || 1;
-  const kolor = document.getElementById("kolorProfilu").value;
-
-  if (!szer || !wys || szer <= 0 || wys <= 0) {
-    alert("Podaj poprawną szerokość i wysokość w cm!");
-    return;
-  }
-
-  const wyliczenie = wyliczPozycje(typ, szer, wys, ilosc);
-  if (wyliczenie.pozaZakresem) {
-    alert("Ten wymiar przekracza maksymalny zakres tabeli produkcyjnej!");
-    return;
-  }
-
-  let wariantInfo = "";
-  if (typ === "ramkowa") {
-    const nrW = document.getElementById("wariantPomiaru").value;
-    const blaszka = document.getElementById("blaszkaRozmiar").value;
-    wariantInfo = `Wzór ${WARIANTY_RAMKI[nrW].label} (${WARIANTY_RAMKI[nrW].opis}), ${blaszka}`;
-  } else {
-    wariantInfo = wyliczenie.opisDodatkowy;
-  }
-
-  pozycjeWyceny.push({
-    id: Date.now(),
-    typ,
-    nazwaSystemu,
-    pomieszczenie,
-    szer,
-    wys,
-    ilosc,
-    kolor,
-    wariantInfo,
-    kosztB2B: wyliczenie.kosztB2B,
-    cenaKlient: wyliczenie.cenaKlient
+function populateSystemsDropdown(){
+  const sel=document.getElementById('itemSystem');
+  const prevVal=sel.value;
+  sel.innerHTML='';
+  systemsCatalog.forEach((s,idx)=>{
+    const opt=document.createElement('option');
+    opt.value=idx;
+    opt.innerText=s.name;
+    sel.appendChild(opt);
   });
-
-  // Czyszczenie pól wymiarów pod kolejne okno
-  document.getElementById("szerokosc").value = "";
-  document.getElementById("wysokosc").value = "";
-  document.getElementById("ilosc").value = "1";
-  podgladCenyNaZywo();
-  renderujPozycje();
+  if(prevVal!==''&&systemsCatalog[prevVal])sel.value=prevVal;
+  else sel.value='0';
 }
 
-function usunPozycje(id) {
-  pozycjeWyceny = pozycjeWyceny.filter(p => p.id !== id);
-  renderujPozycje();
+function getCurrentSystemObj(){
+  const idx=parseInt(document.getElementById('itemSystem').value)||0;
+  return systemsCatalog[idx]||systemsCatalog[0];
 }
 
-function wyczyscBiezacaWycene() {
-  if (confirm("Czy na pewno chcesz wyczyścić bieżącą listę pozycji?")) {
-    pozycjeWyceny = [];
-    renderujPozycje();
-  }
-}
+function openSettingsModal(){
+  document.getElementById('setBrandShort').value=brandConfig.shortName||'ARX';
+  document.getElementById('setBrandFull').value=brandConfig.fullName||'ARX Wyceny';
+  document.getElementById('setBrandContact').value=brandConfig.contactLine||'ARX Rolety Moskitiery Montaż';
 
-function naliczKuponSasiedzki() {
-  document.getElementById("rabatProcent").value = 5;
-  document.getElementById("rabatKwota").value = 50;
-  przeliczPodsumowanie();
-}
-
-function renderujPozycje() {
-  const kontener = document.getElementById("listaPozycjiKontener");
-  document.getElementById("licznikPozycji").textContent = pozycjeWyceny.length;
-
-  if (pozycjeWyceny.length === 0) {
-    kontener.innerHTML = `<div style="text-align:center; color:var(--muted); padding: 14px;">Brak dodanych pozycji.</div>`;
-    przeliczPodsumowanie();
-    return;
-  }
-
-  kontener.innerHTML = pozycjeWyceny.map((p, idx) => `
-    <div class="item-row">
-      <div>
-        <div class="item-main">${idx + 1}. ${p.pomieszczenie} – ${p.nazwaSystemu} (${p.ilosc} szt.)</div>
-        <div class="item-sub">
-          Wymiar: <strong>${p.szer} × ${p.wys} cm</strong> | Kolor: ${p.kolor}
-          ${p.wariantInfo ? `<br><span style="color:#38bdf8;">📐 ${p.wariantInfo}</span>` : ""}
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div>
-          <div class="item-price">${p.cenaKlient.toFixed(2)} zł</div>
-          <div class="worker-only" style="font-size:11px; color:#38bdf8; text-align:right; border:none; margin:0; padding:0;">
-            B2B: ${p.kosztB2B} zł
+  const container=document.getElementById('settingsCatalogList');
+  container.innerHTML='';
+  systemsCatalog.forEach((s,i)=>{
+    container.innerHTML+=`
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-2">
+        <div class="font-bold text-xs text-white">${i+1}. ${s.name}</div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Sposób wyceny B2B</label>
+            <select id="catType_${i}" class="w-full input-bg rounded-lg px-2 py-1.5 text-[11px] text-amber-400 font-semibold">
+              <option value="m2" ${s.calcType==='m2'?'selected':''}>Wg m² (powierzchnia)</option>
+              <option value="mb" ${s.calcType==='mb'?'selected':''}>Wg mb (obwód)</option>
+              <option value="manual" ${s.calcType==='manual'?'selected':''}>Z tabeli / Ręczna (1 szt.)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Stawka (zł/m² lub mb)</label>
+            <input type="number" id="catRate_${i}" value="${s.rate}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-white text-center">
           </div>
         </div>
-        <button class="mode-btn" style="background:#ef4444; border:none; padding:6px 9px;" onclick="usunPozycje(${p.id})">✕</button>
-      </div>
-    </div>
-  `).join("");
-
-  przeliczPodsumowanie();
-}
-
-function przeliczPodsumowanie() {
-  const sumaPrzed = pozycjeWyceny.reduce((acc, p) => acc + p.cenaKlient, 0);
-  const sumaB2B = pozycjeWyceny.reduce((acc, p) => acc + p.kosztB2B, 0);
-
-  const rProc = parseFloat(document.getElementById("rabatProcent").value) || 0;
-  const rKwota = parseFloat(document.getElementById("rabatKwota").value) || 0;
-
-  const rabatZProcentu = sumaPrzed * (rProc / 100);
-  const lacznyRabat = Math.min(sumaPrzed, rabatZProcentu + rKwota);
-  const doZaplaty = Math.max(0, sumaPrzed - lacznyRabat);
-
-  const podatekRyczalt = Math.round(doZaplaty * 0.055);
-  const czystyZysk = doZaplaty - sumaB2B - podatekRyczalt;
-
-  document.getElementById("sumaBruttoPrzed").textContent = `${sumaPrzed.toFixed(2)} zł`;
-  document.getElementById("sumaRabat").textContent = `-${lacznyRabat.toFixed(2)} zł`;
-  document.getElementById("sumaKoncowaKlient").textContent = `${doZaplaty.toFixed(2)} zł`;
-  document.getElementById("sumaKosztB2B").textContent = `${sumaB2B.toFixed(2)} zł`;
-  document.getElementById("sumaPodatekRyczalt").textContent = `${podatekRyczalt.toFixed(2)} zł`;
-  document.getElementById("sumaCzystyZysk").textContent = `${czystyZysk.toFixed(2)} zł`;
-
-  return { sumaPrzed, sumaB2B, lacznyRabat, doZaplaty, czystyZysk };
-}
-
-// ============================================================================
-// 5. TRYB ROBOCZY / KLIENCKI, PROJEKTY I EKSPORT SMS / WHATSAPP / E-MAIL
-// ============================================================================
-function przelaczTryb() {
-  document.body.classList.toggle("client-mode");
-  const isClient = document.body.classList.contains("client-mode");
-  const btn = document.getElementById("toggleModeBtn");
-  const sub = document.getElementById("modeSubtitle");
-
-  if (isClient) {
-    btn.classList.add("client-active");
-    btn.textContent = "🔧 Wróć do Trybu Roboczego";
-    sub.textContent = "Tryb Kliencki (Prezentacja oferty)";
-    pokazZakladke("wycena", document.querySelector(".tab-btn"));
-  } else {
-    btn.classList.remove("client-active");
-    btn.textContent = "👁️ Tryb Kliencki";
-    sub.textContent = "Tryb Roboczy (Pełna Marża i B2B)";
-  }
-}
-
-function pokazZakladke(id, btnEl) {
-  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
-  document.getElementById("tab-" + id).classList.add("active");
-  if (btnEl) btnEl.classList.add("active");
-  if (id === "projekty") renderujBazeProjektow();
-}
-
-function zbudujTekstOfertyKlienta() {
-  const klient = document.getElementById("klientNazwa").value || "Szanowny Kliencie";
-  const firma = document.getElementById("ustFirma").value;
-  const podsumowanie = przeliczPodsumowanie();
-
-  let linie = `Dzień dobry (${klient}),\nPrzesyłam zestawienie wyceny osłon okiennych:\n\n`;
-  pozycjeWyceny.forEach((p, i) => {
-    linie += `${i + 1}. ${p.pomieszczenie} - ${p.nazwaSystemu} (${p.szer}x${p.wys} cm, ${p.kolor}, ${p.ilosc} szt.): ${p.cenaKlient.toFixed(2)} zł\n`;
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Cena min. B2B za 1 szt. (zł)</label>
+            <input type="number" id="catMin_${i}" value="${s.minPrice||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-slate-200 text-center">
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Domyślny montaż (zł/szt.)</label>
+            <input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-emerald-400 font-bold text-center">
+          </div>
+        </div>
+      </div>`;
   });
-  if (podsumowanie.lacznyRabat > 0) {
-    linie += `\nRabat: -${podsumowanie.lacznyRabat.toFixed(2)} zł`;
-  }
-  linie += `\nRAZEM Z MONTAŻEM: ${podsumowanie.doZaplaty.toFixed(2)} zł\n\nPozdrawiam,\n${firma}`;
-  return linie;
+  document.getElementById('settingsModal').classList.remove('hidden');
 }
 
-function wyslijWhatsApp() {
-  if (pozycjeWyceny.length === 0) return alert("Dodaj najpierw pozycję do wyceny!");
-  const tel = (document.getElementById("klientTel").value || "").replace(/\D/g, "");
-  const tekst = encodeURIComponent(zbudujTekstOfertyKlienta());
-  const url = tel ? `https://wa.me/48${tel}?text=${tekst}` : `https://wa.me/?text=${tekst}`;
-  window.open(url, "_blank");
+function closeSettingsModal(){
+  document.getElementById('settingsModal').classList.add('hidden');
 }
 
-function wyslijSMS() {
-  if (pozycjeWyceny.length === 0) return alert("Dodaj najpierw pozycję do wyceny!");
-  const tel = (document.getElementById("klientTel").value || "").replace(/\D/g, "");
-  const tekst = encodeURIComponent(zbudujTekstOfertyKlienta());
-  window.location.href = `sms:${tel}?body=${tekst}`;
-}
+function saveSettingsFromModal(){
+  brandConfig.shortName=document.getElementById('setBrandShort').value.trim()||'ARX';
+  brandConfig.fullName=document.getElementById('setBrandFull').value.trim()||'ARX Wyceny';
+  brandConfig.contactLine=document.getElementById('setBrandContact').value.trim()||'ARX Rolety Moskitiery Montaż';
 
-function wyslijZamowienieHurtownia() {
-  if (pozycjeWyceny.length === 0) return alert("Brak pozycji do zamówienia!");
-  const email = document.getElementById("ustEmailHurtowni").value;
-  const klient = document.getElementById("klientNazwa").value || "Zlecenie ARX";
-  let body = `ZAMÓWIENIE PRODUKCYJNE B2B - ARX\nReferencja zlecenia: ${klient}\n\nPOZYCJE:\n`;
-  pozycjeWyceny.forEach((p, i) => {
-    body += `${i + 1}. ${p.nazwaSystemu} | Wymiar: ${p.szer} x ${p.wys} cm | Ilość: ${p.ilosc} szt. | Kolor: ${p.kolor} | Szczegóły: ${p.wariantInfo}\n`;
-  });
-  window.location.href = `mailto:${email}?subject=${encodeURIComponent("Zamówienie B2B ARX - " + klient)}&body=${encodeURIComponent(body)}`;
-}
-
-// Zapis i odczyt projektów
-function zapiszProjektWBazie() {
-  if (pozycjeWyceny.length === 0) return alert("Dodaj chociaż jedną pozycję przed zapisem!");
-  const klient = document.getElementById("klientNazwa").value.trim() || "Klient bez nazwy";
-  const tel = document.getElementById("klientTel").value.trim();
-  const podsumowanie = przeliczPodsumowanie();
-
-  const projekty = JSON.parse(localStorage.getItem("arx_projekty_v2")) || [];
-  projekty.unshift({
-    id: Date.now(),
-    data: new Date().toLocaleDateString("pl-PL"),
-    klient,
-    tel,
-    pozycje: pozycjeWyceny,
-    doZaplaty: podsumowanie.doZaplaty,
-    sumaB2B: podsumowanie.sumaB2B,
-    czystyZysk: podsumowanie.czystyZysk
+  systemsCatalog.forEach((s,i)=>{
+    s.calcType=document.getElementById('catType_'+i).value;
+    s.rate=Math.max(0,parseFloat(document.getElementById('catRate_'+i).value)||0);
+    s.minPrice=Math.max(0,parseFloat(document.getElementById('catMin_'+i).value)||0);
+    s.install=Math.max(0,parseFloat(document.getElementById('catInst_'+i).value)||0);
   });
 
-  localStorage.setItem("arx_projekty_v2", JSON.stringify(projekty));
-  alert("✅ Projekt zapisany w bazie!");
+  try{
+    localStorage.setItem('arx_brand_config_v6',JSON.stringify(brandConfig));
+    localStorage.setItem('arx_systems_catalog_v6',JSON.stringify(systemsCatalog));
+  }catch(e){}
+
+  applyBrandToUI();
+  onSystemChange();
+  closeSettingsModal();
+  showToast('Zapisano cennik i ustawienia firmy!');
 }
 
-function renderujBazeProjektow() {
-  const projekty = JSON.parse(localStorage.getItem("arx_projekty_v2")) || [];
-  const listaEl = document.getElementById("bazaProjektowLista");
+function exportBackupJSON(){
+  const data={
+    brandConfig,
+    systemsCatalog,
+    supplierEmails:getSupplierEmails(),
+    savedProjects:getSavedProjects()
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='kopia_arx_wyceny_'+getFormattedDate().replace(/\./g,'-')+'.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast('Pobrano plik kopii zapasowej!');
+}
 
-  const przychod = projekty.reduce((a, p) => a + p.doZaplaty, 0);
-  const koszty = projekty.reduce((a, p) => a + p.sumaB2B, 0);
-  const zysk = projekty.reduce((a, p) => a + p.czystyZysk, 0);
+function importBackupJSON(ev){
+  const file=ev.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(data.brandConfig)localStorage.setItem('arx_brand_config_v6',JSON.stringify(data.brandConfig));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v6',JSON.stringify(data.systemsCatalog));
+      if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
+      if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
+      loadAppConfig();
+      loadSupplierEmails();
+      updateSavedProjectsCount();
+      onSystemChange();
+      closeSettingsModal();
+      showToast('Wczytano kopię zapasową!');
+    }catch(err){
+      showToast('Błąd pliku kopii zapasowej!');
+    }
+  };
+  reader.readAsText(file);
+}
 
-  document.getElementById("raportPrzychod").textContent = `${przychod.toFixed(0)} zł`;
-  document.getElementById("raportKoszty").textContent = `${koszty.toFixed(0)} zł`;
-  document.getElementById("raportZysk").textContent = `${zysk.toFixed(0)} zł`;
+function switchMode(m){
+  appMode=m;
+  const w=m==='work';
+  document.getElementById('btnModeWork').className=w?'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition':'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
+  document.getElementById('btnModeClient').className=!w?'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow transition':'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
+  const badge=document.getElementById('modeBadge');
+  badge.innerText=w?'B2B ROBOCZY':'WIDOK KLIENTA';
+  badge.className=w?'text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30':'text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30';
+  document.getElementById('voiceSection').classList.toggle('hidden',!w);
+  document.getElementById('editorSection').classList.toggle('hidden',!w);
+  document.getElementById('clientBanner').classList.toggle('hidden',w);
+  document.getElementById('financialWorkBox').classList.toggle('hidden',!w);
+  document.getElementById('b2bExportSection').classList.toggle('hidden',!w);
+  document.getElementById('footerProfitCol').classList.toggle('hidden',!w);
+  document.getElementById('footerClientLabel').innerText=w?'DLA KLIENTA':'CENA Z MONTAŻEM';
+  renderCartAndTotals();
+}
 
-  if (projekty.length === 0) {
-    listaEl.innerHTML = `<div style="color:var(--muted); text-align:center; padding:12px;">Brak zapisanych projektów.</div>`;
-    return;
+function appendRoomTag(t){
+  const el=document.getElementById('itemRoom'),c=el.value.trim();
+  if(!c)el.value=t;
+  else if(!c.toLowerCase().includes(t.toLowerCase()))el.value=c+' - '+t;
+}
+
+function changeQty(d){
+  const el=document.getElementById('itemQty');
+  el.value=Math.max(1,(parseInt(el.value)||1)+d);
+  recalcCurrentItem();
+}
+
+function changeInstall(d){
+  const el=document.getElementById('installFee');
+  el.value=Math.max(0,(parseInt(el.value)||0)+d);
+  recalcCurrentItem();
+}
+
+function setMarginPct(v){
+  document.getElementById('marginSlider').value=v;
+  recalcCurrentItem();
+}
+
+function onSystemChange(){
+  const sys=getCurrentSystemObj();
+  document.getElementById('installFee').value=sys.install||0;
+  document.getElementById('guideRailBox').classList.toggle('hidden',sys.guide!==1);
+  // Warianty 1..7 widoczne wyłącznie dla Moskitiery ramkowej okiennej
+  document.getElementById('variantSectionBox').classList.toggle('hidden',sys.variants!==1);
+  updateVariantDrawing();
+  recalcCurrentItem();
+}
+
+function recalcCurrentItem(){
+  const w=Math.max(10,parseFloat(document.getElementById('itemWidth').value)||0);
+  const h=Math.max(10,parseFloat(document.getElementById('itemHeight').value)||0);
+  const qty=Math.max(1,parseInt(document.getElementById('itemQty').value)||1);
+  const area=(w/100)*(h/100),perim=2*((w/100)+(h/100));
+  document.getElementById('calcArea').innerText=area.toFixed(2)+' m²';
+  document.getElementById('calcPerim').innerText=perim.toFixed(2)+' mb';
+
+  const sys=getCurrentSystemObj();
+  const guideLength=sys.guide===1?(parseFloat(document.getElementById('itemGuideLength').value)||0):0;
+
+  let rawCalc=0,formulaStr='';
+  if(sys.calcType==='mb'){
+    rawCalc=Math.round(perim*sys.rate);
+    formulaStr=`${perim.toFixed(2)} mb × ${sys.rate} zł/mb (min. ${sys.minPrice} zł)`;
+  }else if(sys.calcType==='manual'){
+    rawCalc=Math.round(Math.max(sys.minPrice,area*sys.rate));
+    formulaStr=`Wycena z tabeli / ręczna (baza min. ${sys.minPrice} zł)`;
+  }else{
+    rawCalc=Math.round(area*sys.rate);
+    formulaStr=`${area.toFixed(2)} m² × ${sys.rate} zł/m² (min. ${sys.minPrice} zł)`;
   }
 
-  listaEl.innerHTML = projekty.map(p => `
-    <div class="item-row">
-      <div>
-        <div class="item-main">${p.klient} <span class="badge">${p.data}</span></div>
-        <div class="item-sub">Pozycji: ${p.pozycje.length} | Przychód: ${p.doZaplaty.toFixed(2)} zł | Zysk: <strong style="color:#22c55e;">${p.czystyZysk.toFixed(2)} zł</strong></div>
+  const autoB2B=Math.max(sys.minPrice||0,rawCalc);
+  document.getElementById('formulaB2BText').innerText=formulaStr;
+  document.getElementById('estB2BDisplay').innerText=autoB2B+' zł';
+
+  const man=parseFloat(document.getElementById('manualB2B').value);
+  const b2bUnit=(!isNaN(man)&&man>0)?Math.round(man):autoB2B;
+  const marginPct=parseInt(document.getElementById('marginSlider').value)||0;
+  const marginUnit=Math.round(b2bUnit*(marginPct/100));
+  const installUnit=Math.max(0,parseInt(document.getElementById('installFee').value)||0);
+  const clientUnit=b2bUnit+marginUnit+installUnit,profitUnit=marginUnit+installUnit;
+
+  document.getElementById('marginPlnBadge').innerText='+'+marginUnit+' zł / szt.';
+  document.getElementById('marginPctBadge').innerText=marginPct+'%';
+  document.getElementById('previewB2B').innerText=b2bUnit+' zł';
+  document.getElementById('previewProfit').innerText='+'+profitUnit+' zł';
+  document.getElementById('previewProfitSub').innerText=marginUnit+' narzut + '+installUnit+' montaż';
+  document.getElementById('previewClientPrice').innerText=clientUnit+' zł';
+
+  return{
+    room:document.getElementById('itemRoom').value.trim()||'Okno z pomiaru',
+    system:sys.name,
+    variant:sys.variants===1?document.getElementById('itemVariant').value:'',
+    color:document.getElementById('itemColor').value,
+    width:parseFloat(w.toFixed(1)),
+    height:parseFloat(h.toFixed(1)),
+    guideLength:parseFloat(guideLength.toFixed(1)),
+    qty,area:parseFloat(area.toFixed(2)),b2bUnit,marginPct,marginUnit,installUnit,clientUnit
+  };
+}
+
+function addItemToCart(){
+  const it=recalcCurrentItem();
+  it.id=Date.now();
+  cart.push(it);
+  document.getElementById('itemRoom').value='';
+  document.getElementById('manualB2B').value='';
+  playBeep(950,100);
+  showToast('Dodano pozycję do koszyka!');
+  renderCartAndTotals();
+}
+
+function removeCartItem(id){cart=cart.filter(x=>x.id!==id);renderCartAndTotals();}
+function duplicateCartItem(id){
+  const o=cart.find(x=>x.id===id);
+  if(o){cart.push({...o,id:Date.now()});showToast('Zduplikowano pozycję');renderCartAndTotals();}
+}
+
+function setDiscountMode(m){
+  discountMode=m;
+  document.getElementById('btnDiscPln').className=m==='pln'?'px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold':'px-3 py-1 rounded-lg text-slate-400 font-bold';
+  document.getElementById('btnDiscPct').className=m==='pct'?'px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold':'px-3 py-1 rounded-lg text-slate-400 font-bold';
+  renderCartAndTotals();
+}
+
+function applyQuickDiscount10(){setDiscountMode('pct');document.getElementById('discountInput').value=10;renderCartAndTotals();showToast('Rabat -10%');}
+function clearDiscount(){document.getElementById('discountInput').value=0;renderCartAndTotals();}
+
+function computeTotalsObject(){
+  let totalSzt=0,sumB2B=0,sumMargin=0,sumInstall=0,sumClientBase=0;
+  cart.forEach(i=>{
+    totalSzt+=i.qty;sumB2B+=i.b2bUnit*i.qty;sumMargin+=i.marginUnit*i.qty;sumInstall+=i.installUnit*i.qty;sumClientBase+=i.clientUnit*i.qty;
+  });
+  const dRaw=Math.max(0,parseFloat(document.getElementById('discountInput').value)||0);
+  let discPln=discountMode==='pct'?Math.round(sumClientBase*(dRaw/100)):Math.round(dRaw);
+  if(discPln>sumClientBase)discPln=sumClientBase;
+  const finalClientTotal=sumClientBase-discPln,netProfit=(sumMargin+sumInstall)-discPln;
+  const profitShare=finalClientTotal>0?Math.round((netProfit/finalClientTotal)*100):0;
+  return{totalSzt,sumB2B,sumMargin,sumInstall,sumClientBase,discPln,finalClientTotal,netProfit,profitShare};
+}
+
+function renderCartAndTotals(){
+  const c=document.getElementById('cartItemsContainer');
+  c.innerHTML='';
+  cart.forEach((item,idx)=>{
+    const rB2B=item.b2bUnit*item.qty,rMar=item.marginUnit*item.qty,rIns=item.installUnit*item.qty,rCli=item.clientUnit*item.qty;
+    const gTxt=item.guideLength>0?' • Prowadnica: '+formatCm(item.guideLength)+' cm':'';
+    const varBadge=item.variant?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${item.variant}</span>`:'';
+    const wDet=appMode==='work'?`
+      <div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono">
+        <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span>
+        <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Narzut: +${rMar} zł (${item.marginPct}%)</span>
+        <span class="px-2 py-0.5 rounded bg-slate-900 text-amber-400">Montaż: +${rIns} zł</span>
+        ${varBadge}
       </div>
-      <div style="display:flex; gap:6px;">
-        <button class="mode-btn" onclick="wczytajProjekt(${p.id})">📂 Wczytaj</button>
-        <button class="mode-btn" style="background:#ef4444; border:none;" onclick="usunProjekt(${p.id})">✕</button>
-      </div>
-    </div>
-  `).join("");
+      <div class="flex justify-end gap-2 mt-2">
+        <button type="button" onclick="duplicateCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs">Kopiuj</button>
+        <button type="button" onclick="removeCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-red-950/40 border border-red-500/30 text-red-400 text-xs">Usuń</button>
+      </div>`:'';
+    c.innerHTML+=`
+      <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3">
+        <div class="flex justify-between items-start">
+          <div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 mr-1.5">#${idx+1}</span><span class="font-bold text-sm text-white">${item.room}</span></div>
+          <div class="text-right"><div class="text-[11px] text-slate-400 font-mono">${item.qty} szt. x ${item.clientUnit} zł</div><div class="font-mono font-extrabold text-base text-white">${rCli} zł</div></div>
+        </div>
+        <div class="text-xs text-slate-300 mt-1">${item.system}</div>
+        <div class="text-xs font-mono text-amber-400 mt-0.5">${formatCm(item.width)} x ${formatCm(item.height)} cm${gTxt} • ${item.color} • ${item.area} m²</div>
+        ${wDet}
+      </div>`;
+  });
+  if(cart.length===0)c.innerHTML='<div class="text-center py-6 text-xs text-slate-500">Koszyk jest pusty. Dodaj pierwszą pozycję powyżej.</div>';
+  const t=computeTotalsObject();
+  document.getElementById('cartCountBadge').innerText=cart.length+' poz. ('+t.totalSzt+' szt.)';
+  document.getElementById('sumB2BCost').innerText=t.sumB2B+' zł';
+  document.getElementById('sumMarginInstallBreak').innerText='Narzut: '+t.sumMargin+' zł | Montaż: '+t.sumInstall+' zł';
+  document.getElementById('sumNetProfit').innerText=(t.netProfit>=0?'+':'')+t.netProfit+' zł';
+  document.getElementById('profitShareBadge').innerText='Udział zysku: '+t.profitShare+'%';
+  document.getElementById('sumBeforeDisc').innerText=t.sumClientBase+' zł';
+  document.getElementById('sumDiscAmount').innerText='-'+t.discPln+' zł';
+  document.getElementById('sumClientTotal').innerText=t.finalClientTotal+' zł';
+  document.getElementById('footerProfitVal').innerText=(t.netProfit>=0?'+':'')+t.netProfit+' zł';
+  document.getElementById('footerClientVal').innerText=t.finalClientTotal+' zł';
 }
 
-function wczytajProjekt(id) {
-  const projekty = JSON.parse(localStorage.getItem("arx_projekty_v2")) || [];
-  const proj = projekty.find(p => p.id === id);
-  if (!proj) return;
-
-  document.getElementById("klientNazwa").value = proj.klient;
-  document.getElementById("klientTel").value = proj.tel || "";
-  pozycjeWyceny = proj.pozycje || [];
-  renderujPozycje();
-  pokazZakladke("wycena", document.querySelector(".tab-btn"));
+function speakText(txt,cb){
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang='pl-PL';u.rate=1.05;
+    if(cb)u.onend=cb;
+    window.speechSynthesis.speak(u);
+  }else if(cb)cb();
 }
 
-function usunProjekt(id) {
-  let projekty = JSON.parse(localStorage.getItem("arx_projekty_v2")) || [];
-  projekty = projekty.filter(p => p.id !== id);
-  localStorage.setItem("arx_projekty_v2", JSON.stringify(projekty));
-  renderujBazeProjektow();
+function parseSpokenMeasurement(tr){
+  const raw=tr.trim(),lo=raw.toLowerCase();
+  let color=document.getElementById('itemColor').value;
+  if(lo.includes('antracyt'))color='Antracyt (RAL 7016)';
+  else if(lo.includes('biały')||lo.includes('bialy'))color='Biały';
+  else if(lo.includes('brąz')||lo.includes('braz'))color='Brązowy';
+  else if(lo.includes('dąb')||lo.includes('dab'))color='Złoty Dąb';
+  else if(lo.includes('orzech'))color='Orzech';
+  else if(lo.includes('winchester'))color='Winchester';
+  else if(lo.includes('mahoń')||lo.includes('mahon'))color='Mahoń';
+  const nums=raw.match(/[0-9]+(?:[.,][0-9]+)?/g);
+  let w=parseFloat(document.getElementById('itemWidth').value)||80,h=parseFloat(document.getElementById('itemHeight').value)||140;
+  if(nums&&nums.length>=2){
+    w=parseFloat(nums[0].replace(',','.'));h=parseFloat(nums[1].replace(',','.'));
+    if(w>=350&&h>=350){w=parseFloat((w/10).toFixed(1));h=parseFloat((h/10).toFixed(1));}
+  }
+  let room='';
+  const fm=raw.match(/[0-9]+/);
+  if(fm&&fm.index>0){
+    room=raw.substring(0,fm.index).replace(/\b(i wtedy|wtedy|no to|teraz|dobra|okej|ok|pomiar|okno|wymiar)\b/gi,'').replace(/[,:-]+$/g,'').trim();
+  }
+  room=room?(room.charAt(0).toUpperCase()+room.slice(1)):(document.getElementById('itemRoom').value.trim()||'Okno z pomiaru');
+  return{room,width:w,height:h,color};
 }
 
-function inicjalizujUstawienia() {
-  document.getElementById("ustMarzaTabelaryczne").value = marzaTabelaryczne;
-  document.getElementById("ustTabelaPlisowana").value = JSON.stringify(tabeleCenowe.plisowana);
-  document.getElementById("ustTabelaAluprof").value = JSON.stringify(tabeleCenowe.aluprof);
-  document.getElementById("ustTabelaSlim").value = JSON.stringify(tabeleCenowe.slim);
+function stopAllVoice(){
+  voiceListening30s=false;
+  if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
+  if(activeRecognition){try{activeRecognition.abort();}catch(e){}activeRecognition=null;}
+  if('speechSynthesis' in window)window.speechSynthesis.cancel();
+  document.getElementById('voiceActiveBanner').classList.add('hidden');
+  document.getElementById('voiceConfirmButtons').classList.add('hidden');
+  document.getElementById('voiceBlockedFallback').classList.add('hidden');
+  document.getElementById('voiceStateBadge').innerText='Gotowy (1 klik -> wymiar -> „Tak”)';
 }
 
-function zapiszUstawieniaCennika() {
-  try {
-    marzaTabelaryczne = parseFloat(document.getElementById("ustMarzaTabelaryczne").value) || 350;
-    tabeleCenowe.plisowana = JSON.parse(document.getElementById("ustTabelaPlisowana").value);
-    tabeleCenowe.aluprof = JSON.parse(document.getElementById("ustTabelaAluprof").value);
-    tabeleCenowe.slim = JSON.parse(document.getElementById("ustTabelaSlim").value);
+// POMIAR GŁOSOWY 30 SEKUND + NATYCHMIASTOWE ODCIĘCIE PO 2 LICZBACH
+function startVoiceFlow(){
+  playBeep(880,120);
+  document.getElementById('voiceActiveBanner').classList.remove('hidden');
+  document.getElementById('voiceConfirmButtons').classList.add('hidden');
+  document.getElementById('voiceBlockedFallback').classList.add('hidden');
+  document.getElementById('voiceHeardPreview').classList.add('hidden');
+  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz pokój i wymiar w cm (np. „Rybki 65 na 125”)';
+  document.getElementById('voiceStateBadge').innerText='🔴 Mikrofon aktywny (30s)...';
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
 
-    localStorage.setItem("arx_marza_tab", marzaTabelaryczne);
-    localStorage.setItem("arx_tabele_v2", JSON.stringify(tabeleCenowe));
-    alert("✅ Tabele cenowe i ustawienia zostały zapisane!");
-  } catch (e) {
-    alert("❌ Błąd w zapisie tabeli JSON – sprawdź przecinki i nawiasy.");
+  voiceListening30s=true;
+  voice30sStart=Date.now();
+  let capturedTwoNumbers=false;
+
+  if(voice30sTimer)clearTimeout(voice30sTimer);
+  voice30sTimer=setTimeout(()=>{
+    if(voiceListening30s && !capturedTwoNumbers){
+      stopAllVoice();
+      showToast('Minęło 30 sekund nasłuchu');
+    }
+  },30000);
+
+  try{
+    if(activeRecognition)activeRecognition.abort();
+    activeRecognition=new SR();
+    activeRecognition.lang='pl-PL';
+    activeRecognition.continuous=true;
+    activeRecognition.interimResults=true;
+
+    activeRecognition.onresult=(e)=>{
+      let fullTranscript='';
+      for(let i=0;i<e.results.length;i++){
+        fullTranscript+=e.results[i][0].transcript+' ';
+      }
+      const nums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g);
+      if(nums && nums.length>=2 && !capturedTwoNumbers){
+        capturedTwoNumbers=true;
+        voiceListening30s=false;
+        if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
+        try{activeRecognition.stop();}catch(err){}
+        triggerVoiceConfirmationStep(parseSpokenMeasurement(fullTranscript));
+      }
+    };
+
+    // Podtrzymanie mikrofonu na Androidzie przez pełne 30 sekund (gdy zapadnie cisza)
+    activeRecognition.onend=()=>{
+      const elapsed=Date.now()-voice30sStart;
+      if(voiceListening30s && !capturedTwoNumbers && elapsed<30000){
+        try{activeRecognition.start();}catch(err){}
+      }
+    };
+
+    activeRecognition.onerror=(ev)=>{
+      if(ev && (ev.error==='not-allowed'||ev.error==='service-not-allowed')){
+        voiceListening30s=false;
+        document.getElementById('voiceBlockedFallback').classList.remove('hidden');
+      }
+    };
+    activeRecognition.start();
+  }catch(e){document.getElementById('voiceBlockedFallback').classList.remove('hidden');}
+}
+
+function triggerVoiceConfirmationStep(p){
+  pendingVoiceItem=p;
+  document.getElementById('itemColor').value=p.color;
+  document.getElementById('itemRoom').value=p.room;
+  document.getElementById('itemWidth').value=p.width;
+  document.getElementById('itemHeight').value=p.height;
+  recalcCurrentItem();
+  const pr=document.getElementById('voiceHeardPreview');
+  pr.innerText=p.room+': '+formatCm(p.width)+' x '+formatCm(p.height)+' cm ('+p.color+')';
+  pr.classList.remove('hidden');
+  document.getElementById('voiceConfirmButtons').classList.remove('hidden');
+  document.getElementById('voiceLiveInstruction').innerText='🗣️ Powiedz „TAK” po pytaniu lektora...';
+  speakText(p.room+', wymiar '+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów, kolor '+p.color+'. Czy zatwierdzasz?',()=>{
+    playBeep(1040,90);
+    listenForYesNoDirectly();
+  });
+}
+
+function listenForYesNoDirectly(){
+  document.getElementById('voiceLiveInstruction').innerText='🎤 Powiedz teraz: „TAK” lub „NIE”';
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return;
+  try{
+    if(activeRecognition)activeRecognition.abort();
+    activeRecognition=new SR();
+    activeRecognition.lang='pl-PL';activeRecognition.continuous=false;activeRecognition.interimResults=false;
+    activeRecognition.onresult=(e)=>{
+      const a=e.results[0][0].transcript.toLowerCase();
+      if(a.includes('tak')||a.includes('zatwierdz')||a.includes('dobra')||a.includes('zgadza'))confirmVoiceItem(true);
+      else if(a.includes('nie')||a.includes('anuluj')||a.includes('odrzuć'))confirmVoiceItem(false);
+    };
+    activeRecognition.start();
+  }catch(e){}
+}
+
+function onFallbackInput(){
+  if(fallbackTimer)clearTimeout(fallbackTimer);
+  const v=document.getElementById('voiceFallbackInput').value.trim(),lo=v.toLowerCase();
+  if(pendingVoiceItem&&(lo.endsWith('tak')||lo.includes(' tak'))){confirmVoiceItem(true);return;}
+  if(pendingVoiceItem&&(lo.endsWith('nie')||lo.includes(' nie'))){confirmVoiceItem(false);return;}
+  const nums=v.match(/[0-9]+(?:[.,][0-9]+)?/g);
+  if(!pendingVoiceItem&&nums&&nums.length>=2){
+    fallbackTimer=setTimeout(()=>triggerVoiceConfirmationStep(parseSpokenMeasurement(v)),1200);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  aktualizujRysunekWariantu("1");
-  zmienSystemUI();
-  inicjalizujUstawienia();
+function confirmVoiceItem(ok){
+  if(ok&&pendingVoiceItem){addItemToCart();speakText('Zatwierdzono.');}
+  else speakText('Anulowano.');
+  pendingVoiceItem=null;
+  document.getElementById('voiceFallbackInput').value='';
+  stopAllVoice();
+}
+
+function getFormattedDate(){return new Date().toLocaleDateString('pl-PL');}
+
+function generateClientOfferText(){
+  const cli=document.getElementById('clientAddress').value.trim()||'Klient indywidualny';
+  let L=[`*WYCENA SYSTEMÓW OSŁON OKIENNYCH - ${brandConfig.shortName||'ARX'}*`,'👤 Klient: '+cli,'📅 Data pomiaru: '+getFormattedDate(),'------------------------------'];
+  cart.forEach((it,i)=>{
+    const rSum=it.clientUnit*it.qty,gTxt=it.guideLength>0?' (Prowadnica: '+formatCm(it.guideLength)+' cm)':'';
+    L.push((i+1)+'. *'+it.room+'*','   • System: '+it.system,'   • Kolor osprzętu: '+it.color,'   • Wymiar: '+formatCm(it.width)+' x '+formatCm(it.height)+' cm'+gTxt+' | Ilość: '+it.qty+' szt.','   • Wartość: '+rSum+' zł');
+  });
+  const t=computeTotalsObject();
+  L.push('------------------------------');
+  if(t.discPln>0){L.push('Wartość bazowa: '+t.sumClientBase+' zł','Przyznany rabat: -'+t.discPln+' zł');}
+  L.push('*RAZEM DO ZAPŁATY (z montażem): '+t.finalClientTotal+' zł*','📞 Kontakt: '+(brandConfig.contactLine||'ARX Rolety Moskitiery Montaż'));
+  return L.join(NL);
+}
+
+function generateB2BOrderText(){
+  const cli=document.getElementById('clientAddress').value.trim()||'Brak opisu',ph=document.getElementById('clientPhone').value.trim();
+  let L=[`ZAMÓWIENIE PRODUKCYJNE B2B - ${brandConfig.shortName||'ARX'} (`+getFormattedDate()+')','Referencja zlecenia: '+cli+(ph?' ('+ph+')':''),'=============================='];
+  const t=computeTotalsObject();
+  cart.forEach((it,i)=>{
+    L.push('Lp. '+(i+1)+' | '+it.system);
+    if(it.variant)L.push('   Wariant: '+it.variant);
+    L.push('   Wymiar: SZER '+formatCm(it.width)+' cm x WYS '+formatCm(it.height)+' cm');
+    if(it.guideLength>0)L.push('   Długość prowadnic: '+formatCm(it.guideLength)+' cm');
+    L.push('   Kolor profilu/osprzętu: '+it.color,'   Ilość: '+it.qty+' szt. [Opis okna: '+it.room+']','------------------------------');
+  });
+  L.push('ŁĄCZNIE SZTUK DO PRODUKCJI: '+t.totalSzt+' szt.','Szacowany koszt zakupu B2B: '+t.sumB2B+' zł');
+  return L.join(NL);
+}
+
+function copyTextToClipboard(txt){
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).catch(()=>fallbackCopy(txt));
+  else fallbackCopy(txt);
+  showToast('Skopiowano do schowka!');
+}
+
+function fallbackCopy(txt){
+  const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+}
+
+function exportOfferSMS(){
+  const txt=generateClientOfferText();
+  document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';
+  document.getElementById('modalTextarea').value=txt;
+  document.getElementById('exportModal').classList.remove('hidden');
+  copyTextToClipboard(txt);
+}
+
+function exportOrderB2B(){
+  const txt=generateB2BOrderText();
+  document.getElementById('modalTitle').innerText='Zestawienie dla hurtowni B2B';
+  document.getElementById('modalTextarea').value=txt;
+  document.getElementById('exportModal').classList.remove('hidden');
+  copyTextToClipboard(txt);
+}
+
+function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modalTextarea').value);}
+function closeExportModal(){document.getElementById('exportModal').classList.add('hidden');}
+
+// PUSTA BAZA ADRESÓW E-MAIL HURTOWNI NA STARCIE
+function getSupplierEmails(){
+  try{
+    const r=localStorage.getItem('arx_supplier_emails_v6');
+    return r?JSON.parse(r):[];
+  }catch(e){return[];}
+}
+function saveSupplierEmails(l){try{localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(l));}catch(e){}}
+function loadSupplierEmails(){
+  const sel=document.getElementById('supplierEmailSelect');sel.innerHTML='';
+  const list=getSupplierEmails();
+  if(list.length===0){
+    const o=document.createElement('option');o.value='';o.innerText='— Brak zapisanych adresów (dodaj poniżej) —';sel.appendChild(o);
+  }else{
+    list.forEach(em=>{const o=document.createElement('option');o.value=em;o.innerText=em;sel.appendChild(o);});
+  }
+}
+function addSupplierEmail(){
+  const inp=document.getElementById('newSupplierEmail'),em=inp.value.trim();
+  if(!em||!em.includes('@')){showToast('Wpisz poprawny e-mail!');return;}
+  const l=getSupplierEmails();
+  if(!l.includes(em)){l.push(em);saveSupplierEmails(l);loadSupplierEmails();document.getElementById('supplierEmailSelect').value=em;}
+  inp.value='';showToast('Dodano e-mail do bazy!');
+}
+function deleteSelectedEmail(){
+  const sel=document.getElementById('supplierEmailSelect');
+  if(!sel.value){showToast('Lista jest już pusta');return;}
+  const l=getSupplierEmails().filter(x=>x!==sel.value);
+  saveSupplierEmails(l);loadSupplierEmails();showToast('Usunięto adres z bazy');
+}
+function sendOrderByEmail(){
+  const em=document.getElementById('supplierEmailSelect').value||'';
+  if(!em){showToast('Najpierw dodaj adres e-mail hurtowni!');return;}
+  const cli=document.getElementById('clientAddress').value.trim()||'Zlecenie';
+  const txt=generateB2BOrderText();copyTextToClipboard(txt);
+  window.location.href='mailto:'+em+'?subject='+encodeURIComponent(`Zamówienie B2B ${brandConfig.shortName||'ARX'} - `+cli)+'&body='+encodeURIComponent(txt);
+}
+
+function getSavedProjects(){try{const r=localStorage.getItem('arx_saved_projects');return r?JSON.parse(r):[];}catch(e){return[];}}
+function updateSavedProjectsCount(){document.getElementById('savedCount').innerText=getSavedProjects().length;}
+
+function saveProject(){
+  const address=document.getElementById('clientAddress').value.trim()||'Pomiar bez adresu',phone=document.getElementById('clientPhone').value.trim();
+  const now=new Date(),monthKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),yearKey=String(now.getFullYear());
+  const t=computeTotalsObject(),list=getSavedProjects();
+  list.unshift({id:Date.now(),date:getFormattedDate(),monthKey,yearKey,status:'done',address,phone,discountMode,discountVal:document.getElementById('discountInput').value,revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]});
+  try{localStorage.setItem('arx_saved_projects',JSON.stringify(list));updateSavedProjectsCount();showToast('Zapisano pomiar!');}catch(e){}
+}
+
+function setReportPeriod(p){
+  reportPeriod=p;
+  document.getElementById('tabPeriodMonth').className=p==='month'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
+  document.getElementById('tabPeriodYear').className=p==='year'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
+  document.getElementById('tabPeriodAll').className=p==='all'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
+  populatePeriodFilterOptions();renderSavedAndReports();
+}
+
+function populatePeriodFilterOptions(){
+  const list=getSavedProjects(),sel=document.getElementById('reportFilterSelect');sel.innerHTML='';
+  const now=new Date(),cM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),cY=String(now.getFullYear());
+  if(reportPeriod==='month'){
+    sel.classList.remove('hidden');const ms=new Set([cM]);list.forEach(p=>{if(p.monthKey)ms.add(p.monthKey);});
+    Array.from(ms).sort().reverse().forEach(m=>{const o=document.createElement('option');o.value=m;o.innerText='Miesiąc: '+m;sel.appendChild(o);});
+  }else if(reportPeriod==='year'){
+    sel.classList.remove('hidden');const ys=new Set([cY]);list.forEach(p=>{if(p.yearKey)ys.add(p.yearKey);});
+    Array.from(ys).sort().reverse().forEach(y=>{const o=document.createElement('option');o.value=y;o.innerText='Rok: '+y;sel.appendChild(o);});
+  }else sel.classList.add('hidden');
+}
+
+function toggleProjectStatus(id){
+  const list=getSavedProjects(),p=list.find(x=>x.id===id);
+  if(p){p.status=p.status==='done'?'quote':'done';try{localStorage.setItem('arx_saved_projects',JSON.stringify(list));}catch(e){}renderSavedAndReports();}
+}
+
+function renderSavedAndReports(){
+  const list=getSavedProjects(),fVal=document.getElementById('reportFilterSelect').value,sFil=document.getElementById('reportStatusFilter').value;
+  const fil=list.filter(p=>{
+    if(reportPeriod==='month'&&(p.monthKey||'2026-10')!==fVal)return false;
+    if(reportPeriod==='year'&&(p.yearKey||'2026')!==fVal)return false;
+    if(sFil==='done'&&p.status==='quote')return false;
+    return true;
+  });
+  let sRev=0,sB2B=0,sProf=0;
+  fil.forEach(p=>{sRev+=(p.revenue||0);sB2B+=(p.b2bCost||0);sProf+=(p.netProfit||0);});
+  document.getElementById('repTotalRevenue').innerText=sRev+' zł';
+  document.getElementById('repTotalB2B').innerText=sB2B+' zł';
+  document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
+  document.getElementById('repCountInfo').innerText='Liczba pomiarów: '+fil.length;
+  const c=document.getElementById('savedProjectsList');c.innerHTML='';
+  if(!fil.length){c.innerHTML='<div class="text-center py-6 text-xs text-slate-400">Brak zapisanych pomiarów.</div>';return;}
+  fil.forEach(p=>{
+    const done=p.status!=='quote';
+    const bdg=done?`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">✓ Zrealizowane</button>`:`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-bold">Wycena</button>`;
+    c.innerHTML+=`
+      <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
+        <div class="flex justify-between items-start">
+          <div><div class="font-bold text-sm text-white">${p.address}</div><div class="text-xs text-slate-400 font-mono">${p.phone||'Brak tel.'} • ${p.date}</div></div>
+          ${bdg}
+        </div>
+        <div class="flex justify-between items-center pt-1.5 border-t border-slate-900">
+          <div class="text-xs font-mono"><span class="text-slate-400">Klient: <strong class="text-white">${p.revenue||0} zł</strong></span><span class="text-emerald-400 ml-2">Zysk: <strong>+${p.netProfit||0} zł</strong></span></div>
+          <div class="flex gap-1.5">
+            <button type="button" onclick="loadSavedProject(${p.id})" class="px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">Wczytaj</button>
+            <button type="button" onclick="deleteSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>`;
+  });
+}
+
+function openSavedModal(){populatePeriodFilterOptions();renderSavedAndReports();document.getElementById('savedModal').classList.remove('hidden');}
+function closeSavedModal(){document.getElementById('savedModal').classList.add('hidden');}
+function loadSavedProject(id){
+  const p=getSavedProjects().find(x=>x.id===id);if(!p)return;
+  document.getElementById('clientAddress').value=p.address;document.getElementById('clientPhone').value=p.phone||'';
+  discountMode=p.discountMode||'pln';document.getElementById('discountInput').value=p.discountVal||0;cart=p.cart||[];
+  closeSavedModal();renderCartAndTotals();showToast('Wczytano pomiar!');
+}
+function deleteSavedProject(id){
+  const l=getSavedProjects().filter(x=>x.id!==id);
+  try{localStorage.setItem('arx_saved_projects',JSON.stringify(l));}catch(e){}
+  updateSavedProjectsCount();renderSavedAndReports();
+}
+function resetAll(){
+  if(!confirm('Wyczyścić bieżący pomiar?'))return;
+  document.getElementById('clientAddress').value='';document.getElementById('clientPhone').value='';document.getElementById('discountInput').value=0;
+  cart=[];renderCartAndTotals();showToast('Wyczyszczono');
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();updateVariantDrawing();renderCartAndTotals();
 });
 </script>
 </body>
