@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ARX Wyceny | Systemy Osłon Okiennych</title>
+<title>ARX Wyceny | Rolety • Moskitiery • Montaż</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script>
 tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}
@@ -26,17 +26,37 @@ input[type="range"]{accent-color:#f59e0b;}
   <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
 </div>
 
-<header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-3 pb-2.5">
+<header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-2.5 pb-2.5">
   <div class="max-w-md mx-auto">
     <div class="flex justify-between items-center mb-2.5">
       <div class="flex items-center gap-2.5">
-        <div id="brandShortBadge" class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-extrabold text-sm shadow-md">ARX</div>
+        <!-- Wektorowe Logo ARX wbudowane na stałe -->
+        <div id="arxLogoHeader" class="bg-white rounded-xl px-2 py-1 shadow-md border border-slate-700 shrink-0 flex items-center justify-center">
+          <svg width="118" height="42" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/>
+            <rect x="17" y="31" width="7" height="62" fill="#f07414"/>
+            <rect x="106" y="31" width="7" height="62" fill="#f07414"/>
+            <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/>
+            <rect x="27" y="40" width="76" height="6.5" fill="#f07414"/>
+            <rect x="27" y="49" width="76" height="6.5" fill="#f07414"/>
+            <rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
+            <g fill="#b0b5bc">
+              <circle cx="33" cy="70" r="2.2"/><circle cx="41" cy="70" r="2.2"/><circle cx="49" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="65" cy="70" r="2.2"/><circle cx="73" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="89" cy="70" r="2.2"/><circle cx="97" cy="70" r="2.2"/>
+              <circle cx="33" cy="77" r="2.2"/><circle cx="41" cy="77" r="2.2"/><circle cx="49" cy="77" r="2.2"/><circle cx="57" cy="77" r="2.2"/><circle cx="65" cy="77" r="2.2"/><circle cx="73" cy="77" r="2.2"/><circle cx="81" cy="77" r="2.2"/><circle cx="89" cy="77" r="2.2"/><circle cx="97" cy="77" r="2.2"/>
+              <circle cx="33" cy="84" r="2.2"/><circle cx="41" cy="84" r="2.2"/><circle cx="49" cy="84" r="2.2"/><circle cx="57" cy="84" r="2.2"/><circle cx="65" cy="84" r="2.2"/><circle cx="73" cy="84" r="2.2"/><circle cx="81" cy="84" r="2.2"/><circle cx="89" cy="84" r="2.2"/><circle cx="97" cy="84" r="2.2"/>
+              <circle cx="33" cy="91" r="2.2"/><circle cx="41" cy="91" r="2.2"/><circle cx="49" cy="91" r="2.2"/><circle cx="57" cy="91" r="2.2"/><circle cx="65" cy="91" r="2.2"/><circle cx="73" cy="91" r="2.2"/><circle cx="81" cy="91" r="2.2"/><circle cx="89" cy="91" r="2.2"/><circle cx="97" cy="91" r="2.2"/>
+            </g>
+            <text x="122" y="92" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="86" fill="#09254a" letter-spacing="-2">ARX</text>
+            <rect x="8" y="100" width="344" height="24" rx="6" fill="#09254a"/>
+            <text x="180" y="117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14.5" fill="#ffffff" letter-spacing="1.2">ROLETY • MOSKITIERY • MONTAŻ</text>
+          </svg>
+        </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span id="brandHeaderTitle" class="font-extrabold text-base tracking-tight text-white">ARX Wyceny</span>
-            <span id="modeBadge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30">B2B ROBOCZY</span>
+          <div class="flex items-center gap-1.5">
+            <span id="brandHeaderTitle" class="font-extrabold text-sm tracking-tight text-white">ARX Wyceny</span>
+            <span id="modeBadge" class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ROBOCZY</span>
           </div>
-          <p class="text-[11px] text-slate-400">Rolety • Moskitiery • Montaż</p>
+          <p class="text-[10px] text-slate-400">System Pomiarowy • Auto-zapis</p>
         </div>
       </div>
       <div class="flex items-center gap-1.5">
@@ -64,7 +84,7 @@ input[type="range"]{accent-color:#f59e0b;}
 
 <main class="max-w-md mx-auto px-3 pt-3 space-y-3.5">
 
-  <!-- 1. DANE KLIENTA: IMIĘ I NAZWISKO, ADRES, TELEFON -->
+  <!-- 1. DANE KLIENTA -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
     <div class="flex justify-between items-center">
       <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-user text-amber-500 mr-1"></i> DANE KLIENTA I POMIARU</span>
@@ -87,13 +107,10 @@ input[type="range"]{accent-color:#f59e0b;}
   </section>
 
   <section id="clientBanner" class="hidden bg-gradient-to-br from-blue-950/60 to-slate-900 border border-blue-500/30 rounded-2xl p-4 shadow-lg">
-    <div class="flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400"><i class="fa-solid fa-shield-halved text-lg"></i></div>
-        <div>
-          <h2 class="font-bold text-sm text-white">Podsumowanie Pomiaru i Wyceny</h2>
-          <p class="text-xs text-slate-300 mt-0.5">Wycena obejmuje produkt na wymiar oraz profesjonalny montaż.</p>
-        </div>
+    <div class="flex justify-between items-center gap-2">
+      <div>
+        <h2 class="font-bold text-sm text-white">Podsumowanie Pomiaru i Wyceny ARX</h2>
+        <p class="text-xs text-slate-300 mt-0.5">Wycena obejmuje produkt na wymiar oraz profesjonalny montaż.</p>
       </div>
       <button type="button" onclick="switchMode('work')" class="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap">+ Dodaj okno</button>
     </div>
@@ -156,24 +173,53 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
     </div>
 
-    <!-- WARIANT POMIAROWY NR 1-8 (DLA MOSKITIERY RAMKOWEJ ORAZ DACHOWEJ ROLOWANEJ) -->
-    <div id="variantSectionBox" class="hidden">
-      <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Wariant pomiarowy (Światło / Całkowity)</label>
-      <div class="flex items-center gap-2.5">
-        <div class="relative flex-1">
-          <select id="itemVariant" onchange="updateVariantDrawing()" class="w-full input-bg rounded-xl px-2.5 py-2.5 text-xs font-semibold text-white appearance-none pr-8 border-amber-500/30">
-            <option value="Wariant nr 1">Wariant nr 1 (NR:1 - Światło)</option>
-            <option value="Wariant nr 2">Wariant nr 2 (NR:2 - 1 prowadnica)</option>
-            <option value="Wariant nr 3">Wariant nr 3 (NR:3 - Szer. całk. / Wys. światło)</option>
-            <option value="Wariant nr 4">Wariant nr 4 (NR:4 - Góra całk.)</option>
-            <option value="Wariant nr 5">Wariant nr 5 (NR:5 - Całkowity)</option>
-            <option value="Wariant nr 6">Wariant nr 6 (NR:6 - Lewa + Góra całk.)</option>
-            <option value="Wariant nr 7">Wariant nr 7 (NR:7 - Szer. + Góra całk.)</option>
-            <option value="Wariant nr 8">Wariant nr 8 (NR:8 - Szer. światło / Wys. całk.)</option>
-          </select>
-          <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+    <!-- 3. SPOSÓB POMIAROWANIA (POMIAR NR 1 - 8) + MOCOWANIE (BLASZKI / SPRĘŻYNKI) -->
+    <div id="variantSectionBox" class="hidden space-y-3">
+      <div>
+        <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Sposób pomiarowania (Pomiar nr 1–8)</label>
+        <div class="flex items-center gap-2.5">
+          <div class="relative flex-1">
+            <select id="itemVariant" onchange="updateVariantDrawing();recalcCurrentItem();" class="w-full input-bg rounded-xl px-2.5 py-2.5 text-xs font-semibold text-white appearance-none pr-8 border-amber-500/30">
+              <option value="Pomiar nr 1">Pomiar nr 1 (NR:1 - Światło)</option>
+              <option value="Pomiar nr 2">Pomiar nr 2 (NR:2 - 1 prowadnica)</option>
+              <option value="Pomiar nr 3">Pomiar nr 3 (NR:3 - Szer. całk. / Wys. światło)</option>
+              <option value="Pomiar nr 4">Pomiar nr 4 (NR:4 - Góra całk.)</option>
+              <option value="Pomiar nr 5">Pomiar nr 5 (NR:5 - Całkowity)</option>
+              <option value="Pomiar nr 6">Pomiar nr 6 (NR:6 - Lewa + Góra całk.)</option>
+              <option value="Pomiar nr 7">Pomiar nr 7 (NR:7 - Szer. + Góra całk.)</option>
+              <option value="Pomiar nr 8">Pomiar nr 8 (NR:8 - Szer. światło / Wys. całk.)</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+          </div>
+          <div id="variantDrawingBox" class="w-[116px] h-[88px] shrink-0 bg-white rounded-xl border-2 border-amber-500/60 flex items-center justify-center shadow-inner overflow-hidden"></div>
         </div>
-        <div id="variantDrawingBox" class="w-[116px] h-[88px] shrink-0 bg-white rounded-xl border-2 border-amber-500/60 flex items-center justify-center shadow-inner overflow-hidden"></div>
+      </div>
+
+      <!-- RODZAJ MOCOWANIA (BLASZKI 0, 3, 6, 9, 12, 14, 18, 20 LUB SPRĘŻYNKI) -->
+      <div id="mountSectionBox" class="bg-slate-950/90 border border-amber-500/30 rounded-xl p-2.5">
+        <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-paperclip mr-1"></i> Rodzaj mocowania (Zaczepy)</label>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="relative">
+            <select id="itemMountType" onchange="onMountTypeChange()" class="w-full input-bg rounded-xl px-3 py-2 text-xs font-bold text-white appearance-none pr-8">
+              <option value="Blaszki">Blaszki</option>
+              <option value="Sprężynki">Sprężynki</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+          </div>
+          <div id="clipSizeWrapper" class="relative">
+            <select id="itemClipSize" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-400 appearance-none pr-8 border-amber-500/40">
+              <option value="0">Wysokość: 0</option>
+              <option value="3">Wysokość: 3</option>
+              <option value="6">Wysokość: 6</option>
+              <option value="9" selected>Wysokość: 9</option>
+              <option value="12">Wysokość: 12</option>
+              <option value="14">Wysokość: 14</option>
+              <option value="18">Wysokość: 18</option>
+              <option value="20">Wysokość: 20</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -344,7 +390,7 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY I ZAMÓWIENIA B2B -->
+  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B Z LOGO ARX -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -357,9 +403,14 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
 
     <div id="b2bExportSection" class="space-y-2.5 pt-1">
-      <button type="button" onclick="exportOrderB2B()" class="w-full py-3 px-4 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-2">
-        <i class="fa-solid fa-industry"></i> Podgląd / Kopiuj zamówienie dla hurtowni B2B
-      </button>
+      <div class="grid grid-cols-2 gap-2">
+        <button type="button" onclick="exportOrderB2B()" class="py-3 px-3 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)
+        </button>
+        <button type="button" onclick="openPrintableOrderWithLogo()" class="py-3 px-3 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-file-pdf"></i> Karta z Logo ARX
+        </button>
+      </div>
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-envelope text-amber-500 mr-1"></i> Baza adresów e-mail hurtowni</span>
         <div class="flex gap-1.5">
@@ -371,7 +422,7 @@ input[type="range"]{accent-color:#f59e0b;}
           <button type="button" onclick="addSupplierEmail()" class="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-amber-400 font-bold text-xs whitespace-nowrap">+ Dodaj do bazy</button>
         </div>
         <button type="button" onclick="sendOrderByEmail()" class="w-full py-2.5 px-4 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow">
-          <i class="fa-solid fa-paper-plane"></i> Wyślij zamówienie mailem do hurtowni (Szablon ARX)
+          <i class="fa-solid fa-paper-plane"></i> Wyślij zgrupowane zamówienie mailem (ARX)
         </button>
       </div>
     </div>
@@ -379,7 +430,6 @@ input[type="range"]{accent-color:#f59e0b;}
 
 </main>
 
-<!-- STAŁY DOLNY PASEK (ZYSK, CENA, ZREALIZOWANE/WYCENA, SZYBKI SMS) -->
 <footer class="fixed bottom-0 left-0 right-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-t border-slate-800 px-3 py-2">
   <div class="max-w-md mx-auto flex items-center justify-between gap-1.5">
     <div id="footerProfitCol">
@@ -401,14 +451,13 @@ input[type="range"]{accent-color:#f59e0b;}
   </div>
 </footer>
 
-<!-- MODAL OFERTY SMS / ZAMÓWIENIA B2B -->
 <div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3">
     <div class="flex justify-between items-center">
       <h3 id="modalTitle" class="font-bold text-base text-white">Gotowy tekst</h3>
       <button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <textarea id="modalTextarea" rows="10" class="w-full input-bg rounded-xl p-3 font-mono text-xs text-slate-100"></textarea>
+    <textarea id="modalTextarea" rows="11" class="w-full input-bg rounded-xl p-3 font-mono text-xs text-slate-100 whitespace-pre"></textarea>
     <div id="modalClientSendActions" class="grid grid-cols-2 gap-2">
       <button type="button" onclick="sendDirectSMS()" class="py-3 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
         <i class="fa-solid fa-paper-plane"></i> Wyślij SMS do klienta
@@ -424,7 +473,6 @@ input[type="range"]{accent-color:#f59e0b;}
   </div>
 </div>
 
-<!-- MODAL ZAPISANYCH POMIARÓW I RAPORTÓW (PODSUMOWANIE TYLKO ZREALIZOWANYCH) -->
 <div id="savedModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[90vh] flex flex-col">
     <div class="flex justify-between items-center">
@@ -460,7 +508,6 @@ input[type="range"]{accent-color:#f59e0b;}
   </div>
 </div>
 
-<!-- MODAL USTAWIEŃ I CENNIKA -->
 <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[92vh] flex flex-col">
     <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
@@ -470,7 +517,7 @@ input[type="range"]{accent-color:#f59e0b;}
 
     <div class="overflow-y-auto flex-1 space-y-4 pr-1">
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
-        <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-id-card mr-1"></i> 1. Dane Twojej Firmy (Nagłówek aplikacji, SMS i Mail B2B)</div>
+        <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-id-card mr-1"></i> 1. Dane Twojej Firmy</div>
         <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="block text-[10px] text-slate-400 mb-1">Skrót logo</label>
@@ -483,15 +530,12 @@ input[type="range"]{accent-color:#f59e0b;}
         </div>
         <div>
           <label class="block text-[10px] text-slate-400 mb-1">Podpis firmowy w ofercie SMS i szablonie Maila B2B</label>
-          <input type="text" id="setBrandContact" placeholder="np. ARX - Rolety • Moskitiery • Montaż" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs text-white">
+          <input type="text" id="setBrandContact" placeholder="np. ARX — Rolety • Moskitiery • Montaż" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs text-white">
         </div>
       </div>
 
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Cennik Zakupu (B2B) i Sprzedaży (Klient)</span>
-        </div>
-        <p class="text-[11px] text-slate-400">Domyślnie wczytane są Twoje prywatne stawki ARX. Każdy inny wykonawca może wpisać własne kwoty zakupu i sprzedaży:</p>
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Cennik Zakupu (B2B) i Sprzedaży (Klient)</span>
         <div class="grid grid-cols-2 gap-2 pb-1">
           <button type="button" onclick="loadArxPresetInModal()" class="py-1.5 px-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-[11px]">
             Załaduj prywatny cennik ARX
@@ -558,14 +602,14 @@ const ROOF_BLIND_COLORS=[
 const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX — Rolety • Moskitiery • Montaż'};
 
 const VARIANT_DRAWINGS={
-  'Wariant nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
-  'Wariant nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
-  'Wariant nr 3':{label:'NR:3',l:'out',r:'out',t:'in',b:'in'},
-  'Wariant nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},
-  'Wariant nr 5':{label:'NR:5',l:'out',r:'out',t:'out',b:'out'},
-  'Wariant nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},
-  'Wariant nr 7':{label:'NR:7',l:'out',r:'out',t:'out',b:'in'},
-  'Wariant nr 8':{label:'NR:8',l:'in',r:'in',t:'out',b:'out'}
+  'Pomiar nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
+  'Pomiar nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
+  'Pomiar nr 3':{label:'NR:3',l:'out',r:'out',t:'in',b:'in'},
+  'Pomiar nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},
+  'Pomiar nr 5':{label:'NR:5',l:'out',r:'out',t:'out',b:'out'},
+  'Pomiar nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},
+  'Pomiar nr 7':{label:'NR:7',l:'out',r:'out',t:'out',b:'in'},
+  'Pomiar nr 8':{label:'NR:8',l:'in',r:'in',t:'out',b:'out'}
 };
 
 function isDecorColor(c){return ['Złoty Dąb','Orzech','Winchester','Mahoń','Anoda'].some(d=>c.includes(d));}
@@ -577,7 +621,7 @@ function toBoldTextDigits(str){
 function updateVariantDrawing(){
   const sel=document.getElementById('itemVariant'),box=document.getElementById('variantDrawingBox');
   if(!sel||!box)return;
-  const cfg=VARIANT_DRAWINGS[sel.value]||VARIANT_DRAWINGS['Wariant nr 1'];
+  const cfg=VARIANT_DRAWINGS[sel.value]||VARIANT_DRAWINGS['Pomiar nr 1'];
   const xL=cfg.l==='out'?6:20,xR=cfg.r==='out'?110:96,yT=cfg.t==='out'?6:18,yB=cfg.b==='out'?82:70,mX=58,mY=44;
   box.innerHTML=`<svg width="112" height="84" viewBox="0 0 116 88" xmlns="http://www.w3.org/2000/svg">
     <rect x="6" y="6" width="104" height="76" fill="none" stroke="#0f172a" stroke-width="2"/>
@@ -590,6 +634,12 @@ function updateVariantDrawing(){
     <polyline points="${mX-3.5},${yT+5} ${mX},${yT} ${mX+3.5},${yT+5}" fill="none" stroke="#dc2626" stroke-width="2"/>
     <polyline points="${mX-3.5},${yB-5} ${mX},${yB} ${mX+3.5},${yB-5}" fill="none" stroke="#dc2626" stroke-width="2"/>
   </svg>`;
+}
+
+function onMountTypeChange(){
+  const mt=document.getElementById('itemMountType').value;
+  document.getElementById('clipSizeWrapper').classList.toggle('hidden',mt==='Sprężynki');
+  recalcCurrentItem();
 }
 
 let appMode='work',discountMode='pln',cart=[],currentLoadedProjectId=null,currentOrderStatus='quote';
@@ -637,11 +687,11 @@ function toggleCurrentOrderStatus(){
 
 function loadAppConfig(){
   try{
-    const rawBrand=localStorage.getItem('arx_brand_config_v11')||localStorage.getItem('arx_brand_config_v10');
+    const rawBrand=localStorage.getItem('arx_brand_config_v13')||localStorage.getItem('arx_brand_config_v12');
     if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
   }catch(e){brandConfig={...DEFAULT_BRAND};}
   try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v11')||localStorage.getItem('arx_systems_catalog_v10');
+    const rawCat=localStorage.getItem('arx_systems_catalog_v13')||localStorage.getItem('arx_systems_catalog_v12');
     if(rawCat){
       const parsed=JSON.parse(rawCat);
       systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
@@ -654,13 +704,8 @@ function loadAppConfig(){
   }catch(e){
     systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));
   }
-  applyBrandToUI();
-  populateSystemsDropdown();
-}
-
-function applyBrandToUI(){
-  document.getElementById('brandShortBadge').innerText=(brandConfig.shortName||'ARX').substring(0,5);
   document.getElementById('brandHeaderTitle').innerText=brandConfig.fullName||'ARX Wyceny';
+  populateSystemsDropdown();
 }
 
 function populateSystemsDropdown(){
@@ -778,10 +823,11 @@ function saveSettingsFromModal(){
     s.defaultMargin=Math.max(0,parseFloat(document.getElementById('catMarg_'+i).value)||0);
   });
   try{
-    localStorage.setItem('arx_brand_config_v11',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v11',JSON.stringify(systemsCatalog));
+    localStorage.setItem('arx_brand_config_v13',JSON.stringify(brandConfig));
+    localStorage.setItem('arx_systems_catalog_v13',JSON.stringify(systemsCatalog));
   }catch(e){}
-  applyBrandToUI();onSystemChange();closeSettingsModal();
+  document.getElementById('brandHeaderTitle').innerText=brandConfig.fullName||'ARX Wyceny';
+  onSystemChange();closeSettingsModal();
   showToast('Zapisano cennik i ustawienia!');
 }
 
@@ -800,8 +846,8 @@ function importBackupJSON(ev){
   reader.onload=(e)=>{
     try{
       const data=JSON.parse(e.target.result);
-      if(data.brandConfig)localStorage.setItem('arx_brand_config_v11',JSON.stringify(data.brandConfig));
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v11',JSON.stringify(data.systemsCatalog));
+      if(data.brandConfig)localStorage.setItem('arx_brand_config_v13',JSON.stringify(data.brandConfig));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v13',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
       loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();
@@ -816,8 +862,8 @@ function switchMode(m){
   document.getElementById('btnModeWork').className=w?'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition':'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
   document.getElementById('btnModeClient').className=!w?'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow transition':'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
   const badge=document.getElementById('modeBadge');
-  badge.innerText=w?'B2B ROBOCZY':'WIDOK KLIENTA';
-  badge.className=w?'text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30':'text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30';
+  badge.innerText=w?'ROBOCZY':'KLIENT';
+  badge.className=w?'text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30':'text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30';
   document.getElementById('voiceSection').classList.toggle('hidden',!w);
   document.getElementById('editorSection').classList.toggle('hidden',!w);
   document.getElementById('clientBanner').classList.toggle('hidden',w);
@@ -868,7 +914,9 @@ function onSystemChange(){
 function recalcCurrentItem(){
   const sys=getCurrentSystemObj();
   const hasVariants=(sys.id==='mosk_ramk'||sys.id==='mosk_dach');
+  const isFrameScreen=(sys.id==='mosk_ramk');
   document.getElementById('variantSectionBox').classList.toggle('hidden',!hasVariants);
+  document.getElementById('mountSectionBox').classList.toggle('hidden',!isFrameScreen);
   document.getElementById('guideRailBox').classList.toggle('hidden',sys.guide!==1);
 
   const w=Math.max(10,parseFloat(document.getElementById('itemWidth').value)||0);
@@ -943,10 +991,18 @@ function recalcCurrentItem(){
   document.getElementById('previewProfitSub').innerText=`Cena klienta ${clientUnit} - B2B ${b2bUnit}`;
   document.getElementById('previewClientPrice').innerText=clientUnit+' zł';
 
+  let mountInfo='';
+  if(isFrameScreen){
+    const mType=document.getElementById('itemMountType').value;
+    const cSize=document.getElementById('itemClipSize').value;
+    mountInfo=(mType==='Sprężynki')?'Sprężynki':`Blaszki ${cSize}`;
+  }
+
   return{
     room:document.getElementById('itemRoom').value.trim(),
     system:sys.name,
     variant:hasVariants?document.getElementById('itemVariant').value:'',
+    mountInfo,
     color,
     width:parseFloat(w.toFixed(1)),
     height:parseFloat(h.toFixed(1)),
@@ -1016,13 +1072,15 @@ function renderCartAndTotals(){
   cart.forEach((item,idx)=>{
     const rB2B=item.b2bUnit*item.qty,rCli=item.clientUnit*item.qty,rProf=rCli-rB2B;
     const gTxt=item.guideLength>0?' • Prowadnica: '+formatCm(item.guideLength)+' cm':'';
-    const varBadge=item.variant?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${item.variant}</span>`:'';
+    const cleanVar=(item.variant||'').replace(/^Wariant/i,'Pomiar');
+    const varBadge=cleanVar?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${cleanVar}</span>`:'';
+    const mountBadge=item.mountInfo?`<span class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300">${item.mountInfo}</span>`:'';
     const roomTitle=item.room?item.room:`Pozycja #${idx+1}`;
     const wDet=appMode==='work'?`
       <div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono">
         <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span>
         <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Zysk: +${rProf} zł</span>
-        ${varBadge}
+        ${varBadge}${mountBadge}
       </div>
       <div class="flex justify-end gap-2 mt-2">
         <button type="button" onclick="duplicateCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs">Kopiuj</button>
@@ -1279,7 +1337,7 @@ function generateClientOfferText(){
   return L.join(NL);
 }
 
-// Stały szablon firmowy ARX do hurtowni B2B (bez telefonu klienta, wytłuszczone liczby, bez "Okno z pomiaru")
+// ZGRUPOWANE ZAMÓWIENIE PRODUKCYJNE B2B (System + Kolor jako nagłówek grupy, pod spodem lista wymiarów + po długiej spacji Pomiar nr X i Blaszki/Sprężynki)
 function generateB2BOrderText(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const companyBanner=(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż').toUpperCase();
@@ -1287,27 +1345,96 @@ function generateB2BOrderText(){
     '========================================',
     '🏢 '+companyBanner,
     '📦 ZAMÓWIENIE PRODUKCYJNE B2B ('+getFormattedDate()+')',
-    '📍 Referencja zlecenia: '+cliAddr,
+    '📍 Referencja: '+cliAddr,
     '========================================'
   ];
-  const t=computeTotalsObject();
-  cart.forEach((it,i)=>{
+
+  const groupsMap=new Map();
+  cart.forEach(it=>{
     const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
-    L.push('Lp. '+toBoldTextDigits(i+1)+' | '+cleanSysName);
-    if(it.variant)L.push('   Wariant: '+toBoldTextDigits(it.variant));
-    L.push('   Wymiar: SZER '+toBoldTextDigits(formatCm(it.width))+' cm x WYS '+toBoldTextDigits(formatCm(it.height))+' cm');
-    if(it.guideLength>0)L.push('   Długość prowadnic: '+toBoldTextDigits(formatCm(it.guideLength))+' cm');
-    L.push('   Kolor profilu/osprzętu: '+it.color);
-    const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
-    const roomSuffix=hasCustomRoom?` [Opis: ${it.room.trim()}]`:'';
-    L.push('   Ilość: '+toBoldTextDigits(it.qty)+' szt.'+roomSuffix,'----------------------------------------');
+    const key=cleanSysName+'|||'+it.color;
+    if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
+    groupsMap.get(key).items.push(it);
   });
+
+  groupsMap.forEach(grp=>{
+    L.push('',`▶ ${grp.system.toUpperCase()} — KOLOR: ${grp.color.toUpperCase()}`,'----------------------------------------');
+    grp.items.forEach((it,idx)=>{
+      const dimPart=toBoldTextDigits(formatCm(it.width))+' x '+toBoldTextDigits(formatCm(it.height))+' cm';
+      const guidePart=it.guideLength>0?` (prowadnica: ${toBoldTextDigits(formatCm(it.guideLength))} cm)`:'';
+      const qtyPart='('+toBoldTextDigits(it.qty)+' szt.)';
+      const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar');
+      const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
+      const rightNotes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join('  |  ');
+      const spacer='            ';
+      L.push(`${toBoldTextDigits(idx+1)}.  ${dimPart}${guidePart}  ${qtyPart}${rightNotes?(spacer+rightNotes):''}`);
+    });
+  });
+
+  const t=computeTotalsObject();
   L.push(
-    'ŁĄCZNIE SZTUK DO PRODUKCJI: '+toBoldTextDigits(t.totalSzt)+' szt.',
+    '',
     '========================================',
+    'ŁĄCZNIE DO PRODUKCJI: '+toBoldTextDigits(t.totalSzt)+' szt.',
     'Zamawiający: '+(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż')
   );
   return L.join(NL);
+}
+
+// Karta zamówienia z dużym wektorowym logo ARX (do druku / zapisu PDF na telefonie)
+function openPrintableOrderWithLogo(){
+  const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
+  const groupsMap=new Map();
+  cart.forEach(it=>{
+    const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
+    const key=cleanSysName+'|||'+it.color;
+    if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
+    groupsMap.get(key).items.push(it);
+  });
+  let groupsHtml='';
+  groupsMap.forEach(grp=>{
+    let rows='';
+    grp.items.forEach((it,idx)=>{
+      const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar');
+      const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
+      const notes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join(' &bull; ');
+      const gTxt=it.guideLength>0?` (prowadnica: <b>${formatCm(it.guideLength)} cm</b>)`:'';
+      rows+=`<tr>
+        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;font-weight:800;width:36px;">${idx+1}.</td>
+        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;font-size:15px;font-weight:900;">${formatCm(it.width)} x ${formatCm(it.height)} cm${gTxt}</td>
+        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;font-weight:900;text-align:center;width:70px;">${it.qty} szt.</td>
+        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;color:#334155;font-weight:600;padding-left:28px;">${notes||'—'}</td>
+      </tr>`;
+    });
+    groupsHtml+=`<div style="margin-top:18px;border:2px solid #09254a;border-radius:10px;overflow:hidden;">
+      <div style="background:#09254a;color:#fff;padding:8px 14px;font-weight:800;font-size:14px;display:flex;justify-content:space-between;">
+        <span>${grp.system.toUpperCase()}</span>
+        <span style="color:#f59e0b;">KOLOR: ${grp.color.toUpperCase()}</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-family:Inter,Arial,sans-serif;font-size:13px;">${rows}</table>
+    </div>`;
+  });
+  const t=computeTotalsObject();
+  const logoSvg=document.getElementById('arxLogoHeader').innerHTML;
+  const w=window.open('','_blank');
+  if(!w){showToast('Zezwól na otwarcie karty w przeglądarce');return;}
+  w.document.write(`<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Zamówienie ARX - ${cliAddr}</title></head>
+  <body style="font-family:Inter,Arial,sans-serif;padding:20px;max-width:750px;margin:0 auto;color:#0f172a;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #09254a;padding-bottom:14px;">
+      <div>${logoSvg.replace('width="118" height="42"','width="210" height="75"')}</div>
+      <div style="text-align:right;font-size:13px;">
+        <div style="font-weight:900;font-size:16px;color:#09254a;">ZAMÓWIENIE PRODUKCYJNE</div>
+        <div>Data: <b>${getFormattedDate()}</b></div>
+        <div>Referencja: <b>${cliAddr}</b></div>
+      </div>
+    </div>
+    ${groupsHtml||'<p style="padding:20px 0;">Brak pozycji w zamówieniu.</p>'}
+    <div style="margin-top:18px;padding:12px 16px;background:#f1f5f9;border-radius:8px;font-weight:900;font-size:15px;display:flex;justify-content:space-between;">
+      <span>ŁĄCZNIE SZTUK DO PRODUKCJI: ${t.totalSzt} szt.</span>
+      <button onclick="window.print()" style="background:#f07414;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-weight:800;cursor:pointer;">Drukuj / Zapisz PDF</button>
+    </div>
+  </body></html>`);
+  w.document.close();
 }
 
 function copyTextToClipboard(txt){
@@ -1347,7 +1474,7 @@ function sendDirectWhatsApp(){
 
 function exportOrderB2B(){
   const txt=generateB2BOrderText();
-  document.getElementById('modalTitle').innerText='Zestawienie dla hurtowni B2B (Szablon ARX)';
+  document.getElementById('modalTitle').innerText='Zgrupowane zamówienie B2B (Szablon ARX)';
   document.getElementById('modalTextarea').value=txt;
   document.getElementById('modalClientSendActions').classList.add('hidden');
   document.getElementById('exportModal').classList.remove('hidden');
@@ -1552,7 +1679,7 @@ function resetAll(){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-  loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();updateVariantDrawing();renderCartAndTotals();
+  loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
 });
 window.addEventListener('pageshow',()=>{onSystemChange();});
 </script>
