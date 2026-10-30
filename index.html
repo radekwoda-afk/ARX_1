@@ -138,14 +138,13 @@ input[type="range"]{accent-color:#f59e0b;}
       <label class="block text-xs font-semibold text-slate-300 mb-1.5">1. Kolor osprzętu / profilu</label>
       <div class="relative">
         <select id="itemColor" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9">
-          <option value="Biały">Biały (Standard)</option>
-          <option value="Brązowy">Brązowy / Ciemny brąz (Standard)</option>
-          <option value="Jasny brąz">Jasny brąz (Standard)</option>
-          <option value="Antracyt (RAL 7016)">Antracyt RAL 7016 (Standard)</option>
-          <option value="Złoty Dąb">Złoty Dąb (Dekor)</option>
-          <option value="Orzech">Orzech (Dekor)</option>
-          <option value="Winchester">Winchester (Dekor)</option>
-          <option value="Mahoń">Mahoń (Dekor)</option>
+          <option value="Biały">Biały</option>
+          <option value="Brązowy">Brązowy</option>
+          <option value="Antracyt (RAL 7016)">Antracyt (RAL 7016)</option>
+          <option value="Złoty Dąb">Złoty Dąb</option>
+          <option value="Orzech">Orzech</option>
+          <option value="Winchester">Winchester</option>
+          <option value="Mahoń">Mahoń</option>
         </select>
         <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
       </div>
@@ -179,17 +178,6 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
     </div>
 
-    <!-- OPCJA SPOWALNIACZA DLA MOSKITIERY ROLOWANEJ GÓRA-DÓŁ -->
-    <div id="slowDownBox" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-xl p-2.5">
-      <label class="flex items-center justify-between cursor-pointer">
-        <div>
-          <span class="block text-xs font-bold text-amber-400"><i class="fa-solid fa-gauge-simple-low mr-1"></i> Spowalniacz do moskitiery rolowanej</span>
-          <span class="text-[11px] text-slate-300">Dopłata B2B: +37 zł/szt. • Dla klienta: +70 zł/szt.</span>
-        </div>
-        <input type="checkbox" id="itemSlowDown" checked onchange="recalcCurrentItem()" class="w-5 h-5 accent-amber-500 rounded cursor-pointer">
-      </label>
-    </div>
-
     <div>
       <label class="block text-xs font-semibold text-slate-300 mb-1.5">4. Pomieszczenie / Notatka</label>
       <input type="text" id="itemRoom" placeholder="np. Rybki, Pokój Amelii, Kuchnia lewe..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm text-white mb-2">
@@ -210,11 +198,11 @@ input[type="range"]{accent-color:#f59e0b;}
       <div class="grid grid-cols-3 gap-2">
         <div>
           <label class="block text-[11px] text-slate-400 mb-1">Szerokość (cm)</label>
-          <input type="number" step="0.1" id="itemWidth" value="" placeholder="np. 80" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2.5 text-center font-mono font-bold text-base text-white">
+          <input type="number" step="0.1" id="itemWidth" value="80" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2.5 text-center font-mono font-bold text-base text-white">
         </div>
         <div>
           <label class="block text-[11px] text-slate-400 mb-1">Wysokość (cm)</label>
-          <input type="number" step="0.1" id="itemHeight" value="" placeholder="np. 140" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2.5 text-center font-mono font-bold text-base text-white">
+          <input type="number" step="0.1" id="itemHeight" value="140" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2.5 text-center font-mono font-bold text-base text-white">
         </div>
         <div>
           <label class="block text-[11px] text-slate-400 mb-1">Ilość sztuk</label>
@@ -232,8 +220,8 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
 
       <div class="bg-slate-950/90 border border-slate-800/80 rounded-xl px-3 py-2 flex justify-between text-xs text-slate-300">
-        <span>Powierzchnia: <strong id="calcArea" class="font-mono text-white">0.00 m²</strong></span>
-        <span>Obwód: <strong id="calcPerim" class="font-mono text-white">0.00 mb</strong></span>
+        <span>Powierzchnia: <strong id="calcArea" class="font-mono text-white">1.12 m²</strong></span>
+        <span>Obwód: <strong id="calcPerim" class="font-mono text-white">4.40 mb</strong></span>
       </div>
     </div>
 
@@ -244,23 +232,23 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
 
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex justify-between items-center">
-        <div class="pr-2">
+        <div>
           <div class="text-[11px] text-slate-400">Wyliczony koszt B2B (wg Twojego cennika ⚙️):</div>
-          <div id="formulaB2BText" class="text-[11px] font-mono text-amber-300/90 mt-0.5">Wpisz szerokość i wysokość powyżej...</div>
+          <div id="formulaB2BText" class="text-[11px] font-mono text-slate-400 mt-0.5">1.12 m² × 95 zł/m²</div>
         </div>
-        <div id="estB2BDisplay" class="text-lg font-mono font-bold text-white shrink-0">0 zł</div>
+        <div id="estB2BDisplay" class="text-lg font-mono font-bold text-white">106 zł</div>
       </div>
 
       <div>
         <label id="manualB2BLabel" class="block text-[11px] text-slate-400 mb-1">Ręczna cena B2B 1 szt. z tabeli / od dostawcy (zł):</label>
-        <input type="number" id="manualB2B" oninput="recalcCurrentItem()" placeholder="Wpisz kwotę (zastępuje automatyczny cennik)..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-mono text-white">
+        <input type="number" id="manualB2B" oninput="recalcCurrentItem()" placeholder="Wpisz kwotę z tabeli hurtowni (zastępuje przelicznik)..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-mono text-white">
       </div>
 
-      <div id="marginSliderBox">
+      <div>
         <div class="flex justify-between items-center mb-1">
           <span class="text-xs text-slate-300 font-medium">Twój narzut na produkcie (%):</span>
           <div class="flex items-center gap-2">
-            <span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+0 zł / szt.</span>
+            <span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+42 zł / szt.</span>
             <span id="marginPctBadge" class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono font-bold text-xs">40%</span>
           </div>
         </div>
@@ -275,9 +263,9 @@ input[type="range"]{accent-color:#f59e0b;}
         </div>
       </div>
 
-      <div id="installFeeBox">
+      <div>
         <div class="flex justify-between items-center mb-1">
-          <span id="installFeeLabel" class="text-xs text-slate-300 font-medium">Stawka montażu / narzutu za 1 szt. (zł):</span>
+          <span class="text-xs text-slate-300 font-medium">Stawka montażu za 1 szt. (zł):</span>
         </div>
         <div class="flex gap-2 items-center">
           <button type="button" onclick="changeInstall(-10)" class="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 font-mono font-bold text-xs text-slate-200">-10</button>
@@ -289,9 +277,9 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
 
       <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
-        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="previewB2B" class="font-mono font-bold text-sm text-white mt-0.5">0 zł</div></div>
-        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+0 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">0 narzut + 0 montaż</div></div>
-        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena dla klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">0 zł</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="previewB2B" class="font-mono font-bold text-sm text-white mt-0.5">106 zł</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+92 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">42 narzut + 50 montaż</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena dla klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">198 zł</div></div>
       </div>
     </div>
 
@@ -461,7 +449,6 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
 
     <div class="overflow-y-auto flex-1 space-y-4 pr-1">
-      <!-- 1. PERSONALIZACJA FIRMY (WHITE-LABEL) -->
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
         <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-id-card mr-1"></i> 1. Dane Twojej Firmy (White-Label)</div>
         <div class="grid grid-cols-3 gap-2">
@@ -480,16 +467,14 @@ input[type="range"]{accent-color:#f59e0b;}
         </div>
       </div>
 
-      <!-- 2. CENNIK SYSTEMÓW OD DOSTAWCÓW -->
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
         <div class="flex justify-between items-center">
           <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Twój Cennik Zakupu (B2B) i Montażu</span>
         </div>
-        <p class="text-[11px] text-slate-400">Systemy tabelaryczne (Harmony, Aluprof, Slim) oraz m² (Drzwiowa, Rolowana) korzystają bezpośrednio z wbudowanych tabel 2026. Poniżej możesz dostosować stawki oraz dopłaty montażowe.</p>
+        <p class="text-[11px] text-slate-400">Ustaw ceny od swoich dostawców. Dla małych okien możesz wpisać <strong>Cenę min. (zł)</strong>, poniżej której koszt zakupu nigdy nie spadnie.</p>
         <div id="settingsCatalogList" class="space-y-2.5"></div>
       </div>
 
-      <!-- 3. KOPIA ZAPASOWEJ (EKSPORT / IMPORT) -->
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <div class="text-xs font-bold uppercase tracking-wider text-emerald-400"><i class="fa-solid fa-shield-halved mr-1"></i> 3. Kopia Zapasowa (Cennik + Pomiary)</div>
         <div class="grid grid-cols-2 gap-2">
@@ -516,39 +501,12 @@ input[type="range"]{accent-color:#f59e0b;}
 </div>
 
 <script>
-// TABELE CENOWE 2026 (DUDZIK KÓRNIK)
-// 1. Moskitiera plisowana HARMONY (wysokość: 230, 270, 320 x szerokość: 80, 100, 120, 160, 200, 240, 300)
-const HARMONY_WIDTHS = [80, 100, 120, 160, 200, 240, 300];
-const HARMONY_HEIGHTS = [230, 270, 320];
-const HARMONY_TABLE_STD = {
-  230: [910, 990, 1000, 1050, 1080, 1120, 1190],
-  270: [null, 1080, 1090, 1140, 1180, 1220, 1300],
-  320: [null, null, null, 1640, 1740, 1890, 2050]
-};
-const HARMONY_TABLE_DEKOR = {
-  230: [940, 1050, 1070, 1120, 1150, 1190, 1260],
-  270: [null, 1150, 1160, 1210, 1260, 1300, 1380],
-  320: [null, null, null, 1730, 1830, 1980, 2150]
-};
-
-// 2. Moskitiery przesuwne ALUPROF i SLIM (Mol)
-// Ramki: 100x210, 130x210, 100x230, 130x230, 150x210, 150x230
-const SLIDING_FRAMES = [
-  {w:100, h:210, aluStd:730, aluDek:930, slimStd:480, slimDek:620},
-  {w:130, h:210, aluStd:800, aluDek:990, slimStd:520, slimDek:660},
-  {w:100, h:230, aluStd:800, aluDek:990, slimStd:520, slimDek:660},
-  {w:130, h:230, aluStd:870, aluDek:1050, slimStd:560, slimDek:720},
-  {w:150, h:210, aluStd:870, aluDek:1050, slimStd:560, slimDek:720},
-  {w:150, h:230, aluStd:940, aluDek:1110, slimStd:600, slimDek:760}
-];
-
 const DEFAULT_SYSTEMS=[
   {id:'mosk_ramk',name:'Moskitiera ramkowa okienna',calcType:'m2',rate:95,minPrice:65,install:50,guide:0,variants:1},
-  {id:'mosk_drzw',name:'Moskitiera drzwiowa otwierana (Aluprof)',calcType:'door_m2',rate:376,rateDekor:462,clientStd:600,clientDekor:650,minPrice:376,install:224,guide:0,variants:0},
-  {id:'mosk_rol',name:'Moskitiera rolowana (góra - dół)',calcType:'rol_m2',rate:330,clientStd:500,slowB2B:37,slowClient:70,minPrice:330,install:170,guide:0,variants:0},
-  {id:'mosk_plis',name:'Moskitiera plisowana Harmony (drzwiowa/tarasowa)',calcType:'table_harmony',rate:910,minPrice:1700,install:700,guide:0,variants:0},
-  {id:'mosk_alu',name:'Moskitiera przesuwna Aluprof',calcType:'table_aluprof',rate:730,minPrice:1430,install:700,guide:1,variants:0},
-  {id:'mosk_slim',name:'Moskitiera przesuwna Slim (Mol)',calcType:'table_slim',rate:480,minPrice:1180,install:700,guide:1,variants:0},
+  {id:'mosk_drzw',name:'Moskitiera drzwiowa otwierana',calcType:'m2',rate:180,minPrice:220,install:90,guide:0,variants:0},
+  {id:'mosk_plis',name:'Moskitiera plisowana (drzwiowa/tarasowa)',calcType:'manual',rate:310,minPrice:450,install:140,guide:0,variants:0},
+  {id:'mosk_alu',name:'Moskitiera przesuwna Aluprof',calcType:'manual',rate:340,minPrice:520,install:150,guide:1,variants:0},
+  {id:'mosk_slim',name:'Moskitiera przesuwna Slim',calcType:'manual',rate:310,minPrice:460,install:140,guide:1,variants:0},
   {id:'mosk_dach',name:'Moskitiera na okno dachowe',calcType:'m2',rate:240,minPrice:180,install:70,guide:0,variants:0},
   {id:'rol_dach',name:'Roletka na okno dachowe',calcType:'m2',rate:190,minPrice:150,install:65,guide:0,variants:0},
   {id:'rol_kas_gl',name:'Roleta w kasecie z prowadnicami (tkanina gładka)',calcType:'m2',rate:145,minPrice:110,install:55,guide:0,variants:0},
@@ -562,7 +520,6 @@ const DEFAULT_BRAND={
   contactLine:'ARX Rolety Moskitiery Montaż'
 };
 
-// DEFINICJA RYSUNKÓW WARIANTÓW NR:1 - NR:7
 const VARIANT_DRAWINGS={
   'Wariant nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
   'Wariant nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
@@ -572,36 +529,6 @@ const VARIANT_DRAWINGS={
   'Wariant nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},
   'Wariant nr 7':{label:'Nr 7',l:'out',r:'out',t:'out',b:'in'}
 };
-
-function isDekorColor(col){
-  const lo=(col||'').toLowerCase();
-  return lo.includes('dąb')||lo.includes('dab')||lo.includes('orzech')||lo.includes('winchester')||lo.includes('mahoń')||lo.includes('mahon');
-}
-
-function lookupHarmonyPrice(w, h, dekor){
-  const table = dekor ? HARMONY_TABLE_DEKOR : HARMONY_TABLE_STD;
-  let matchedH = HARMONY_HEIGHTS.find(bh => h <= bh) || 320;
-  let row = table[matchedH];
-  let wIdx = HARMONY_WIDTHS.findIndex(bw => w <= bw);
-  if(wIdx === -1) wIdx = HARMONY_WIDTHS.length - 1;
-  // Jeśli w danym wierszu wysokości mała szerokość ma "X" (null), przesuwamy do pierwszej dostępnej szerokości
-  while(wIdx < HARMONY_WIDTHS.length && row[wIdx] === null){
-    wIdx++;
-  }
-  const matchedW = HARMONY_WIDTHS[wIdx] || 300;
-  const b2b = row[wIdx] || (dekor ? 2150 : 2050);
-  return { b2b, matchedW, matchedH };
-}
-
-function lookupSlidingPrice(w, h, isAluprof, dekor){
-  const matchedW = w <= 100 ? 100 : (w <= 130 ? 130 : 150);
-  const matchedH = h <= 210 ? 210 : 230;
-  const frame = SLIDING_FRAMES.find(f => f.w === matchedW && f.h === matchedH) || SLIDING_FRAMES[SLIDING_FRAMES.length - 1];
-  let b2b = 0;
-  if(isAluprof) b2b = dekor ? frame.aluDek : frame.aluStd;
-  else b2b = dekor ? frame.slimDek : frame.slimStd;
-  return { b2b, matchedW: frame.w, matchedH: frame.h };
-}
 
 function updateVariantDrawing(){
   const sel=document.getElementById('itemVariant');
@@ -628,7 +555,7 @@ function updateVariantDrawing(){
 }
 
 let appMode='work',discountMode='pln',cart=[],pendingVoiceItem=null,activeRecognition=null,fallbackTimer=null,reportPeriod='month';
-let voice30sTimer=null,voice30sStart=0,voiceListening30s=false;
+let voice30sTimer=null,voiceDebounceTimer=null,voice30sStart=0,voiceListening30s=false;
 let systemsCatalog=[],brandConfig={...DEFAULT_BRAND};
 const NL=String.fromCharCode(10);
 
@@ -659,11 +586,11 @@ function loadAppConfig(){
   }catch(e){brandConfig={...DEFAULT_BRAND};}
 
   try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v7');
+    const rawCat=localStorage.getItem('arx_systems_catalog_v6');
     if(rawCat){
       const parsed=JSON.parse(rawCat);
       systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
-        const found=parsed.find(x=>x.id===def.id);
+        const found=parsed.find(x=>x.id===def.id||x.name===def.name);
         return found?{...def,...found}:def;
       });
     }else{
@@ -708,39 +635,31 @@ function openSettingsModal(){
   const container=document.getElementById('settingsCatalogList');
   container.innerHTML='';
   systemsCatalog.forEach((s,i)=>{
-    const isSpecialTable = s.calcType.startsWith('table_') || s.calcType === 'door_m2' || s.calcType === 'rol_m2';
-    const typeLabel = s.calcType === 'table_harmony' ? 'Tabela Harmony (+narzut kwotowy)'
-      : s.calcType === 'table_aluprof' ? 'Tabela Przesuwna Aluprof (+narzut)'
-      : s.calcType === 'table_slim' ? 'Tabela Przesuwna Slim (+narzut)'
-      : s.calcType === 'door_m2' ? 'Drzwiowa m² (min. 1 m² • Std/Dekor)'
-      : s.calcType === 'rol_m2' ? 'Rolowana m² (min. 1 m² + spowalniacz)'
-      : '';
-
     container.innerHTML+=`
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-2">
         <div class="font-bold text-xs text-white">${i+1}. ${s.name}</div>
-        ${isSpecialTable ? `<div class="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2 py-1 rounded border border-amber-500/30">Tryb: ${typeLabel}</div>` : ''}
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">${s.calcType==='door_m2'||s.calcType==='rol_m2'?'Stawka B2B Std (zł/m²)':'Stawka bazowa B2B (zł)'}</label>
-            <input type="number" id="catRate_${i}" value="${s.rate}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-white text-center">
+            <label class="block text-[10px] text-slate-400 mb-0.5">Sposób wyceny B2B</label>
+            <select id="catType_${i}" class="w-full input-bg rounded-lg px-2 py-1.5 text-[11px] text-amber-400 font-semibold">
+              <option value="m2" ${s.calcType==='m2'?'selected':''}>Wg m² (powierzchnia)</option>
+              <option value="mb" ${s.calcType==='mb'?'selected':''}>Wg mb (obwód)</option>
+              <option value="manual" ${s.calcType==='manual'?'selected':''}>Z tabeli / Ręczna (1 szt.)</option>
+            </select>
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">${s.calcType.startsWith('table_')?'Doliczana kwota (zł/szt.)':'Domyślny montaż (zł/szt.)'}</label>
-            <input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-emerald-400 font-bold text-center">
+            <label class="block text-[10px] text-slate-400 mb-0.5">Stawka (zł/m² lub mb)</label>
+            <input type="number" id="catRate_${i}" value="${s.rate}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-white text-center">
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">${s.calcType==='table_harmony'?'Cena min. dla klienta (zł)':'Cena min. B2B (zł)'}</label>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Cena min. B2B za 1 szt. (zł)</label>
             <input type="number" id="catMin_${i}" value="${s.minPrice||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-slate-200 text-center">
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">${s.calcType==='door_m2'||s.calcType==='rol_m2'?'Cena Klient Std (zł/m²)':'Tryb przeliczania'}</label>
-            ${s.calcType==='door_m2'||s.calcType==='rol_m2'
-              ? `<input type="number" id="catCliStd_${i}" value="${s.clientStd||500}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-amber-400 font-bold text-center">`
-              : `<input type="text" disabled value="${s.calcType}" class="w-full input-bg rounded-lg px-2 py-1.5 text-[11px] font-mono text-slate-500 text-center">`
-            }
+            <label class="block text-[10px] text-slate-400 mb-0.5">Domyślny montaż (zł/szt.)</label>
+            <input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-emerald-400 font-bold text-center">
           </div>
         </div>
       </div>`;
@@ -758,16 +677,15 @@ function saveSettingsFromModal(){
   brandConfig.contactLine=document.getElementById('setBrandContact').value.trim()||'ARX Rolety Moskitiery Montaż';
 
   systemsCatalog.forEach((s,i)=>{
+    s.calcType=document.getElementById('catType_'+i).value;
     s.rate=Math.max(0,parseFloat(document.getElementById('catRate_'+i).value)||0);
     s.minPrice=Math.max(0,parseFloat(document.getElementById('catMin_'+i).value)||0);
     s.install=Math.max(0,parseFloat(document.getElementById('catInst_'+i).value)||0);
-    const cliEl=document.getElementById('catCliStd_'+i);
-    if(cliEl)s.clientStd=Math.max(0,parseFloat(cliEl.value)||0);
   });
 
   try{
     localStorage.setItem('arx_brand_config_v6',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v7',JSON.stringify(systemsCatalog));
+    localStorage.setItem('arx_systems_catalog_v6',JSON.stringify(systemsCatalog));
   }catch(e){}
 
   applyBrandToUI();
@@ -802,7 +720,7 @@ function importBackupJSON(ev){
     try{
       const data=JSON.parse(e.target.result);
       if(data.brandConfig)localStorage.setItem('arx_brand_config_v6',JSON.stringify(data.brandConfig));
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v7',JSON.stringify(data.systemsCatalog));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v6',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
       loadAppConfig();
@@ -864,181 +782,70 @@ function onSystemChange(){
   document.getElementById('installFee').value=sys.install||0;
   document.getElementById('guideRailBox').classList.toggle('hidden',sys.guide!==1);
   document.getElementById('variantSectionBox').classList.toggle('hidden',sys.variants!==1);
-  document.getElementById('slowDownBox').classList.toggle('hidden',sys.calcType!=='rol_m2');
-
-  const isFixedTableOrM2 = sys.calcType.startsWith('table_') || sys.calcType === 'door_m2' || sys.calcType === 'rol_m2';
-  document.getElementById('marginSliderBox').classList.toggle('hidden', isFixedTableOrM2);
-  document.getElementById('installFeeBox').classList.toggle('hidden', sys.calcType === 'door_m2' || sys.calcType === 'rol_m2');
-  document.getElementById('installFeeLabel').innerText = sys.calcType.startsWith('table_')
-    ? 'Doliczana kwota narzutu z montażem za 1 szt. (zł):'
-    : 'Stawka montażu za 1 szt. (zł):';
-
   updateVariantDrawing();
   recalcCurrentItem();
 }
 
 function recalcCurrentItem(){
-  const rawW = parseFloat(document.getElementById('itemWidth').value);
-  const rawH = parseFloat(document.getElementById('itemHeight').value);
-  const qty = Math.max(1, parseInt(document.getElementById('itemQty').value) || 1);
-  const sys = getCurrentSystemObj();
-  const color = document.getElementById('itemColor').value;
-  const dekor = isDekorColor(color);
-  const guideLength = sys.guide === 1 ? (parseFloat(document.getElementById('itemGuideLength').value) || 0) : 0;
+  const w=Math.max(10,parseFloat(document.getElementById('itemWidth').value)||0);
+  const h=Math.max(10,parseFloat(document.getElementById('itemHeight').value)||0);
+  const qty=Math.max(1,parseInt(document.getElementById('itemQty').value)||1);
+  const area=(w/100)*(h/100),perim=2*((w/100)+(h/100));
+  document.getElementById('calcArea').innerText=area.toFixed(2)+' m²';
+  document.getElementById('calcPerim').innerText=perim.toFixed(2)+' mb';
 
-  // GDY BRAK WPISANEGO WYMIARU -> WSZYSTKIE KWOTY I POWIERZCHNIA WYNOSZĄ 0 ZŁ!
-  if(isNaN(rawW) || rawW <= 0 || isNaN(rawH) || rawH <= 0){
-    document.getElementById('calcArea').innerText = '0.00 m²';
-    document.getElementById('calcPerim').innerText = '0.00 mb';
-    document.getElementById('formulaB2BText').innerText = 'Wpisz szerokość i wysokość powyżej...';
-    document.getElementById('estB2BDisplay').innerText = '0 zł';
-    document.getElementById('marginPlnBadge').innerText = '+0 zł / szt.';
-    document.getElementById('marginPctBadge').innerText = (parseInt(document.getElementById('marginSlider').value)||0) + '%';
-    document.getElementById('previewB2B').innerText = '0 zł';
-    document.getElementById('previewProfit').innerText = '+0 zł';
-    document.getElementById('previewProfitSub').innerText = '0 narzut + 0 montaż';
-    document.getElementById('previewClientPrice').innerText = '0 zł';
-    return null;
+  const sys=getCurrentSystemObj();
+  const guideLength=sys.guide===1?(parseFloat(document.getElementById('itemGuideLength').value)||0):0;
+
+  let rawCalc=0,formulaStr='';
+  if(sys.calcType==='mb'){
+    rawCalc=Math.round(perim*sys.rate);
+    formulaStr=`${perim.toFixed(2)} mb × ${sys.rate} zł/mb (min. ${sys.minPrice} zł)`;
+  }else if(sys.calcType==='manual'){
+    rawCalc=Math.round(Math.max(sys.minPrice,area*sys.rate));
+    formulaStr=`Wycena z tabeli / ręczna (baza min. ${sys.minPrice} zł)`;
+  }else{
+    rawCalc=Math.round(area*sys.rate);
+    formulaStr=`${area.toFixed(2)} m² × ${sys.rate} zł/m² (min. ${sys.minPrice} zł)`;
   }
 
-  const w = rawW;
-  const h = rawH;
-  const area = (w / 100) * (h / 100);
-  const perim = 2 * ((w / 100) + (h / 100));
-  document.getElementById('calcArea').innerText = area.toFixed(2) + ' m²';
-  document.getElementById('calcPerim').innerText = perim.toFixed(2) + ' mb';
+  const autoB2B=Math.max(sys.minPrice||0,rawCalc);
+  document.getElementById('formulaB2BText').innerText=formulaStr;
+  document.getElementById('estB2BDisplay').innerText=autoB2B+' zł';
 
-  let autoB2B = 0;
-  let formulaStr = '';
-  let b2bUnit = 0;
-  let marginPct = parseInt(document.getElementById('marginSlider').value) || 0;
-  let marginUnit = 0;
-  let installUnit = Math.max(0, parseInt(document.getElementById('installFee').value) || 0);
-  let clientUnit = 0;
-  let profitUnit = 0;
-  let profitSubStr = '';
-  let extraNote = '';
+  const man=parseFloat(document.getElementById('manualB2B').value);
+  const b2bUnit=(!isNaN(man)&&man>0)?Math.round(man):autoB2B;
+  const marginPct=parseInt(document.getElementById('marginSlider').value)||0;
+  const marginUnit=Math.round(b2bUnit*(marginPct/100));
+  const installUnit=Math.max(0,parseInt(document.getElementById('installFee').value)||0);
+  const clientUnit=b2bUnit+marginUnit+installUnit,profitUnit=marginUnit+installUnit;
 
-  const man = parseFloat(document.getElementById('manualB2B').value);
-  const hasManualB2B = !isNaN(man) && man > 0;
+  document.getElementById('marginPlnBadge').innerText='+'+marginUnit+' zł / szt.';
+  document.getElementById('marginPctBadge').innerText=marginPct+'%';
+  document.getElementById('previewB2B').innerText=b2bUnit+' zł';
+  document.getElementById('previewProfit').innerText='+'+profitUnit+' zł';
+  document.getElementById('previewProfitSub').innerText=marginUnit+' narzut + '+installUnit+' montaż';
+  document.getElementById('previewClientPrice').innerText=clientUnit+' zł';
 
-  if(sys.calcType === 'table_harmony'){
-    const res = lookupHarmonyPrice(w, h, dekor);
-    autoB2B = res.b2b;
-    b2bUnit = hasManualB2B ? Math.round(man) : autoB2B;
-    const rawTarget = b2bUnit + installUnit;
-    // Zaokrąglenie w górę do pełnych 50 zł (np. 1780 -> 1800 zł) + minimum 1700 zł
-    const minCli = sys.minPrice || 1700;
-    clientUnit = Math.max(minCli, Math.ceil(rawTarget / 50) * 50);
-    profitUnit = clientUnit - b2bUnit;
-    marginUnit = profitUnit;
-    marginPct = b2bUnit > 0 ? Math.round((profitUnit / b2bUnit) * 100) : 0;
-    formulaStr = `Tabela Harmony ${dekor?'Dekor':'Standard'} (ramka ${res.matchedW}x${res.matchedH} cm)`;
-    profitSubStr = `Tabela +${installUnit} zł (zaokr. do ${clientUnit} zł)`;
-  }
-  else if(sys.calcType === 'table_aluprof' || sys.calcType === 'table_slim'){
-    const isAlu = sys.calcType === 'table_aluprof';
-    const res = lookupSlidingPrice(w, h, isAlu, dekor);
-    autoB2B = res.b2b;
-    b2bUnit = hasManualB2B ? Math.round(man) : autoB2B;
-    clientUnit = b2bUnit + installUnit;
-    profitUnit = installUnit;
-    marginUnit = 0;
-    marginPct = b2bUnit > 0 ? Math.round((profitUnit / b2bUnit) * 100) : 0;
-    formulaStr = `Tabela ${isAlu?'Aluprof':'Slim'} ${dekor?'Dekor':'Std'} (ramka ${res.matchedW}x${res.matchedH} cm)`;
-    profitSubStr = `Stały doliczany zysk +${installUnit} zł`;
-  }
-  else if(sys.calcType === 'door_m2'){
-    const effArea = Math.max(1, area);
-    const b2bRate = dekor ? (sys.rateDekor || 462) : (sys.rate || 376);
-    const cliRate = dekor ? (sys.clientDekor || 650) : (sys.clientStd || 600);
-    autoB2B = Math.round(effArea * b2bRate);
-    b2bUnit = hasManualB2B ? Math.round(man) : autoB2B;
-    clientUnit = Math.round(effArea * cliRate);
-    profitUnit = clientUnit - b2bUnit;
-    marginUnit = profitUnit;
-    installUnit = 0;
-    marginPct = b2bUnit > 0 ? Math.round((profitUnit / b2bUnit) * 100) : 0;
-    formulaStr = `${effArea.toFixed(2)} m² (min. 1m²) × ${b2bRate} zł B2B | Klient: ${cliRate} zł/m²`;
-    profitSubStr = `Stawka klienta ${cliRate} zł/m² (${dekor?'Dekor':'Std'})`;
-  }
-  else if(sys.calcType === 'rol_m2'){
-    const effArea = Math.max(1, area);
-    const withSlow = document.getElementById('itemSlowDown').checked;
-    const b2bRate = sys.rate || 330;
-    const cliRate = sys.clientStd || 500;
-    const slowB2B = withSlow ? (sys.slowB2B || 37) : 0;
-    const slowCli = withSlow ? (sys.slowClient || 70) : 0;
-    autoB2B = Math.round(effArea * b2bRate) + slowB2B;
-    b2bUnit = hasManualB2B ? Math.round(man) : autoB2B;
-    clientUnit = Math.round(effArea * cliRate) + slowCli;
-    profitUnit = clientUnit - b2bUnit;
-    marginUnit = profitUnit;
-    installUnit = 0;
-    marginPct = b2bUnit > 0 ? Math.round((profitUnit / b2bUnit) * 100) : 0;
-    extraNote = withSlow ? 'ze spowalniaczem' : 'bez spowalniacza';
-    formulaStr = `${effArea.toFixed(2)} m² × ${b2bRate} zł ${withSlow?'+ 37 zł spow.':''} (Klient: ${cliRate} zł/m² ${withSlow?'+ 70 zł':''})`;
-    profitSubStr = `Zysk z m² ${withSlow?'+ spowalniacz':''}`;
-  }
-  else {
-    let rawCalc = 0;
-    if(sys.calcType === 'mb'){
-      rawCalc = Math.round(perim * sys.rate);
-      formulaStr = `${perim.toFixed(2)} mb × ${sys.rate} zł/mb (min. ${sys.minPrice} zł)`;
-    } else {
-      rawCalc = Math.round(area * sys.rate);
-      formulaStr = `${area.toFixed(2)} m² × ${sys.rate} zł/m² (min. ${sys.minPrice} zł)`;
-    }
-    autoB2B = Math.max(sys.minPrice || 0, rawCalc);
-    b2bUnit = hasManualB2B ? Math.round(man) : autoB2B;
-    marginUnit = Math.round(b2bUnit * (marginPct / 100));
-    clientUnit = b2bUnit + marginUnit + installUnit;
-    profitUnit = marginUnit + installUnit;
-    profitSubStr = `${marginUnit} narzut + ${installUnit} montaż`;
-  }
-
-  document.getElementById('formulaB2BText').innerText = formulaStr;
-  document.getElementById('estB2BDisplay').innerText = autoB2B + ' zł';
-  document.getElementById('marginPlnBadge').innerText = '+' + marginUnit + ' zł / szt.';
-  document.getElementById('marginPctBadge').innerText = marginPct + '%';
-  document.getElementById('previewB2B').innerText = b2bUnit + ' zł';
-  document.getElementById('previewProfit').innerText = (profitUnit >= 0 ? '+' : '') + profitUnit + ' zł';
-  document.getElementById('previewProfitSub').innerText = profitSubStr;
-  document.getElementById('previewClientPrice').innerText = clientUnit + ' zł';
-
-  return {
-    room: document.getElementById('itemRoom').value.trim() || 'Okno z pomiaru',
-    system: sys.name + (extraNote ? ` (${extraNote})` : ''),
-    variant: sys.variants === 1 ? document.getElementById('itemVariant').value : '',
-    color,
-    width: parseFloat(w.toFixed(1)),
-    height: parseFloat(h.toFixed(1)),
-    guideLength: parseFloat(guideLength.toFixed(1)),
-    qty,
-    area: parseFloat(area.toFixed(2)),
-    b2bUnit,
-    marginPct,
-    marginUnit,
-    installUnit,
-    clientUnit
+  return{
+    room:document.getElementById('itemRoom').value.trim()||'Okno z pomiaru',
+    system:sys.name,
+    variant:sys.variants===1?document.getElementById('itemVariant').value:'',
+    color:document.getElementById('itemColor').value,
+    width:parseFloat(w.toFixed(1)),
+    height:parseFloat(h.toFixed(1)),
+    guideLength:parseFloat(guideLength.toFixed(1)),
+    qty,area:parseFloat(area.toFixed(2)),b2bUnit,marginPct,marginUnit,installUnit,clientUnit
   };
 }
 
 function addItemToCart(){
-  const it = recalcCurrentItem();
-  if(!it){
-    showToast('Wpisz szerokość i wysokość okna!');
-    return;
-  }
-  it.id = Date.now();
+  const it=recalcCurrentItem();
+  it.id=Date.now();
   cart.push(it);
-  document.getElementById('itemRoom').value = '';
-  document.getElementById('itemWidth').value = '';
-  document.getElementById('itemHeight').value = '';
-  document.getElementById('itemQty').value = '1';
-  document.getElementById('manualB2B').value = '';
-  recalcCurrentItem();
-  playBeep(950, 100);
+  document.getElementById('itemRoom').value='';
+  document.getElementById('manualB2B').value='';
+  playBeep(950,100);
   showToast('Dodano pozycję do koszyka!');
   renderCartAndTotals();
 }
@@ -1077,13 +884,13 @@ function renderCartAndTotals(){
   c.innerHTML='';
   cart.forEach((item,idx)=>{
     const rB2B=item.b2bUnit*item.qty,rMar=item.marginUnit*item.qty,rIns=item.installUnit*item.qty,rCli=item.clientUnit*item.qty;
-    const rProfit = rMar + rIns;
     const gTxt=item.guideLength>0?' • Prowadnica: '+formatCm(item.guideLength)+' cm':'';
     const varBadge=item.variant?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${item.variant}</span>`:'';
     const wDet=appMode==='work'?`
       <div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono">
         <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span>
-        <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Zysk: +${rProfit} zł</span>
+        <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Narzut: +${rMar} zł (${item.marginPct}%)</span>
+        <span class="px-2 py-0.5 rounded bg-slate-900 text-amber-400">Montaż: +${rIns} zł</span>
         ${varBadge}
       </div>
       <div class="flex justify-end gap-2 mt-2">
@@ -1125,12 +932,34 @@ function speakText(txt,cb){
   }else if(cb)cb();
 }
 
+// Sklejanie wyników z mikrofonu odporne na błąd duplikacji w Chrome na Androidzie
+function buildCleanTranscript(results){
+  let combined='';
+  for(let i=0;i<results.length;i++){
+    const rawPiece=(results[i][0].transcript||'').trim();
+    if(!rawPiece)continue;
+    if(!combined){
+      combined=rawPiece;
+      continue;
+    }
+    const normComb=combined.toLowerCase().replace(/[.,!?]/g,'').trim();
+    const normPiece=rawPiece.toLowerCase().replace(/[.,!?]/g,'').trim();
+    if(normPiece.startsWith(normComb)){
+      combined=rawPiece;
+    }else if(normComb.startsWith(normPiece)){
+      // Ignoruj krótszy duplikat z wcześniejszego bufora Androida
+    }else if(!normComb.endsWith(normPiece)){
+      combined+=' '+rawPiece;
+    }
+  }
+  return combined.trim();
+}
+
 function parseSpokenMeasurement(tr){
   const raw=tr.trim(),lo=raw.toLowerCase();
   let color=document.getElementById('itemColor').value;
   if(lo.includes('antracyt'))color='Antracyt (RAL 7016)';
   else if(lo.includes('biały')||lo.includes('bialy'))color='Biały';
-  else if(lo.includes('jasny brąz')||lo.includes('jasny braz'))color='Jasny brąz';
   else if(lo.includes('brąz')||lo.includes('braz'))color='Brązowy';
   else if(lo.includes('dąb')||lo.includes('dab'))color='Złoty Dąb';
   else if(lo.includes('orzech'))color='Orzech';
@@ -1154,6 +983,7 @@ function parseSpokenMeasurement(tr){
 function stopAllVoice(){
   voiceListening30s=false;
   if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
+  if(voiceDebounceTimer){clearTimeout(voiceDebounceTimer);voiceDebounceTimer=null;}
   if(activeRecognition){try{activeRecognition.abort();}catch(e){}activeRecognition=null;}
   if('speechSynthesis' in window)window.speechSynthesis.cancel();
   document.getElementById('voiceActiveBanner').classList.add('hidden');
@@ -1162,13 +992,14 @@ function stopAllVoice(){
   document.getElementById('voiceStateBadge').innerText='Gotowy (1 klik -> wymiar -> „Tak”)';
 }
 
+// POMIAR GŁOSOWY 30 SEKUND BEZ DUPLIKOWANIA PIERWSZEGO WYMIARU NA ANDROIDZIE
 function startVoiceFlow(){
   playBeep(880,120);
   document.getElementById('voiceActiveBanner').classList.remove('hidden');
   document.getElementById('voiceConfirmButtons').classList.add('hidden');
   document.getElementById('voiceBlockedFallback').classList.add('hidden');
   document.getElementById('voiceHeardPreview').classList.add('hidden');
-  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz pokój i wymiar w cm (np. „Rybki 65 na 125”)';
+  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz pokój i wymiar w cm (np. „130 na 225”)';
   document.getElementById('voiceStateBadge').innerText='🔴 Mikrofon aktywny (30s)...';
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
@@ -1176,8 +1007,12 @@ function startVoiceFlow(){
   voiceListening30s=true;
   voice30sStart=Date.now();
   let capturedTwoNumbers=false;
+  let sessionSavedText='';
+  let currentSegmentText='';
 
   if(voice30sTimer)clearTimeout(voice30sTimer);
+  if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
+
   voice30sTimer=setTimeout(()=>{
     if(voiceListening30s && !capturedTwoNumbers){
       stopAllVoice();
@@ -1193,23 +1028,43 @@ function startVoiceFlow(){
     activeRecognition.interimResults=true;
 
     activeRecognition.onresult=(e)=>{
-      let fullTranscript='';
-      for(let i=0;i<e.results.length;i++){
-        fullTranscript+=e.results[i][0].transcript+' ';
+      if(capturedTwoNumbers)return;
+      currentSegmentText=buildCleanTranscript(e.results);
+      const fullTranscript=(sessionSavedText+' '+currentSegmentText).trim();
+
+      const pr=document.getElementById('voiceHeardPreview');
+      if(fullTranscript){
+        pr.innerText='Słyszę: „'+fullTranscript+'”';
+        pr.classList.remove('hidden');
       }
+
       const nums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g);
-      if(nums && nums.length>=2 && !capturedTwoNumbers){
-        capturedTwoNumbers=true;
-        voiceListening30s=false;
-        if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
-        try{activeRecognition.stop();}catch(err){}
-        triggerVoiceConfirmationStep(parseSpokenMeasurement(fullTranscript));
+      if(nums && nums.length>=2){
+        if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
+        // Odczekaj 900 ms ciszy po 2. liczbie, aby dokończyć np. „dwieście dwadzieścia pięć”
+        voiceDebounceTimer=setTimeout(()=>{
+          const finalCheck=(sessionSavedText+' '+currentSegmentText).trim();
+          const finalNums=finalCheck.match(/[0-9]+(?:[.,][0-9]+)?/g);
+          if(finalNums && finalNums.length>=2 && !capturedTwoNumbers){
+            capturedTwoNumbers=true;
+            voiceListening30s=false;
+            if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
+            try{activeRecognition.stop();}catch(err){}
+            triggerVoiceConfirmationStep(parseSpokenMeasurement(finalCheck));
+          }
+        },900);
+      }else{
+        if(voiceDebounceTimer){clearTimeout(voiceDebounceTimer);voiceDebounceTimer=null;}
       }
     };
 
     activeRecognition.onend=()=>{
       const elapsed=Date.now()-voice30sStart;
       if(voiceListening30s && !capturedTwoNumbers && elapsed<30000){
+        if(currentSegmentText){
+          sessionSavedText=(sessionSavedText+' '+currentSegmentText).trim();
+          currentSegmentText='';
+        }
         try{activeRecognition.start();}catch(err){}
       }
     };
@@ -1460,26 +1315,10 @@ function deleteSavedProject(id){
   try{localStorage.setItem('arx_saved_projects',JSON.stringify(l));}catch(e){}
   updateSavedProjectsCount();renderSavedAndReports();
 }
-
 function resetAll(){
   if(!confirm('Wyczyścić bieżący pomiar?'))return;
-  document.getElementById('clientAddress').value='';
-  document.getElementById('clientPhone').value='';
-  document.getElementById('discountInput').value=0;
-  document.getElementById('itemColor').value='Biały';
-  document.getElementById('itemSystem').value='0';
-  document.getElementById('itemVariant').value='Wariant nr 1';
-  document.getElementById('itemRoom').value='';
-  document.getElementById('itemWidth').value='';
-  document.getElementById('itemHeight').value='';
-  document.getElementById('itemQty').value='1';
-  document.getElementById('manualB2B').value='';
-  document.getElementById('marginSlider').value='40';
-  document.getElementById('itemSlowDown').checked=true;
-  cart=[];
-  onSystemChange();
-  renderCartAndTotals();
-  showToast('Wyczyszczono wszystko');
+  document.getElementById('clientAddress').value='';document.getElementById('clientPhone').value='';document.getElementById('discountInput').value=0;
+  cart=[];renderCartAndTotals();showToast('Wyczyszczono');
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
