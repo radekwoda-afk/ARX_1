@@ -93,7 +93,6 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
-  <!-- 2. SZYBKI POMIAR GŁOSOWY (PRZYCISK "POMIAR" - 30 SEKUND) -->
   <section id="voiceSection" class="card-bg rounded-2xl p-3.5 shadow-lg border-amber-500/30">
     <div class="flex justify-between items-center mb-2">
       <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
@@ -106,7 +105,7 @@ input[type="range"]{accent-color:#f59e0b;}
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-2">
           <span class="w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
-          <span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz pokój i wymiar w cm (np. „Rybki 65 na 125”)</span>
+          <span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz pokój i wymiar w cm</span>
         </div>
         <button type="button" onclick="stopAllVoice()" class="text-xs text-slate-400 px-2 py-0.5 rounded bg-slate-800">Stop</button>
       </div>
@@ -122,7 +121,6 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
-  <!-- 3. NOWA POZYCJA POMIAROWA -->
   <section id="editorSection" class="card-bg rounded-2xl p-3.5 shadow-lg space-y-3.5">
     <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
       <div class="flex items-center gap-2">
@@ -141,10 +139,10 @@ input[type="range"]{accent-color:#f59e0b;}
           <option value="Biały">Biały</option>
           <option value="Brązowy">Brązowy</option>
           <option value="Antracyt (RAL 7016)">Antracyt (RAL 7016)</option>
-          <option value="Złoty Dąb">Złoty Dąb</option>
-          <option value="Orzech">Orzech</option>
-          <option value="Winchester">Winchester</option>
-          <option value="Mahoń">Mahoń</option>
+          <option value="Złoty Dąb">Złoty Dąb (dekor)</option>
+          <option value="Orzech">Orzech (dekor)</option>
+          <option value="Winchester">Winchester (dekor)</option>
+          <option value="Mahoń">Mahoń (dekor)</option>
         </select>
         <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
       </div>
@@ -158,7 +156,6 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
     </div>
 
-    <!-- WARIANT POMIAROWY WIDOCZNY WYŁĄCZNIE DLA MOSKITIERY RAMKOWEJ OKIENNEJ -->
     <div id="variantSectionBox">
       <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Wariant pomiarowy (Moskitiera ramkowa)</label>
       <div class="flex items-center gap-2.5">
@@ -225,38 +222,37 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
     </div>
 
-    <!-- KALKULACJA B2B I NARZUTU -->
     <div class="bg-[#0e1420] border border-amber-500/25 rounded-2xl p-3 space-y-3">
       <div class="flex justify-between items-center">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-500"><i class="fa-solid fa-calculator mr-1"></i> KALKULACJA B2B I NARZUTU (UKRYTE DLA KLIENTA)</span>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-500"><i class="fa-solid fa-calculator mr-1"></i> KALKULACJA B2B I CENY KLIENTA (UKRYTE DLA KLIENTA)</span>
       </div>
 
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex justify-between items-center">
         <div>
-          <div class="text-[11px] text-slate-400">Wyliczony koszt B2B (wg Twojego cennika ⚙️):</div>
-          <div id="formulaB2BText" class="text-[11px] font-mono text-slate-400 mt-0.5">1.12 m² × 95 zł/m²</div>
+          <div class="text-[11px] text-slate-400">Wyliczenie wg Twojego cennika ⚙️:</div>
+          <div id="formulaB2BText" class="text-[11px] font-mono text-amber-400 mt-0.5"></div>
         </div>
-        <div id="estB2BDisplay" class="text-lg font-mono font-bold text-white">106 zł</div>
+        <div id="estB2BDisplay" class="text-lg font-mono font-bold text-white">0 zł</div>
       </div>
 
       <div>
         <label id="manualB2BLabel" class="block text-[11px] text-slate-400 mb-1">Ręczna cena B2B 1 szt. z tabeli / od dostawcy (zł):</label>
-        <input type="number" id="manualB2B" oninput="recalcCurrentItem()" placeholder="Wpisz kwotę z tabeli hurtowni (zastępuje przelicznik)..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-mono text-white">
+        <input type="number" id="manualB2B" oninput="recalcCurrentItem()" placeholder="Wpisz kwotę z tabeli (np. dla Harmony / Aluprof / Slim)..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-mono text-white">
       </div>
 
-      <div>
+      <div id="marginSliderBox">
         <div class="flex justify-between items-center mb-1">
-          <span class="text-xs text-slate-300 font-medium">Twój narzut na produkcie (%):</span>
+          <span class="text-xs text-slate-300 font-medium">Dodatkowy narzut procentowy (%):</span>
           <div class="flex items-center gap-2">
-            <span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+42 zł / szt.</span>
-            <span id="marginPctBadge" class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono font-bold text-xs">40%</span>
+            <span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+0 zł / szt.</span>
+            <span id="marginPctBadge" class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono font-bold text-xs">0%</span>
           </div>
         </div>
-        <input type="range" id="marginSlider" min="0" max="150" step="5" value="40" oninput="setMarginPct(this.value)" class="w-full my-1">
+        <input type="range" id="marginSlider" min="0" max="150" step="5" value="0" oninput="setMarginPct(this.value)" class="w-full my-1">
         <div class="grid grid-cols-6 gap-1 mt-1">
-          <button type="button" onclick="setMarginPct(0)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">0%</button>
+          <button type="button" onclick="setMarginPct(0)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-amber-400 border border-amber-500/40">0%</button>
           <button type="button" onclick="setMarginPct(25)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">25%</button>
-          <button type="button" onclick="setMarginPct(40)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-amber-400 border border-amber-500/40">40%</button>
+          <button type="button" onclick="setMarginPct(40)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">40%</button>
           <button type="button" onclick="setMarginPct(50)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">50%</button>
           <button type="button" onclick="setMarginPct(65)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">65%</button>
           <button type="button" onclick="setMarginPct(80)" class="py-1 rounded-lg bg-slate-800 text-xs font-mono text-slate-300">80%</button>
@@ -265,21 +261,21 @@ input[type="range"]{accent-color:#f59e0b;}
 
       <div>
         <div class="flex justify-between items-center mb-1">
-          <span class="text-xs text-slate-300 font-medium">Stawka montażu za 1 szt. (zł):</span>
+          <span id="installFeeLabel" class="text-xs text-slate-300 font-medium">Kwota doliczana / montaż za 1 szt. (zł):</span>
         </div>
         <div class="flex gap-2 items-center">
           <button type="button" onclick="changeInstall(-10)" class="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 font-mono font-bold text-xs text-slate-200">-10</button>
           <div class="relative flex-1">
-            <input type="number" id="installFee" value="50" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-sm text-white">
+            <input type="number" id="installFee" value="0" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-sm text-white">
           </div>
           <button type="button" onclick="changeInstall(10)" class="px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 font-mono font-bold text-xs text-slate-200">+10</button>
         </div>
       </div>
 
       <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
-        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="previewB2B" class="font-mono font-bold text-sm text-white mt-0.5">106 zł</div></div>
-        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+92 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">42 narzut + 50 montaż</div></div>
-        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena dla klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">198 zł</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="previewB2B" class="font-mono font-bold text-sm text-white mt-0.5">0 zł</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+202 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">z montażem</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena dla klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">202 zł</div></div>
       </div>
     </div>
 
@@ -321,7 +317,7 @@ input[type="range"]{accent-color:#f59e0b;}
         <div class="bg-slate-950 border border-slate-800 rounded-xl p-3">
           <div class="text-[11px] text-slate-400">Koszt zakupu B2B</div>
           <div id="sumB2BCost" class="font-mono font-extrabold text-lg text-white mt-1">0 zł</div>
-          <div id="sumMarginInstallBreak" class="text-[11px] text-slate-400 mt-1">Narzut: 0 zł | Montaż: 0 zł</div>
+          <div id="sumMarginInstallBreak" class="text-[11px] text-slate-400 mt-1">Zysk brutto: 0 zł</div>
         </div>
         <div class="bg-emerald-950/25 border border-emerald-500/30 rounded-xl p-3">
           <div class="text-[11px] text-emerald-300">Twój czysty zysk</div>
@@ -343,7 +339,6 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
-  <!-- 7. EKSPORT + BAZA MAILI HURTOWNI -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">EKSPORT WYCENY I ZAMÓWIENIA</h2></div>
     <button type="button" onclick="exportOfferSMS()" class="w-full py-3 px-4 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2">
@@ -393,7 +388,6 @@ input[type="range"]{accent-color:#f59e0b;}
   </div>
 </footer>
 
-<!-- MODAL EKSPORTU TEKSTU -->
 <div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3">
     <div class="flex justify-between items-center">
@@ -408,7 +402,6 @@ input[type="range"]{accent-color:#f59e0b;}
   </div>
 </div>
 
-<!-- MODAL ZAPISANYCH POMIARÓW I RAPORTÓW -->
 <div id="savedModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[90vh] flex flex-col">
     <div class="flex justify-between items-center">
@@ -440,11 +433,10 @@ input[type="range"]{accent-color:#f59e0b;}
   </div>
 </div>
 
-<!-- MODAL USTAWIEŃ, CENNIKA DOSTAWCÓW I KOPII ZAPASOWEJ (⚙️) -->
 <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[92vh] flex flex-col">
     <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
-      <h3 class="font-bold text-base text-white"><i class="fa-solid fa-gear text-amber-500 mr-1.5"></i> Ustawienia Firmy i Cennik Dostawców</h3>
+      <h3 class="font-bold text-base text-white"><i class="fa-solid fa-gear text-amber-500 mr-1.5"></i> Ustawienia Firmy i Cennik</h3>
       <button type="button" onclick="closeSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
@@ -453,7 +445,7 @@ input[type="range"]{accent-color:#f59e0b;}
         <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-id-card mr-1"></i> 1. Dane Twojej Firmy (White-Label)</div>
         <div class="grid grid-cols-3 gap-2">
           <div>
-            <label class="block text-[10px] text-slate-400 mb-1">Skrót logo (3-4 zn.)</label>
+            <label class="block text-[10px] text-slate-400 mb-1">Skrót logo</label>
             <input type="text" id="setBrandShort" maxlength="5" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-bold text-white uppercase">
           </div>
           <div class="col-span-2">
@@ -462,16 +454,14 @@ input[type="range"]{accent-color:#f59e0b;}
           </div>
         </div>
         <div>
-          <label class="block text-[10px] text-slate-400 mb-1">Podpis / Telefon kontaktowy w ofercie dla klienta</label>
+          <label class="block text-[10px] text-slate-400 mb-1">Podpis / Telefon w ofercie dla klienta</label>
           <input type="text" id="setBrandContact" placeholder="np. ARX Rolety Moskitiery • tel. 600 000 000" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs text-white">
         </div>
       </div>
 
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
-        <div class="flex justify-between items-center">
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Twój Cennik Zakupu (B2B) i Montażu</span>
-        </div>
-        <p class="text-[11px] text-slate-400">Ustaw ceny od swoich dostawców. Dla małych okien możesz wpisać <strong>Cenę min. (zł)</strong>, poniżej której koszt zakupu nigdy nie spadnie.</p>
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Cennik B2B oraz Stawki dla Klienta</span>
+        <p class="text-[11px] text-slate-400">Możesz tu w każdej chwili zmienić koszt zakupu B2B (dla siebie lub innych użytkowników aplikacji), stawkę klienta za m² oraz stałe doliczki.</p>
         <div id="settingsCatalogList" class="space-y-2.5"></div>
       </div>
 
@@ -493,32 +483,26 @@ input[type="range"]{accent-color:#f59e0b;}
       <button type="button" onclick="saveSettingsFromModal()" class="flex-1 py-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs shadow">
         <i class="fa-solid fa-floppy-disk mr-1"></i> ZAPISZ USTAWIENIA I CENNIK
       </button>
-      <button type="button" onclick="closeSettingsModal()" class="px-4 py-3 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">
-        Anuluj
-      </button>
+      <button type="button" onclick="closeSettingsModal()" class="px-4 py-3 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Anuluj</button>
     </div>
   </div>
 </div>
 
 <script>
 const DEFAULT_SYSTEMS=[
-  {id:'mosk_ramk',name:'Moskitiera ramkowa okienna',calcType:'m2',rate:95,minPrice:65,install:50,guide:0,variants:1},
-  {id:'mosk_drzw',name:'Moskitiera drzwiowa otwierana',calcType:'m2',rate:180,minPrice:220,install:90,guide:0,variants:0},
-  {id:'mosk_plis',name:'Moskitiera plisowana (drzwiowa/tarasowa)',calcType:'manual',rate:310,minPrice:450,install:140,guide:0,variants:0},
-  {id:'mosk_alu',name:'Moskitiera przesuwna Aluprof',calcType:'manual',rate:340,minPrice:520,install:150,guide:1,variants:0},
-  {id:'mosk_slim',name:'Moskitiera przesuwna Slim',calcType:'manual',rate:310,minPrice:460,install:140,guide:1,variants:0},
-  {id:'mosk_dach',name:'Moskitiera na okno dachowe',calcType:'m2',rate:240,minPrice:180,install:70,guide:0,variants:0},
-  {id:'rol_dach',name:'Roletka na okno dachowe',calcType:'m2',rate:190,minPrice:150,install:65,guide:0,variants:0},
-  {id:'rol_kas_gl',name:'Roleta w kasecie z prowadnicami (tkanina gładka)',calcType:'m2',rate:145,minPrice:110,install:55,guide:0,variants:0},
-  {id:'rol_kas_dn',name:'Roleta w kasecie (Dzień / Noc)',calcType:'m2',rate:185,minPrice:135,install:55,guide:0,variants:0},
-  {id:'rol_zew',name:'Roleta zewnętrzna (z napędem elektrycznym)',calcType:'m2',rate:480,minPrice:650,install:220,guide:0,variants:0}
+  {id:'mosk_ramk',name:'Moskitiera ramkowa okienna',calcType:'ramkowa',rate:0,clientRate:180,minPrice:0,install:0,defaultMargin:0,guide:0,variants:1},
+  {id:'mosk_drzw',name:'Moskitiera drzwiowa otwierana (Aluprof)',calcType:'drzwiowa',rate:376,rateDecor:462,clientRate:600,clientRateDecor:650,minPrice:376,install:0,defaultMargin:0,guide:0,variants:0},
+  {id:'mosk_plis',name:'Moskitiera plisowana Harmony (drzwiowa/tarasowa)',calcType:'harmony',rate:30,clientRate:0,minPrice:900,install:700,defaultMargin:0,guide:0,variants:0},
+  {id:'mosk_alu',name:'Moskitiera przesuwna Aluprof',calcType:'manual',rate:340,clientRate:0,minPrice:520,install:700,defaultMargin:0,guide:1,variants:0},
+  {id:'mosk_slim',name:'Moskitiera przesuwna Slim',calcType:'manual',rate:310,clientRate:0,minPrice:460,install:700,defaultMargin:0,guide:1,variants:0},
+  {id:'mosk_dach',name:'Moskitiera na okno dachowe (rolowana góra-dół)',calcType:'dachowa',rate:330,clientRate:500,b2bExtra:37,clientExtra:70,minPrice:367,install:0,defaultMargin:0,guide:0,variants:0},
+  {id:'rol_dach',name:'Roletka na okno dachowe',calcType:'m2',rate:190,clientRate:0,minPrice:150,install:65,defaultMargin:40,guide:0,variants:0},
+  {id:'rol_kas_gl',name:'Roleta w kasecie z prowadnicami (tkanina gładka)',calcType:'m2',rate:145,clientRate:0,minPrice:110,install:55,defaultMargin:40,guide:0,variants:0},
+  {id:'rol_kas_dn',name:'Roleta w kasecie (Dzień / Noc)',calcType:'m2',rate:185,clientRate:0,minPrice:135,install:55,defaultMargin:40,guide:0,variants:0},
+  {id:'rol_zew',name:'Roleta zewnętrzna (z napędem elektrycznym)',calcType:'m2',rate:480,clientRate:0,minPrice:650,install:220,defaultMargin:40,guide:0,variants:0}
 ];
 
-const DEFAULT_BRAND={
-  shortName:'ARX',
-  fullName:'ARX Wyceny',
-  contactLine:'ARX Rolety Moskitiery Montaż'
-};
+const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX Rolety Moskitiery Montaż'};
 
 const VARIANT_DRAWINGS={
   'Wariant nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
@@ -530,28 +514,26 @@ const VARIANT_DRAWINGS={
   'Wariant nr 7':{label:'Nr 7',l:'out',r:'out',t:'out',b:'in'}
 };
 
+function isDecorColor(c){
+  return ['Złoty Dąb','Orzech','Winchester','Mahoń'].some(d=>c.includes(d));
+}
+
 function updateVariantDrawing(){
-  const sel=document.getElementById('itemVariant');
-  const box=document.getElementById('variantDrawingBox');
+  const sel=document.getElementById('itemVariant'),box=document.getElementById('variantDrawingBox');
   if(!sel||!box)return;
   const cfg=VARIANT_DRAWINGS[sel.value]||VARIANT_DRAWINGS['Wariant nr 1'];
-  const xL=cfg.l==='out'?6:20;
-  const xR=cfg.r==='out'?110:96;
-  const yT=cfg.t==='out'?6:18;
-  const yB=cfg.b==='out'?82:70;
-  const mX=58,mY=44;
-  box.innerHTML=`
-    <svg width="112" height="84" viewBox="0 0 116 88" xmlns="http://www.w3.org/2000/svg">
-      <rect x="6" y="6" width="104" height="76" fill="none" stroke="#0f172a" stroke-width="2"/>
-      <rect x="20" y="18" width="76" height="52" fill="none" stroke="#0f172a" stroke-width="2"/>
-      <text x="23" y="30" font-family="Inter,Arial,sans-serif" font-size="9.5" font-weight="800" fill="#0f172a">${cfg.label}</text>
-      <line x1="${xL}" y1="${mY}" x2="${xR}" y2="${mY}" stroke="#dc2626" stroke-width="2"/>
-      <polyline points="${xL+5},${mY-3.5} ${xL},${mY} ${xL+5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-      <polyline points="${xR-5},${mY-3.5} ${xR},${mY} ${xR-5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-      <line x1="${mX}" y1="${yT}" x2="${mX}" y2="${yB}" stroke="#dc2626" stroke-width="2"/>
-      <polyline points="${mX-3.5},${yT+5} ${mX},${yT} ${mX+3.5},${yT+5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-      <polyline points="${mX-3.5},${yB-5} ${mX},${yB} ${mX+3.5},${yB-5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-    </svg>`;
+  const xL=cfg.l==='out'?6:20,xR=cfg.r==='out'?110:96,yT=cfg.t==='out'?6:18,yB=cfg.b==='out'?82:70,mX=58,mY=44;
+  box.innerHTML=`<svg width="112" height="84" viewBox="0 0 116 88" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="6" width="104" height="76" fill="none" stroke="#0f172a" stroke-width="2"/>
+    <rect x="20" y="18" width="76" height="52" fill="none" stroke="#0f172a" stroke-width="2"/>
+    <text x="23" y="30" font-family="Inter,Arial,sans-serif" font-size="9.5" font-weight="800" fill="#0f172a">${cfg.label}</text>
+    <line x1="${xL}" y1="${mY}" x2="${xR}" y2="${mY}" stroke="#dc2626" stroke-width="2"/>
+    <polyline points="${xL+5},${mY-3.5} ${xL},${mY} ${xL+5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+    <polyline points="${xR-5},${mY-3.5} ${xR},${mY} ${xR-5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+    <line x1="${mX}" y1="${yT}" x2="${mX}" y2="${yB}" stroke="#dc2626" stroke-width="2"/>
+    <polyline points="${mX-3.5},${yT+5} ${mX},${yT} ${mX+3.5},${yT+5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+    <polyline points="${mX-3.5},${yB-5} ${mX},${yB} ${mX+3.5},${yB-5}" fill="none" stroke="#dc2626" stroke-width="2"/>
+  </svg>`;
 }
 
 let appMode='work',discountMode='pln',cart=[],pendingVoiceItem=null,activeRecognition=null,fallbackTimer=null,reportPeriod='month';
@@ -581,16 +563,15 @@ function formatCm(v){
 
 function loadAppConfig(){
   try{
-    const rawBrand=localStorage.getItem('arx_brand_config_v6');
+    const rawBrand=localStorage.getItem('arx_brand_config_v8');
     if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
   }catch(e){brandConfig={...DEFAULT_BRAND};}
-
   try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v6');
+    const rawCat=localStorage.getItem('arx_systems_catalog_v8');
     if(rawCat){
       const parsed=JSON.parse(rawCat);
       systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
-        const found=parsed.find(x=>x.id===def.id||x.name===def.name);
+        const found=parsed.find(x=>x.id===def.id);
         return found?{...def,...found}:def;
       });
     }else{
@@ -609,13 +590,11 @@ function applyBrandToUI(){
 }
 
 function populateSystemsDropdown(){
-  const sel=document.getElementById('itemSystem');
-  const prevVal=sel.value;
+  const sel=document.getElementById('itemSystem'),prevVal=sel.value;
   sel.innerHTML='';
   systemsCatalog.forEach((s,idx)=>{
     const opt=document.createElement('option');
-    opt.value=idx;
-    opt.innerText=s.name;
+    opt.value=idx;opt.innerText=s.name;
     sel.appendChild(opt);
   });
   if(prevVal!==''&&systemsCatalog[prevVal])sel.value=prevVal;
@@ -631,35 +610,24 @@ function openSettingsModal(){
   document.getElementById('setBrandShort').value=brandConfig.shortName||'ARX';
   document.getElementById('setBrandFull').value=brandConfig.fullName||'ARX Wyceny';
   document.getElementById('setBrandContact').value=brandConfig.contactLine||'ARX Rolety Moskitiery Montaż';
-
   const container=document.getElementById('settingsCatalogList');
   container.innerHTML='';
   systemsCatalog.forEach((s,i)=>{
     container.innerHTML+=`
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-2">
         <div class="font-bold text-xs text-white">${i+1}. ${s.name}</div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-3 gap-2">
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">Sposób wyceny B2B</label>
-            <select id="catType_${i}" class="w-full input-bg rounded-lg px-2 py-1.5 text-[11px] text-amber-400 font-semibold">
-              <option value="m2" ${s.calcType==='m2'?'selected':''}>Wg m² (powierzchnia)</option>
-              <option value="mb" ${s.calcType==='mb'?'selected':''}>Wg mb (obwód)</option>
-              <option value="manual" ${s.calcType==='manual'?'selected':''}>Z tabeli / Ręczna (1 szt.)</option>
-            </select>
+            <label class="block text-[10px] text-slate-400 mb-0.5">Koszt B2B (zł/m²)</label>
+            <input type="number" id="catRate_${i}" value="${s.rate||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-white text-center">
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">Stawka (zł/m² lub mb)</label>
-            <input type="number" id="catRate_${i}" value="${s.rate}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-white text-center">
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">Cena min. B2B za 1 szt. (zł)</label>
-            <input type="number" id="catMin_${i}" value="${s.minPrice||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-slate-200 text-center">
+            <label class="block text-[10px] text-amber-300 mb-0.5">Cena Klient (zł/m²)</label>
+            <input type="number" id="catCliRate_${i}" value="${s.clientRate||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-amber-400 text-center">
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">Domyślny montaż (zł/szt.)</label>
-            <input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-emerald-400 font-bold text-center">
+            <label class="block text-[10px] text-emerald-300 mb-0.5">Doliczka/Montaż (zł)</label>
+            <input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-emerald-400 text-center">
           </div>
         </div>
       </div>`;
@@ -667,78 +635,53 @@ function openSettingsModal(){
   document.getElementById('settingsModal').classList.remove('hidden');
 }
 
-function closeSettingsModal(){
-  document.getElementById('settingsModal').classList.add('hidden');
-}
+function closeSettingsModal(){document.getElementById('settingsModal').classList.add('hidden');}
 
 function saveSettingsFromModal(){
   brandConfig.shortName=document.getElementById('setBrandShort').value.trim()||'ARX';
   brandConfig.fullName=document.getElementById('setBrandFull').value.trim()||'ARX Wyceny';
   brandConfig.contactLine=document.getElementById('setBrandContact').value.trim()||'ARX Rolety Moskitiery Montaż';
-
   systemsCatalog.forEach((s,i)=>{
-    s.calcType=document.getElementById('catType_'+i).value;
     s.rate=Math.max(0,parseFloat(document.getElementById('catRate_'+i).value)||0);
-    s.minPrice=Math.max(0,parseFloat(document.getElementById('catMin_'+i).value)||0);
+    s.clientRate=Math.max(0,parseFloat(document.getElementById('catCliRate_'+i).value)||0);
     s.install=Math.max(0,parseFloat(document.getElementById('catInst_'+i).value)||0);
   });
-
   try{
-    localStorage.setItem('arx_brand_config_v6',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v6',JSON.stringify(systemsCatalog));
+    localStorage.setItem('arx_brand_config_v8',JSON.stringify(brandConfig));
+    localStorage.setItem('arx_systems_catalog_v8',JSON.stringify(systemsCatalog));
   }catch(e){}
-
-  applyBrandToUI();
-  onSystemChange();
-  closeSettingsModal();
-  showToast('Zapisano cennik i ustawienia firmy!');
+  applyBrandToUI();onSystemChange();closeSettingsModal();
+  showToast('Zapisano cennik i ustawienia!');
 }
 
 function exportBackupJSON(){
-  const data={
-    brandConfig,
-    systemsCatalog,
-    supplierEmails:getSupplierEmails(),
-    savedProjects:getSavedProjects()
-  };
+  const data={brandConfig,systemsCatalog,supplierEmails:getSupplierEmails(),savedProjects:getSavedProjects()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  a.download='kopia_arx_wyceny_'+getFormattedDate().replace(/\./g,'-')+'.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='kopia_arx_wyceny_'+getFormattedDate().replace(/\./g,'-')+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
   showToast('Pobrano plik kopii zapasowej!');
 }
 
 function importBackupJSON(ev){
-  const file=ev.target.files[0];
-  if(!file)return;
+  const file=ev.target.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=(e)=>{
     try{
       const data=JSON.parse(e.target.result);
-      if(data.brandConfig)localStorage.setItem('arx_brand_config_v6',JSON.stringify(data.brandConfig));
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v6',JSON.stringify(data.systemsCatalog));
+      if(data.brandConfig)localStorage.setItem('arx_brand_config_v8',JSON.stringify(data.brandConfig));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v8',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
-      loadAppConfig();
-      loadSupplierEmails();
-      updateSavedProjectsCount();
-      onSystemChange();
-      closeSettingsModal();
+      loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();
       showToast('Wczytano kopię zapasową!');
-    }catch(err){
-      showToast('Błąd pliku kopii zapasowej!');
-    }
+    }catch(err){showToast('Błąd pliku kopii zapasowej!');}
   };
   reader.readAsText(file);
 }
 
 function switchMode(m){
-  appMode=m;
-  const w=m==='work';
+  appMode=m;const w=m==='work';
   document.getElementById('btnModeWork').className=w?'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition':'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
   document.getElementById('btnModeClient').className=!w?'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow transition':'py-2 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
   const badge=document.getElementById('modeBadge');
@@ -780,6 +723,12 @@ function setMarginPct(v){
 function onSystemChange(){
   const sys=getCurrentSystemObj();
   document.getElementById('installFee').value=sys.install||0;
+  document.getElementById('marginSlider').value=(sys.defaultMargin!==undefined)?sys.defaultMargin:0;
+  if(['mosk_plis','mosk_alu','mosk_slim'].includes(sys.id)){
+    document.getElementById('installFeeLabel').innerText='Stała kwota doliczana za 1 szt. (+700 zł):';
+  }else{
+    document.getElementById('installFeeLabel').innerText='Dodatkowa kwota montażu za 1 szt. (zł):';
+  }
   document.getElementById('guideRailBox').classList.toggle('hidden',sys.guide!==1);
   document.getElementById('variantSectionBox').classList.toggle('hidden',sys.variants!==1);
   updateVariantDrawing();
@@ -790,52 +739,88 @@ function recalcCurrentItem(){
   const w=Math.max(10,parseFloat(document.getElementById('itemWidth').value)||0);
   const h=Math.max(10,parseFloat(document.getElementById('itemHeight').value)||0);
   const qty=Math.max(1,parseInt(document.getElementById('itemQty').value)||1);
+  const color=document.getElementById('itemColor').value;
+  const decor=isDecorColor(color);
   const area=(w/100)*(h/100),perim=2*((w/100)+(h/100));
   document.getElementById('calcArea').innerText=area.toFixed(2)+' m²';
   document.getElementById('calcPerim').innerText=perim.toFixed(2)+' mb';
 
   const sys=getCurrentSystemObj();
   const guideLength=sys.guide===1?(parseFloat(document.getElementById('itemGuideLength').value)||0):0;
+  const marginPct=parseInt(document.getElementById('marginSlider').value)||0;
+  const installUnit=Math.max(0,parseInt(document.getElementById('installFee').value)||0);
+  const man=parseFloat(document.getElementById('manualB2B').value);
+  const hasManual=!isNaN(man)&&man>0;
 
-  let rawCalc=0,formulaStr='';
-  if(sys.calcType==='mb'){
-    rawCalc=Math.round(perim*sys.rate);
-    formulaStr=`${perim.toFixed(2)} mb × ${sys.rate} zł/mb (min. ${sys.minPrice} zł)`;
+  let autoB2B=0,baseClientBeforeMargin=0,formulaStr='';
+
+  if(sys.calcType==='ramkowa'){
+    // Moskitiera ramkowa: B2B domyślnie 0 zł (własny materiał), dla klienta 180 zł/m²
+    const cRate=sys.clientRate||180;
+    autoB2B=sys.rate>0?Math.round(area*sys.rate):0;
+    const b2bFinal=hasManual?Math.round(man):autoB2B;
+    baseClientBeforeMargin=Math.round(area*cRate);
+    formulaStr=`Klient: ${area.toFixed(2)} m² × ${cRate} zł/m² = ${baseClientBeforeMargin} zł (B2B: ${b2bFinal} zł)`;
+  }else if(sys.calcType==='drzwiowa'){
+    // Moskitiera drzwiowa otwierana Aluprof: min. 1 m²
+    const billArea=Math.max(1.0,area);
+    const bRate=decor?(sys.rateDecor||462):(sys.rate||376);
+    const cRate=decor?(sys.clientRateDecor||650):(sys.clientRate||600);
+    autoB2B=Math.round(billArea*bRate);
+    baseClientBeforeMargin=Math.round(billArea*cRate);
+    formulaStr=`Rozlicz. ${billArea.toFixed(2)} m² (min 1m²) • B2B: ${bRate} zł/m² | Klient: ${cRate} zł/m²`;
+  }else if(sys.calcType==='dachowa'){
+    // Moskitiera rolowana góra-dół (dachowa): min. 1 m² + spowalniacz (37 zł B2B / 70 zł Klient)
+    const billArea=Math.max(1.0,area);
+    const bRate=sys.rate||330,bExt=sys.b2bExtra!==undefined?sys.b2bExtra:37;
+    const cRate=sys.clientRate||500,cExt=sys.clientExtra!==undefined?sys.clientExtra:70;
+    autoB2B=Math.round(billArea*bRate+bExt);
+    baseClientBeforeMargin=Math.round(billArea*cRate+cExt);
+    formulaStr=`Rozlicz. ${billArea.toFixed(2)} m² • B2B: ${bRate}+${bExt} zł | Klient: ${cRate}+${cExt} zł (min. 570 zł)`;
+  }else if(sys.calcType==='harmony'){
+    // Moskitiera plisowana Harmony: tabela B2B (min 900 zł dla 80x230) + 700 zł doliczki
+    const baseMin=sys.minPrice||900,stepRate=sys.rate||30;
+    const wSteps=Math.ceil(Math.max(0,w-80)/10),hSteps=Math.ceil(Math.max(0,h-230)/10);
+    autoB2B=Math.round(baseMin+(wSteps*stepRate)+(hSteps*stepRate));
+    const b2bFinal=hasManual?Math.round(man):autoB2B;
+    baseClientBeforeMargin=b2bFinal;
+    formulaStr=`Tabela Harmony B2B: ${b2bFinal} zł + doliczka ${installUnit} zł`;
   }else if(sys.calcType==='manual'){
-    rawCalc=Math.round(Math.max(sys.minPrice,area*sys.rate));
-    formulaStr=`Wycena z tabeli / ręczna (baza min. ${sys.minPrice} zł)`;
+    // Przesuwna Aluprof i Slim: B2B + 700 zł doliczki
+    autoB2B=Math.round(Math.max(sys.minPrice||0,area*(sys.rate||310)));
+    const b2bFinal=hasManual?Math.round(man):autoB2B;
+    baseClientBeforeMargin=b2bFinal;
+    formulaStr=`B2B: ${b2bFinal} zł + stała doliczka ${installUnit} zł`;
   }else{
-    rawCalc=Math.round(area*sys.rate);
-    formulaStr=`${area.toFixed(2)} m² × ${sys.rate} zł/m² (min. ${sys.minPrice} zł)`;
+    autoB2B=Math.max(sys.minPrice||0,Math.round(area*(sys.rate||150)));
+    const b2bFinal=hasManual?Math.round(man):autoB2B;
+    baseClientBeforeMargin=sys.clientRate>0?Math.round(area*sys.clientRate):b2bFinal;
+    formulaStr=`${area.toFixed(2)} m² × ${sys.rate} zł/m² (min. ${sys.minPrice||0} zł)`;
   }
 
-  const autoB2B=Math.max(sys.minPrice||0,rawCalc);
+  const b2bUnit=hasManual?Math.round(man):autoB2B;
+  const marginUnit=Math.round(baseClientBeforeMargin*(marginPct/100));
+  const clientUnit=baseClientBeforeMargin+marginUnit+installUnit;
+  const profitUnit=clientUnit-b2bUnit;
+
   document.getElementById('formulaB2BText').innerText=formulaStr;
-  document.getElementById('estB2BDisplay').innerText=autoB2B+' zł';
-
-  const man=parseFloat(document.getElementById('manualB2B').value);
-  const b2bUnit=(!isNaN(man)&&man>0)?Math.round(man):autoB2B;
-  const marginPct=parseInt(document.getElementById('marginSlider').value)||0;
-  const marginUnit=Math.round(b2bUnit*(marginPct/100));
-  const installUnit=Math.max(0,parseInt(document.getElementById('installFee').value)||0);
-  const clientUnit=b2bUnit+marginUnit+installUnit,profitUnit=marginUnit+installUnit;
-
+  document.getElementById('estB2BDisplay').innerText=b2bUnit+' zł';
   document.getElementById('marginPlnBadge').innerText='+'+marginUnit+' zł / szt.';
   document.getElementById('marginPctBadge').innerText=marginPct+'%';
   document.getElementById('previewB2B').innerText=b2bUnit+' zł';
-  document.getElementById('previewProfit').innerText='+'+profitUnit+' zł';
-  document.getElementById('previewProfitSub').innerText=marginUnit+' narzut + '+installUnit+' montaż';
+  document.getElementById('previewProfit').innerText=(profitUnit>=0?'+':'')+profitUnit+' zł';
+  document.getElementById('previewProfitSub').innerText=`Cena klienta ${clientUnit} - B2B ${b2bUnit}`;
   document.getElementById('previewClientPrice').innerText=clientUnit+' zł';
 
   return{
     room:document.getElementById('itemRoom').value.trim()||'Okno z pomiaru',
     system:sys.name,
     variant:sys.variants===1?document.getElementById('itemVariant').value:'',
-    color:document.getElementById('itemColor').value,
+    color,
     width:parseFloat(w.toFixed(1)),
     height:parseFloat(h.toFixed(1)),
     guideLength:parseFloat(guideLength.toFixed(1)),
-    qty,area:parseFloat(area.toFixed(2)),b2bUnit,marginPct,marginUnit,installUnit,clientUnit
+    qty,area:parseFloat(area.toFixed(2)),b2bUnit,marginPct,marginUnit:profitUnit-installUnit,installUnit,clientUnit
   };
 }
 
@@ -867,30 +852,32 @@ function applyQuickDiscount10(){setDiscountMode('pct');document.getElementById('
 function clearDiscount(){document.getElementById('discountInput').value=0;renderCartAndTotals();}
 
 function computeTotalsObject(){
-  let totalSzt=0,sumB2B=0,sumMargin=0,sumInstall=0,sumClientBase=0;
+  let totalSzt=0,sumB2B=0,sumClientBase=0;
   cart.forEach(i=>{
-    totalSzt+=i.qty;sumB2B+=i.b2bUnit*i.qty;sumMargin+=i.marginUnit*i.qty;sumInstall+=i.installUnit*i.qty;sumClientBase+=i.clientUnit*i.qty;
+    totalSzt+=i.qty;
+    sumB2B+=i.b2bUnit*i.qty;
+    sumClientBase+=i.clientUnit*i.qty;
   });
+  const grossProfit=sumClientBase-sumB2B;
   const dRaw=Math.max(0,parseFloat(document.getElementById('discountInput').value)||0);
   let discPln=discountMode==='pct'?Math.round(sumClientBase*(dRaw/100)):Math.round(dRaw);
   if(discPln>sumClientBase)discPln=sumClientBase;
-  const finalClientTotal=sumClientBase-discPln,netProfit=(sumMargin+sumInstall)-discPln;
+  const finalClientTotal=sumClientBase-discPln,netProfit=grossProfit-discPln;
   const profitShare=finalClientTotal>0?Math.round((netProfit/finalClientTotal)*100):0;
-  return{totalSzt,sumB2B,sumMargin,sumInstall,sumClientBase,discPln,finalClientTotal,netProfit,profitShare};
+  return{totalSzt,sumB2B,grossProfit,sumClientBase,discPln,finalClientTotal,netProfit,profitShare};
 }
 
 function renderCartAndTotals(){
   const c=document.getElementById('cartItemsContainer');
   c.innerHTML='';
   cart.forEach((item,idx)=>{
-    const rB2B=item.b2bUnit*item.qty,rMar=item.marginUnit*item.qty,rIns=item.installUnit*item.qty,rCli=item.clientUnit*item.qty;
+    const rB2B=item.b2bUnit*item.qty,rCli=item.clientUnit*item.qty,rProf=rCli-rB2B;
     const gTxt=item.guideLength>0?' • Prowadnica: '+formatCm(item.guideLength)+' cm':'';
     const varBadge=item.variant?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${item.variant}</span>`:'';
     const wDet=appMode==='work'?`
       <div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono">
         <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span>
-        <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Narzut: +${rMar} zł (${item.marginPct}%)</span>
-        <span class="px-2 py-0.5 rounded bg-slate-900 text-amber-400">Montaż: +${rIns} zł</span>
+        <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Zysk: +${rProf} zł</span>
         ${varBadge}
       </div>
       <div class="flex justify-end gap-2 mt-2">
@@ -912,7 +899,7 @@ function renderCartAndTotals(){
   const t=computeTotalsObject();
   document.getElementById('cartCountBadge').innerText=cart.length+' poz. ('+t.totalSzt+' szt.)';
   document.getElementById('sumB2BCost').innerText=t.sumB2B+' zł';
-  document.getElementById('sumMarginInstallBreak').innerText='Narzut: '+t.sumMargin+' zł | Montaż: '+t.sumInstall+' zł';
+  document.getElementById('sumMarginInstallBreak').innerText='Zysk przed rabatem: +'+t.grossProfit+' zł';
   document.getElementById('sumNetProfit').innerText=(t.netProfit>=0?'+':'')+t.netProfit+' zł';
   document.getElementById('profitShareBadge').innerText='Udział zysku: '+t.profitShare+'%';
   document.getElementById('sumBeforeDisc').innerText=t.sumClientBase+' zł';
@@ -932,25 +919,17 @@ function speakText(txt,cb){
   }else if(cb)cb();
 }
 
-// Sklejanie wyników z mikrofonu odporne na błąd duplikacji w Chrome na Androidzie
 function buildCleanTranscript(results){
   let combined='';
   for(let i=0;i<results.length;i++){
     const rawPiece=(results[i][0].transcript||'').trim();
     if(!rawPiece)continue;
-    if(!combined){
-      combined=rawPiece;
-      continue;
-    }
+    if(!combined){combined=rawPiece;continue;}
     const normComb=combined.toLowerCase().replace(/[.,!?]/g,'').trim();
     const normPiece=rawPiece.toLowerCase().replace(/[.,!?]/g,'').trim();
-    if(normPiece.startsWith(normComb)){
-      combined=rawPiece;
-    }else if(normComb.startsWith(normPiece)){
-      // Ignoruj krótszy duplikat z wcześniejszego bufora Androida
-    }else if(!normComb.endsWith(normPiece)){
-      combined+=' '+rawPiece;
-    }
+    if(normPiece.startsWith(normComb))combined=rawPiece;
+    else if(normComb.startsWith(normPiece)){}
+    else if(!normComb.endsWith(normPiece))combined+=' '+rawPiece;
   }
   return combined.trim();
 }
@@ -992,7 +971,6 @@ function stopAllVoice(){
   document.getElementById('voiceStateBadge').innerText='Gotowy (1 klik -> wymiar -> „Tak”)';
 }
 
-// POMIAR GŁOSOWY 30 SEKUND BEZ DUPLIKOWANIA PIERWSZEGO WYMIARU NA ANDROIDZIE
 function startVoiceFlow(){
   playBeep(880,120);
   document.getElementById('voiceActiveBanner').classList.remove('hidden');
@@ -1004,50 +982,35 @@ function startVoiceFlow(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
 
-  voiceListening30s=true;
-  voice30sStart=Date.now();
-  let capturedTwoNumbers=false;
-  let sessionSavedText='';
-  let currentSegmentText='';
-
+  voiceListening30s=true;voice30sStart=Date.now();
+  let capturedTwoNumbers=false,sessionSavedText='',currentSegmentText='';
   if(voice30sTimer)clearTimeout(voice30sTimer);
   if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
 
   voice30sTimer=setTimeout(()=>{
-    if(voiceListening30s && !capturedTwoNumbers){
-      stopAllVoice();
-      showToast('Minęło 30 sekund nasłuchu');
-    }
+    if(voiceListening30s&&!capturedTwoNumbers){stopAllVoice();showToast('Minęło 30 sekund nasłuchu');}
   },30000);
 
   try{
     if(activeRecognition)activeRecognition.abort();
     activeRecognition=new SR();
-    activeRecognition.lang='pl-PL';
-    activeRecognition.continuous=true;
-    activeRecognition.interimResults=true;
+    activeRecognition.lang='pl-PL';activeRecognition.continuous=true;activeRecognition.interimResults=true;
 
     activeRecognition.onresult=(e)=>{
       if(capturedTwoNumbers)return;
       currentSegmentText=buildCleanTranscript(e.results);
       const fullTranscript=(sessionSavedText+' '+currentSegmentText).trim();
-
       const pr=document.getElementById('voiceHeardPreview');
-      if(fullTranscript){
-        pr.innerText='Słyszę: „'+fullTranscript+'”';
-        pr.classList.remove('hidden');
-      }
+      if(fullTranscript){pr.innerText='Słyszę: „'+fullTranscript+'”';pr.classList.remove('hidden');}
 
       const nums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g);
-      if(nums && nums.length>=2){
+      if(nums&&nums.length>=2){
         if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
-        // Odczekaj 900 ms ciszy po 2. liczbie, aby dokończyć np. „dwieście dwadzieścia pięć”
         voiceDebounceTimer=setTimeout(()=>{
           const finalCheck=(sessionSavedText+' '+currentSegmentText).trim();
           const finalNums=finalCheck.match(/[0-9]+(?:[.,][0-9]+)?/g);
-          if(finalNums && finalNums.length>=2 && !capturedTwoNumbers){
-            capturedTwoNumbers=true;
-            voiceListening30s=false;
+          if(finalNums&&finalNums.length>=2&&!capturedTwoNumbers){
+            capturedTwoNumbers=true;voiceListening30s=false;
             if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
             try{activeRecognition.stop();}catch(err){}
             triggerVoiceConfirmationStep(parseSpokenMeasurement(finalCheck));
@@ -1060,19 +1023,15 @@ function startVoiceFlow(){
 
     activeRecognition.onend=()=>{
       const elapsed=Date.now()-voice30sStart;
-      if(voiceListening30s && !capturedTwoNumbers && elapsed<30000){
-        if(currentSegmentText){
-          sessionSavedText=(sessionSavedText+' '+currentSegmentText).trim();
-          currentSegmentText='';
-        }
+      if(voiceListening30s&&!capturedTwoNumbers&&elapsed<30000){
+        if(currentSegmentText){sessionSavedText=(sessionSavedText+' '+currentSegmentText).trim();currentSegmentText='';}
         try{activeRecognition.start();}catch(err){}
       }
     };
 
     activeRecognition.onerror=(ev)=>{
-      if(ev && (ev.error==='not-allowed'||ev.error==='service-not-allowed')){
-        voiceListening30s=false;
-        document.getElementById('voiceBlockedFallback').classList.remove('hidden');
+      if(ev&&(ev.error==='not-allowed'||ev.error==='service-not-allowed')){
+        voiceListening30s=false;document.getElementById('voiceBlockedFallback').classList.remove('hidden');
       }
     };
     activeRecognition.start();
@@ -1092,15 +1051,13 @@ function triggerVoiceConfirmationStep(p){
   document.getElementById('voiceConfirmButtons').classList.remove('hidden');
   document.getElementById('voiceLiveInstruction').innerText='🗣️ Powiedz „TAK” po pytaniu lektora...';
   speakText(p.room+', wymiar '+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów, kolor '+p.color+'. Czy zatwierdzasz?',()=>{
-    playBeep(1040,90);
-    listenForYesNoDirectly();
+    playBeep(1040,90);listenForYesNoDirectly();
   });
 }
 
 function listenForYesNoDirectly(){
   document.getElementById('voiceLiveInstruction').innerText='🎤 Powiedz teraz: „TAK” lub „NIE”';
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR)return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
   try{
     if(activeRecognition)activeRecognition.abort();
     activeRecognition=new SR();
@@ -1128,9 +1085,7 @@ function onFallbackInput(){
 function confirmVoiceItem(ok){
   if(ok&&pendingVoiceItem){addItemToCart();speakText('Zatwierdzono.');}
   else speakText('Anulowano.');
-  pendingVoiceItem=null;
-  document.getElementById('voiceFallbackInput').value='';
-  stopAllVoice();
+  pendingVoiceItem=null;document.getElementById('voiceFallbackInput').value='';stopAllVoice();
 }
 
 function getFormattedDate(){return new Date().toLocaleDateString('pl-PL');}
@@ -1194,10 +1149,7 @@ function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modal
 function closeExportModal(){document.getElementById('exportModal').classList.add('hidden');}
 
 function getSupplierEmails(){
-  try{
-    const r=localStorage.getItem('arx_supplier_emails_v6');
-    return r?JSON.parse(r):[];
-  }catch(e){return[];}
+  try{const r=localStorage.getItem('arx_supplier_emails_v6');return r?JSON.parse(r):[];}catch(e){return[];}
 }
 function saveSupplierEmails(l){try{localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(l));}catch(e){}}
 function loadSupplierEmails(){
