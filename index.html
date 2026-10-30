@@ -36,7 +36,7 @@ input[type="range"]{accent-color:#f59e0b;}
             <span id="brandHeaderTitle" class="font-extrabold text-base tracking-tight text-white">ARX Wyceny</span>
             <span id="modeBadge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/30">B2B ROBOCZY</span>
           </div>
-          <p class="text-[11px] text-slate-400">Systemy Osłon Okiennych • Pomiar</p>
+          <p class="text-[11px] text-slate-400">Systemy Osłon Okiennych • Auto-zapis</p>
         </div>
       </div>
       <div class="flex items-center gap-1.5">
@@ -46,8 +46,8 @@ input[type="range"]{accent-color:#f59e0b;}
         <button type="button" onclick="openSettingsModal()" title="Ustawienia i Cennik" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
           <i class="fa-solid fa-gear text-sm"></i>
         </button>
-        <button type="button" onclick="resetAll()" title="Wyczyść pomiar" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition">
-          <i class="fa-solid fa-rotate-right text-xs"></i>
+        <button type="button" onclick="resetAll()" title="Nowy czysty pomiar" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition">
+          <i class="fa-solid fa-plus text-xs"></i>
         </button>
       </div>
     </div>
@@ -64,22 +64,25 @@ input[type="range"]{accent-color:#f59e0b;}
 
 <main class="max-w-md mx-auto px-3 pt-3 space-y-3.5">
 
-  <section class="card-bg rounded-2xl p-3.5 shadow-lg">
-    <div class="flex justify-between items-center mb-1">
-      <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-user-tag text-amber-500 mr-1"></i> KLIENT / ADRES POMIARU</label>
-      <span id="currentOrderStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-amber-400 border border-amber-500/30">Status: Wycena (Niezrealizowane)</span>
-    </div>
-    <div class="mb-2.5">
-      <input type="text" id="clientAddress" value="" placeholder="np. adres lub nazwa klienta..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-medium text-white">
+  <!-- 1. DANE KLIENTA: IMIĘ I NAZWISKO, ADRES, TELEFON (AUTO-ZAPIS) -->
+  <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
+    <div class="flex justify-between items-center">
+      <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-user text-amber-500 mr-1"></i> DANE KLIENTA I POMIARU</span>
+      <button type="button" onclick="toggleCurrentOrderStatus()" id="currentOrderStatusBadge" class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-slate-800 text-amber-400 border border-amber-500/30 active:scale-95 transition">
+        ⏳ Wycena (kliknij by zmienić)
+      </button>
     </div>
     <div>
-      <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1"><i class="fa-solid fa-phone text-amber-500 mr-1"></i> TELEFON / TERMIN</label>
-      <div class="flex gap-2">
-        <input type="tel" id="clientPhone" value="" placeholder="np. numer telefonu..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-mono text-white">
-        <button type="button" onclick="saveProject('quote')" title="Zapisz jako wycenę (Niezrealizowane)" class="px-3.5 py-2.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-400 font-bold text-xs whitespace-nowrap flex items-center gap-1.5 active:scale-95 transition">
-          <i class="fa-solid fa-floppy-disk"></i> Zapisz wycenę
-        </button>
-      </div>
+      <label class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">Imię i nazwisko klienta</label>
+      <input type="text" id="clientName" value="" oninput="autoSaveProjectQuiet()" placeholder="np. Jan Kowalski..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-medium text-white">
+    </div>
+    <div>
+      <label class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">Adres pomiaru (referencja do zamówienia)</label>
+      <input type="text" id="clientAddress" value="" oninput="autoSaveProjectQuiet()" placeholder="np. Kórnik, ul. Szeroka 4..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-medium text-white">
+    </div>
+    <div>
+      <label class="block text-[10px] font-semibold uppercase text-slate-400 mb-1">Numer telefonu (do wysyłki oferty SMS)</label>
+      <input type="tel" id="clientPhone" value="" oninput="autoSaveProjectQuiet()" placeholder="np. 600 111 222..." class="w-full input-bg rounded-xl px-3 py-2 text-sm font-mono text-white">
     </div>
   </section>
 
@@ -96,10 +99,11 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
+  <!-- 2. SZYBKI POMIAR GŁOSOWY (30S) -->
   <section id="voiceSection" class="card-bg rounded-2xl p-3.5 shadow-lg border-amber-500/30">
     <div class="flex justify-between items-center mb-2">
       <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
-      <span id="voiceStateBadge" class="text-[11px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-medium">Gotowy (1 klik -> wymiar -> „Tak”)</span>
+      <span id="voiceStateBadge" class="text-[11px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-medium">1 klik -> wymiar -> „Tak” (Auto-zapis)</span>
     </div>
     <button type="button" id="btnVoiceStart" onclick="startVoiceFlow()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-base tracking-wide shadow-md flex items-center justify-center gap-2 active:scale-95 transition">
       <i class="fa-solid fa-microphone"></i> <span>POMIAR</span>
@@ -119,11 +123,12 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
       <div id="voiceBlockedFallback" class="hidden mt-2 pt-2 border-t border-slate-800 space-y-1.5">
         <p class="text-[11px] text-amber-300">Wpisz lub podyktuj wymiar poniżej (i dopowiedz „tak”):</p>
-        <input type="text" id="voiceFallbackInput" oninput="onFallbackInput()" placeholder="np. Rybki 65 na 125..." class="w-full input-bg rounded-xl px-3 py-2 text-xs text-white">
+        <input type="text" id="voiceFallbackInput" oninput="onFallbackInput()" placeholder="np. 85 na 220..." class="w-full input-bg rounded-xl px-3 py-2 text-xs text-white">
       </div>
     </div>
   </section>
 
+  <!-- 3. NOWA POZYCJA POMIAROWA -->
   <section id="editorSection" class="card-bg rounded-2xl p-3.5 shadow-lg space-y-3.5">
     <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
       <div class="flex items-center gap-2">
@@ -136,51 +141,45 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
 
     <div>
-      <label class="block text-xs font-semibold text-slate-300 mb-1.5">1. Kolor osprzętu / profilu</label>
-      <div class="relative">
-        <select id="itemColor" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9">
-          <option value="Biały">Biały</option>
-          <option value="Brązowy">Brązowy</option>
-          <option value="Antracyt (RAL 7016)">Antracyt (RAL 7016)</option>
-          <option value="Złoty Dąb">Złoty Dąb (dekor)</option>
-          <option value="Orzech">Orzech (dekor)</option>
-          <option value="Winchester">Winchester (dekor)</option>
-          <option value="Mahoń">Mahoń (dekor)</option>
-        </select>
-        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
-      </div>
-    </div>
-
-    <div>
-      <label class="block text-xs font-semibold text-slate-300 mb-1.5">2. Wybierz system osłonowy</label>
+      <label class="block text-xs font-semibold text-slate-300 mb-1.5">1. Wybierz system osłonowy</label>
       <div class="relative">
         <select id="itemSystem" onchange="onSystemChange()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select>
         <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
       </div>
     </div>
 
+    <div>
+      <label class="block text-xs font-semibold text-slate-300 mb-1.5">2. Kolor osprzętu / profilu</label>
+      <div class="relative">
+        <select id="itemColor" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select>
+        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+      </div>
+    </div>
+
+    <!-- WARIANT POMIAROWY NR 1-8 (DLA MOSKITIERY RAMKOWEJ ORAZ DACHOWEJ ROLOWANEJ) -->
     <div id="variantSectionBox" class="hidden">
-      <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Wariant pomiarowy (Moskitiera ramkowa)</label>
+      <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Wariant pomiarowy (Światło / Całkowity)</label>
       <div class="flex items-center gap-2.5">
         <div class="relative flex-1">
-          <select id="itemVariant" onchange="updateVariantDrawing()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9 border-amber-500/30">
-            <option value="Wariant nr 1">Wariant nr 1 (NR:1)</option>
-            <option value="Wariant nr 2">Wariant nr 2 (NR:2)</option>
-            <option value="Wariant nr 3">Wariant nr 3 (NR:3)</option>
-            <option value="Wariant nr 4">Wariant nr 4 (NR:4)</option>
-            <option value="Wariant nr 5">Wariant nr 5 (NR:5)</option>
-            <option value="Wariant nr 6">Wariant nr 6 (NR:6)</option>
-            <option value="Wariant nr 7">Wariant nr 7 (Nr 7)</option>
+          <select id="itemVariant" onchange="updateVariantDrawing()" class="w-full input-bg rounded-xl px-2.5 py-2.5 text-xs font-semibold text-white appearance-none pr-8 border-amber-500/30">
+            <option value="Wariant nr 1">Wariant nr 1 (NR:1 - Światło)</option>
+            <option value="Wariant nr 2">Wariant nr 2 (NR:2 - 1 prowadnica)</option>
+            <option value="Wariant nr 3">Wariant nr 3 (NR:3 - Szer. całk. / Wys. światło)</option>
+            <option value="Wariant nr 4">Wariant nr 4 (NR:4 - Góra całk.)</option>
+            <option value="Wariant nr 5">Wariant nr 5 (NR:5 - Całkowity)</option>
+            <option value="Wariant nr 6">Wariant nr 6 (NR:6 - Lewa + Góra całk.)</option>
+            <option value="Wariant nr 7">Wariant nr 7 (NR:7 - Szer. + Góra całk.)</option>
+            <option value="Wariant nr 8">Wariant nr 8 (NR:8 - Szer. światło / Wys. całk.)</option>
           </select>
-          <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
+          <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
         </div>
         <div id="variantDrawingBox" class="w-[116px] h-[88px] shrink-0 bg-white rounded-xl border-2 border-amber-500/60 flex items-center justify-center shadow-inner overflow-hidden"></div>
       </div>
     </div>
 
     <div>
-      <label class="block text-xs font-semibold text-slate-300 mb-1.5">4. Pomieszczenie / Notatka</label>
-      <input type="text" id="itemRoom" placeholder="np. Rybki, Pokój Amelii, Kuchnia lewe..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm text-white mb-2">
+      <label class="block text-xs font-semibold text-slate-300 mb-1.5">4. Pomieszczenie / Notatka (opcjonalnie)</label>
+      <input type="text" id="itemRoom" placeholder="Zostaw puste lub wpisz np. Kuchnia, Salon..." class="w-full input-bg rounded-xl px-3 py-2.5 text-sm text-white mb-2">
       <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
         <button type="button" onclick="appendRoomTag('Salon')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Salon</button>
         <button type="button" onclick="appendRoomTag('Kuchnia')" class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Kuchnia</button>
@@ -227,7 +226,7 @@ input[type="range"]{accent-color:#f59e0b;}
 
     <div class="bg-[#0e1420] border border-amber-500/25 rounded-2xl p-3 space-y-3">
       <div class="flex justify-between items-center">
-        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-500"><i class="fa-solid fa-calculator mr-1"></i> KALKULACJA B2B I CENY KLIENTA (UKRYTE DLA KLIENTA)</span>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-500"><i class="fa-solid fa-calculator mr-1"></i> KALKULACJA B2B I CENY KLIENTA</span>
       </div>
 
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex justify-between items-center">
@@ -283,10 +282,11 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
 
     <button type="button" onclick="addItemToCart()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
-      <i class="fa-solid fa-plus-circle text-base"></i> DODAJ POZYCJĘ DO WYCENY
+      <i class="fa-solid fa-plus-circle text-base"></i> DODAJ DO WYCENY (AUTO-ZAPIS)
     </button>
   </section>
 
+  <!-- 4. KOSZYK POMIAROWY -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg">
     <div class="flex justify-between items-center mb-3">
       <div class="flex items-center gap-2"><i class="fa-solid fa-list-check text-amber-500"></i><h2 class="font-bold text-sm text-white">Koszyk pomiarowy</h2></div>
@@ -295,6 +295,7 @@ input[type="range"]{accent-color:#f59e0b;}
     <div id="cartItemsContainer" class="space-y-2.5"></div>
   </section>
 
+  <!-- 5. RABAT -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg">
     <div class="flex justify-between items-center mb-2.5">
       <div class="flex items-center gap-2"><i class="fa-solid fa-percent text-emerald-400 text-sm"></i><span class="font-bold text-xs text-slate-200">Rabat dla klienta</span></div>
@@ -304,12 +305,13 @@ input[type="range"]{accent-color:#f59e0b;}
       </div>
     </div>
     <div class="flex gap-2">
-      <input type="number" id="discountInput" value="0" oninput="renderCartAndTotals()" class="w-full input-bg rounded-xl px-3 py-2.5 font-mono font-bold text-sm text-white">
+      <input type="number" id="discountInput" value="0" oninput="renderCartAndTotals();autoSaveProjectQuiet();" class="w-full input-bg rounded-xl px-3 py-2.5 font-mono font-bold text-sm text-white">
       <button type="button" onclick="applyQuickDiscount10()" class="px-3 py-2.5 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-bold text-xs whitespace-nowrap">-10% Rabat</button>
       <button type="button" onclick="clearDiscount()" class="px-3 py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs"><i class="fa-solid fa-xmark"></i></button>
     </div>
   </section>
 
+  <!-- 6. PODSUMOWANIE FINANSOWE -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-3">
     <div id="financialWorkBox" class="space-y-3">
       <div class="flex justify-between items-center">
@@ -342,15 +344,21 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
-  <!-- 7. EKSPORT + POTWIERDZENIE REALIZACJI ZAMÓWIENIA -->
+  <!-- 7. EKSPORT WYCENY I ZAMÓWIENIA B2B -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
-    <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">EKSPORT WYCENY I REALIZACJA</h2></div>
-    <button type="button" onclick="exportOfferSMS()" class="w-full py-3 px-4 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2">
-      <i class="fa-brands fa-whatsapp text-base text-emerald-400"></i> Kopiuj gotową ofertę (SMS / WhatsApp)
-    </button>
+    <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
+    <div class="grid grid-cols-2 gap-2">
+      <button type="button" onclick="sendDirectSMS()" class="py-3 px-3 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
+        <i class="fa-solid fa-comment-sms text-sm"></i> Wyślij SMS
+      </button>
+      <button type="button" onclick="exportOfferSMS()" class="py-3 px-3 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
+        <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i> Podgląd / Kopiuj
+      </button>
+    </div>
+
     <div id="b2bExportSection" class="space-y-2.5 pt-1">
       <button type="button" onclick="exportOrderB2B()" class="w-full py-3 px-4 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-2">
-        <i class="fa-solid fa-industry"></i> Kopiuj zestawienie dla hurtowni B2B
+        <i class="fa-solid fa-industry"></i> Podgląd / Kopiuj zamówienie dla hurtowni B2B
       </button>
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-envelope text-amber-500 mr-1"></i> Baza adresów e-mail hurtowni</span>
@@ -366,43 +374,34 @@ input[type="range"]{accent-color:#f59e0b;}
           <i class="fa-solid fa-paper-plane"></i> Wyślij zamówienie mailem do hurtowni
         </button>
       </div>
-
-      <!-- PRZYCISK POTWIERDZENIA REALIZACJI ZAMÓWIENIA -->
-      <div class="bg-emerald-950/30 border border-emerald-500/40 rounded-xl p-3 space-y-2">
-        <div class="flex justify-between items-center">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i> POTWIERDZENIE REALIZACJI</span>
-          <span class="text-[10px] text-slate-400">Wlicza zlecenie do raportu zysków</span>
-        </div>
-        <button type="button" onclick="saveProject('done')" class="w-full py-3 px-4 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg active:scale-95 transition">
-          <i class="fa-solid fa-check-double text-sm"></i> POTWIERDŹ REALIZACJĘ ZAMÓWIENIA (ZREALIZOWANE)
-        </button>
-      </div>
     </div>
   </section>
 
 </main>
 
-<footer class="fixed bottom-0 left-0 right-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-t border-slate-800 px-3 py-2.5">
-  <div class="max-w-md mx-auto flex items-center justify-between gap-2">
+<!-- DOLNY PASEK Z PRZEŁĄCZNIKIEM REALIZACJI ORAZ SZYBKIM SMS -->
+<footer class="fixed bottom-0 left-0 right-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-t border-slate-800 px-3 py-2">
+  <div class="max-w-md mx-auto flex items-center justify-between gap-1.5">
     <div id="footerProfitCol">
-      <div class="text-[10px] font-bold uppercase text-slate-400">TWÓJ ZYSK</div>
-      <div id="footerProfitVal" class="font-mono font-extrabold text-base text-emerald-400">+0 zł</div>
+      <div class="text-[9px] font-bold uppercase text-slate-400">ZYSK</div>
+      <div id="footerProfitVal" class="font-mono font-extrabold text-sm text-emerald-400">+0 zł</div>
     </div>
     <div>
-      <div id="footerClientLabel" class="text-[10px] font-bold uppercase text-slate-400">DLA KLIENTA</div>
-      <div id="footerClientVal" class="font-mono font-extrabold text-lg text-amber-400">0 zł</div>
+      <div id="footerClientLabel" class="text-[9px] font-bold uppercase text-slate-400">KLIENT</div>
+      <div id="footerClientVal" class="font-mono font-extrabold text-base text-amber-400">0 zł</div>
     </div>
     <div class="flex items-center gap-1.5">
-      <button type="button" onclick="exportOfferSMS()" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1.5 shadow">
-        <i class="fa-brands fa-whatsapp text-sm"></i> Oferta SMS
+      <button type="button" id="footerStatusBtn" onclick="toggleCurrentOrderStatus()" class="px-2.5 py-2 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition">
+        <span>⏳ Wycena</span>
       </button>
-      <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300">
-        <i class="fa-solid fa-arrow-up text-xs"></i>
+      <button type="button" onclick="exportOfferSMS()" class="px-3 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1 shadow active:scale-95 transition">
+        <i class="fa-solid fa-comment-sms text-sm"></i> SMS
       </button>
     </div>
   </div>
 </footer>
 
+<!-- MODAL OFERTY SMS / ZAMÓWIENIA B2B -->
 <div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3">
     <div class="flex justify-between items-center">
@@ -410,14 +409,23 @@ input[type="range"]{accent-color:#f59e0b;}
       <button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <textarea id="modalTextarea" rows="10" class="w-full input-bg rounded-xl p-3 font-mono text-xs text-slate-100"></textarea>
+    <!-- Przyciski bezpośredniej wysyłki do klienta widoczne przy ofercie SMS -->
+    <div id="modalClientSendActions" class="grid grid-cols-2 gap-2">
+      <button type="button" onclick="sendDirectSMS()" class="py-3 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
+        <i class="fa-solid fa-paper-plane"></i> Wyślij SMS do klienta
+      </button>
+      <button type="button" onclick="sendDirectWhatsApp()" class="py-3 rounded-xl bg-emerald-600/25 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
+        <i class="fa-brands fa-whatsapp text-base"></i> Wyślij WhatsApp
+      </button>
+    </div>
     <div class="flex gap-2">
-      <button type="button" onclick="copyModalTextAgain()" class="flex-1 py-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">Kopiuj ponownie</button>
-      <button type="button" onclick="closeExportModal()" class="px-5 py-3 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
+      <button type="button" onclick="copyModalTextAgain()" class="flex-1 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">Kopiuj ponownie</button>
+      <button type="button" onclick="closeExportModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL ZAPISANYCH POMIARÓW I RAPORTÓW (WSZYSTKIE / ZREALIZOWANE / NIEZREALIZOWANE) -->
+<!-- MODAL ZAPISANYCH POMIARÓW I RAPORTÓW (PODSUMOWANIE TYLKO ZREALIZOWANYCH) -->
 <div id="savedModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[90vh] flex flex-col">
     <div class="flex justify-between items-center">
@@ -433,24 +441,27 @@ input[type="range"]{accent-color:#f59e0b;}
       <div class="flex gap-2">
         <select id="reportFilterSelect" onchange="renderSavedAndReports()" class="flex-1 input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono text-white"></select>
         <select id="reportStatusFilter" onchange="renderSavedAndReports()" class="input-bg rounded-lg px-2.5 py-1.5 text-xs font-bold text-amber-400">
-          <option value="all">Wszystkie</option>
-          <option value="done">Zrealizowane</option>
-          <option value="quote">Niezrealizowane</option>
+          <option value="all">Lista: Wszystkie</option>
+          <option value="done">Lista: Zrealizowane</option>
+          <option value="quote">Lista: Niezrealizowane</option>
         </select>
       </div>
-      <div class="grid grid-cols-3 gap-1.5 pt-1 text-center">
-        <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Obrót</div><div id="repTotalRevenue" class="font-mono font-bold text-xs text-white mt-0.5">0 zł</div></div>
+      <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 text-center pt-0.5">
+        <i class="fa-solid fa-check-circle mr-1"></i> Podsumowanie finansowe (Tylko Zrealizowane):
+      </div>
+      <div class="grid grid-cols-3 gap-1.5 text-center">
+        <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Obrót (Zreal.)</div><div id="repTotalRevenue" class="font-mono font-bold text-xs text-white mt-0.5">0 zł</div></div>
         <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="repTotalB2B" class="font-mono font-bold text-xs text-slate-300 mt-0.5">0 zł</div></div>
         <div class="bg-emerald-950/30 rounded-lg p-2 border border-emerald-500/30"><div class="text-[10px] text-emerald-300">Czysty Zysk</div><div id="repTotalProfit" class="font-mono font-extrabold text-xs text-emerald-400 mt-0.5">+0 zł</div></div>
       </div>
-      <div id="repCountInfo" class="text-[10px] text-slate-400 text-center font-mono">Liczba pomiarów: 0</div>
+      <div id="repCountInfo" class="text-[10px] text-slate-400 text-center font-mono">Zrealizowane: 0 | Niezrealizowane: 0</div>
     </div>
     <div id="savedProjectsList" class="space-y-2 overflow-y-auto flex-1 pr-1"></div>
     <button type="button" onclick="closeSavedModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
   </div>
 </div>
 
-<!-- MODAL USTAWIEŃ: TWÓJ PRYWATNY CENNIK ARX + SWOBODNA EDYCJA DLA INNYCH WYKONAWCÓW -->
+<!-- MODAL USTAWIEŃ I CENNIKA -->
 <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3 max-h-[92vh] flex flex-col">
     <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
@@ -481,7 +492,7 @@ input[type="range"]{accent-color:#f59e0b;}
         <div class="flex justify-between items-center">
           <span class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-tags mr-1"></i> 2. Cennik Zakupu (B2B) i Sprzedaży (Klient)</span>
         </div>
-        <p class="text-[11px] text-slate-400">Domyślnie wczytane są Twoje prywatne stawki ARX. Każdy inny wykonawca może poniżej wpisać własne kwoty zakupu i sprzedaży lub wyzerować cennik:</p>
+        <p class="text-[11px] text-slate-400">Domyślnie wczytane są Twoje prywatne stawki ARX. Każdy inny wykonawca może wpisać własne kwoty zakupu i sprzedaży:</p>
         <div class="grid grid-cols-2 gap-2 pb-1">
           <button type="button" onclick="loadArxPresetInModal()" class="py-1.5 px-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-[11px]">
             Załaduj prywatny cennik ARX
@@ -520,18 +531,34 @@ input[type="range"]{accent-color:#f59e0b;}
 const DEFAULT_SYSTEMS=[
   {id:'mosk_ramk',name:'Moskitiera ramkowa okienna',calcType:'ramkowa',rate:0,rateDecor:0,clientRate:180,clientRateDecor:180,b2bExtra:0,clientExtra:0,minPrice:0,install:0,defaultMargin:0,guide:0,variants:1},
   {id:'mosk_drzw',name:'Moskitiera drzwiowa otwierana (Aluprof)',calcType:'drzwiowa',rate:376,rateDecor:462,clientRate:600,clientRateDecor:650,b2bExtra:0,clientExtra:0,minPrice:376,install:0,defaultMargin:0,guide:0,variants:0},
-  {id:'mosk_plis',name:'Moskitiera plisowana Harmony (drzwiowa/tarasowa)',calcType:'harmony',rate:30,rateDecor:30,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:900,install:700,defaultMargin:0,guide:0,variants:0},
+  {id:'mosk_plis',name:'Moskitiera plisowana Harmony',calcType:'harmony',rate:30,rateDecor:30,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:900,install:700,defaultMargin:0,guide:0,variants:0},
   {id:'mosk_alu',name:'Moskitiera przesuwna Aluprof',calcType:'manual',rate:340,rateDecor:340,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:520,install:700,defaultMargin:0,guide:1,variants:0},
   {id:'mosk_slim',name:'Moskitiera przesuwna Slim',calcType:'manual',rate:310,rateDecor:310,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:460,install:700,defaultMargin:0,guide:1,variants:0},
-  {id:'mosk_dach',name:'Moskitiera na okno dachowe (rolowana góra-dół)',calcType:'dachowa',rate:330,rateDecor:330,clientRate:500,clientRateDecor:500,b2bExtra:37,clientExtra:70,minPrice:367,install:0,defaultMargin:0,guide:0,variants:0},
+  {id:'mosk_dach',name:'Moskitiera na okno dachowe (rolowana góra-dół)',calcType:'dachowa',rate:330,rateDecor:330,clientRate:500,clientRateDecor:500,b2bExtra:37,clientExtra:70,minPrice:367,install:0,defaultMargin:0,guide:0,variants:1},
   {id:'rol_dach',name:'Roletka na okno dachowe',calcType:'m2',rate:190,rateDecor:190,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:150,install:65,defaultMargin:40,guide:0,variants:0},
   {id:'rol_kas_gl',name:'Roleta w kasecie z prowadnicami (tkanina gładka)',calcType:'m2',rate:145,rateDecor:145,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:110,install:55,defaultMargin:40,guide:0,variants:0},
   {id:'rol_kas_dn',name:'Roleta w kasecie (Dzień / Noc)',calcType:'m2',rate:185,rateDecor:185,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:135,install:55,defaultMargin:40,guide:0,variants:0},
   {id:'rol_zew',name:'Roleta zewnętrzna (z napędem elektrycznym)',calcType:'m2',rate:480,rateDecor:480,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:650,install:220,defaultMargin:40,guide:0,variants:0}
 ];
 
+const STANDARD_COLORS=[
+  {val:'Biały',label:'Biały'},
+  {val:'Brązowy',label:'Brązowy'},
+  {val:'Antracyt (RAL 7016)',label:'Antracyt (RAL 7016)'},
+  {val:'Złoty Dąb',label:'Złoty Dąb (dekor)'},
+  {val:'Orzech',label:'Orzech (dekor)'},
+  {val:'Winchester',label:'Winchester (dekor)'},
+  {val:'Mahoń',label:'Mahoń (dekor)'}
+];
+
+const ROOF_BLIND_COLORS=[
+  {val:'Biały',label:'Biały'},
+  {val:'Anoda',label:'Anoda (Srebrny)'}
+];
+
 const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX Rolety Moskitiery Montaż'};
 
+// Warianty pomiarowe NR:1 - NR:8 (NR:8 = Szerokość światło, Wysokość całkowita)
 const VARIANT_DRAWINGS={
   'Wariant nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
   'Wariant nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
@@ -539,11 +566,18 @@ const VARIANT_DRAWINGS={
   'Wariant nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},
   'Wariant nr 5':{label:'NR:5',l:'out',r:'out',t:'out',b:'out'},
   'Wariant nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},
-  'Wariant nr 7':{label:'Nr 7',l:'out',r:'out',t:'out',b:'in'}
+  'Wariant nr 7':{label:'NR:7',l:'out',r:'out',t:'out',b:'in'},
+  'Wariant nr 8':{label:'NR:8',l:'in',r:'in',t:'out',b:'out'}
 };
 
 function isDecorColor(c){
-  return ['Złoty Dąb','Orzech','Winchester','Mahoń'].some(d=>c.includes(d));
+  return ['Złoty Dąb','Orzech','Winchester','Mahoń','Anoda'].some(d=>c.includes(d));
+}
+
+// Konwersja cyfr na pogrubione znaki Unicode (widoczne jako gruby czarny druk w zwykłym mailu Gmail/Android)
+function toBoldTextDigits(str){
+  const map={'0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵'};
+  return String(str).replace(/[0-9]/g,d=>map[d]||d);
 }
 
 function updateVariantDrawing(){
@@ -574,7 +608,7 @@ function showToast(m){
   const b=document.getElementById('toastBox');
   document.getElementById('toastMsg').innerText=m;
   b.classList.remove('hidden');
-  setTimeout(()=>b.classList.add('hidden'),2400);
+  setTimeout(()=>b.classList.add('hidden'),2200);
 }
 
 function playBeep(f=880,d=120){
@@ -592,28 +626,46 @@ function formatCm(v){
 
 function updateOrderStatusBadge(){
   const b=document.getElementById('currentOrderStatusBadge');
-  if(!b)return;
+  const fb=document.getElementById('footerStatusBtn');
   if(currentOrderStatus==='done'){
-    b.innerText='✓ Status: ZREALIZOWANE';
-    b.className='text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+    if(b){
+      b.innerText='✓ Status: ZREALIZOWANE';
+      b.className='text-[10px] font-bold px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 active:scale-95 transition';
+    }
+    if(fb){
+      fb.innerHTML='<span>✓ Zrealizowane</span>';
+      fb.className='px-2.5 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition';
+    }
   }else{
-    b.innerText='Status: Wycena (Niezrealizowane)';
-    b.className='text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-amber-400 border border-amber-500/30';
+    if(b){
+      b.innerText='⏳ Wycena (kliknij by zmienić)';
+      b.className='text-[10px] font-bold px-2.5 py-1 rounded-lg bg-slate-800 text-amber-400 border border-amber-500/30 active:scale-95 transition';
+    }
+    if(fb){
+      fb.innerHTML='<span>⏳ Wycena</span>';
+      fb.className='px-2.5 py-2 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition';
+    }
   }
+}
+
+function toggleCurrentOrderStatus(){
+  currentOrderStatus=currentOrderStatus==='done'?'quote':'done';
+  updateOrderStatusBadge();
+  saveProject(currentOrderStatus,false);
 }
 
 function loadAppConfig(){
   try{
-    const rawBrand=localStorage.getItem('arx_brand_config_v9');
+    const rawBrand=localStorage.getItem('arx_brand_config_v10')||localStorage.getItem('arx_brand_config_v9');
     if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
   }catch(e){brandConfig={...DEFAULT_BRAND};}
   try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v9');
+    const rawCat=localStorage.getItem('arx_systems_catalog_v10');
     if(rawCat){
       const parsed=JSON.parse(rawCat);
       systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
         const found=parsed.find(x=>x.id===def.id);
-        return found?{...def,...found}:def;
+        return found?{...def,...found,name:def.name,variants:def.variants}:def;
       });
     }else{
       systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));
@@ -642,6 +694,20 @@ function populateSystemsDropdown(){
   else sel.value='0';
 }
 
+function updateColorDropdownForSystem(sys){
+  const colSel=document.getElementById('itemColor');
+  const prevCol=colSel.value;
+  const list=sys.id==='rol_dach'?ROOF_BLIND_COLORS:STANDARD_COLORS;
+  colSel.innerHTML='';
+  list.forEach(c=>{
+    const opt=document.createElement('option');
+    opt.value=c.val;opt.innerText=c.label;
+    colSel.appendChild(opt);
+  });
+  if(list.some(c=>c.val===prevCol))colSel.value=prevCol;
+  else colSel.value=list[0].val;
+}
+
 function getCurrentSystemObj(){
   const idx=parseInt(document.getElementById('itemSystem').value)||0;
   return systemsCatalog[idx]||systemsCatalog[0];
@@ -651,26 +717,31 @@ function renderCatalogInputsInModal(listData){
   const container=document.getElementById('settingsCatalogList');
   container.innerHTML='';
   listData.forEach((s,i)=>{
+    const isRoofBlind=s.id==='rol_dach';
+    const stdB2BLabel=isRoofBlind?'Zakup B2B Biały (zł/m²)':'Zakup B2B Std (zł/m² lub skok)';
+    const decB2BLabel=isRoofBlind?'Zakup B2B Anoda (zł/m²)':'Zakup B2B Dekor (zł/m²)';
+    const stdCliLabel=isRoofBlind?'Sprzedaż Klient Biały (zł/m²)':'Sprzedaż Klient Std (zł/m²)';
+    const decCliLabel=isRoofBlind?'Sprzedaż Klient Anoda (zł/m²)':'Sprzedaż Klient Dekor (zł/m²)';
     container.innerHTML+=`
       <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-2">
         <div class="font-bold text-xs text-white">${i+1}. ${s.name}</div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">Zakup B2B Std (zł/m² lub skok)</label>
+            <label class="block text-[10px] text-slate-400 mb-0.5">${stdB2BLabel}</label>
             <input type="number" id="catRate_${i}" value="${s.rate||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-white text-center">
           </div>
           <div>
-            <label class="block text-[10px] text-slate-400 mb-0.5">Zakup B2B Dekor (zł/m²)</label>
+            <label class="block text-[10px] text-slate-400 mb-0.5">${decB2BLabel}</label>
             <input type="number" id="catRateDec_${i}" value="${s.rateDecor!==undefined?s.rateDecor:(s.rate||0)}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-slate-200 text-center">
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[10px] text-amber-300 mb-0.5">Sprzedaż Klient Std (zł/m²)</label>
+            <label class="block text-[10px] text-amber-300 mb-0.5">${stdCliLabel}</label>
             <input type="number" id="catCliRate_${i}" value="${s.clientRate||0}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono font-bold text-amber-400 text-center">
           </div>
           <div>
-            <label class="block text-[10px] text-amber-300 mb-0.5">Sprzedaż Klient Dekor (zł/m²)</label>
+            <label class="block text-[10px] text-amber-300 mb-0.5">${decCliLabel}</label>
             <input type="number" id="catCliRateDec_${i}" value="${s.clientRateDecor!==undefined?s.clientRateDecor:(s.clientRate||0)}" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-amber-300 text-center">
           </div>
         </div>
@@ -727,8 +798,8 @@ function saveSettingsFromModal(){
     s.defaultMargin=Math.max(0,parseFloat(document.getElementById('catMarg_'+i).value)||0);
   });
   try{
-    localStorage.setItem('arx_brand_config_v9',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v9',JSON.stringify(systemsCatalog));
+    localStorage.setItem('arx_brand_config_v10',JSON.stringify(brandConfig));
+    localStorage.setItem('arx_systems_catalog_v10',JSON.stringify(systemsCatalog));
   }catch(e){}
   applyBrandToUI();onSystemChange();closeSettingsModal();
   showToast('Zapisano cennik i ustawienia!');
@@ -749,8 +820,8 @@ function importBackupJSON(ev){
   reader.onload=(e)=>{
     try{
       const data=JSON.parse(e.target.result);
-      if(data.brandConfig)localStorage.setItem('arx_brand_config_v9',JSON.stringify(data.brandConfig));
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v9',JSON.stringify(data.systemsCatalog));
+      if(data.brandConfig)localStorage.setItem('arx_brand_config_v10',JSON.stringify(data.brandConfig));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v10',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
       loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();
@@ -773,7 +844,7 @@ function switchMode(m){
   document.getElementById('financialWorkBox').classList.toggle('hidden',!w);
   document.getElementById('b2bExportSection').classList.toggle('hidden',!w);
   document.getElementById('footerProfitCol').classList.toggle('hidden',!w);
-  document.getElementById('footerClientLabel').innerText=w?'DLA KLIENTA':'CENA Z MONTAŻEM';
+  document.getElementById('footerClientLabel').innerText=w?'KLIENT':'Z MONTAŻEM';
   renderCartAndTotals();
 }
 
@@ -802,6 +873,7 @@ function setMarginPct(v){
 
 function onSystemChange(){
   const sys=getCurrentSystemObj();
+  updateColorDropdownForSystem(sys);
   document.getElementById('installFee').value=sys.install||0;
   document.getElementById('marginSlider').value=(sys.defaultMargin!==undefined)?sys.defaultMargin:0;
   if(['mosk_plis','mosk_alu','mosk_slim'].includes(sys.id)){
@@ -815,8 +887,8 @@ function onSystemChange(){
 
 function recalcCurrentItem(){
   const sys=getCurrentSystemObj();
-  // Zawsze pilnuj widoczności wariantu (wyłącznie dla Moskitiery ramkowej okiennej) oraz prowadnic
-  document.getElementById('variantSectionBox').classList.toggle('hidden',sys.id!=='mosk_ramk');
+  const hasVariants=(sys.id==='mosk_ramk'||sys.id==='mosk_dach');
+  document.getElementById('variantSectionBox').classList.toggle('hidden',!hasVariants);
   document.getElementById('guideRailBox').classList.toggle('hidden',sys.guide!==1);
 
   const w=Math.max(10,parseFloat(document.getElementById('itemWidth').value)||0);
@@ -892,9 +964,9 @@ function recalcCurrentItem(){
   document.getElementById('previewClientPrice').innerText=clientUnit+' zł';
 
   return{
-    room:document.getElementById('itemRoom').value.trim()||'Okno z pomiaru',
+    room:document.getElementById('itemRoom').value.trim(),
     system:sys.name,
-    variant:sys.id==='mosk_ramk'?document.getElementById('itemVariant').value:'',
+    variant:hasVariants?document.getElementById('itemVariant').value:'',
     color,
     width:parseFloat(w.toFixed(1)),
     height:parseFloat(h.toFixed(1)),
@@ -910,14 +982,25 @@ function addItemToCart(){
   document.getElementById('itemRoom').value='';
   document.getElementById('manualB2B').value='';
   playBeep(950,100);
-  showToast('Dodano pozycję do koszyka!');
   renderCartAndTotals();
+  autoSaveProjectQuiet();
+  showToast('Dodano i zapisano pozycję!');
 }
 
-function removeCartItem(id){cart=cart.filter(x=>x.id!==id);renderCartAndTotals();}
+function removeCartItem(id){
+  cart=cart.filter(x=>x.id!==id);
+  renderCartAndTotals();
+  autoSaveProjectQuiet();
+}
+
 function duplicateCartItem(id){
   const o=cart.find(x=>x.id===id);
-  if(o){cart.push({...o,id:Date.now()});showToast('Zduplikowano pozycję');renderCartAndTotals();}
+  if(o){
+    cart.push({...o,id:Date.now()});
+    renderCartAndTotals();
+    autoSaveProjectQuiet();
+    showToast('Zduplikowano pozycję');
+  }
 }
 
 function setDiscountMode(m){
@@ -925,10 +1008,11 @@ function setDiscountMode(m){
   document.getElementById('btnDiscPln').className=m==='pln'?'px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold':'px-3 py-1 rounded-lg text-slate-400 font-bold';
   document.getElementById('btnDiscPct').className=m==='pct'?'px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold':'px-3 py-1 rounded-lg text-slate-400 font-bold';
   renderCartAndTotals();
+  autoSaveProjectQuiet();
 }
 
-function applyQuickDiscount10(){setDiscountMode('pct');document.getElementById('discountInput').value=10;renderCartAndTotals();showToast('Rabat -10%');}
-function clearDiscount(){document.getElementById('discountInput').value=0;renderCartAndTotals();}
+function applyQuickDiscount10(){setDiscountMode('pct');document.getElementById('discountInput').value=10;renderCartAndTotals();autoSaveProjectQuiet();showToast('Rabat -10%');}
+function clearDiscount(){document.getElementById('discountInput').value=0;renderCartAndTotals();autoSaveProjectQuiet();}
 
 function computeTotalsObject(){
   let totalSzt=0,sumB2B=0,sumClientBase=0;
@@ -953,6 +1037,7 @@ function renderCartAndTotals(){
     const rB2B=item.b2bUnit*item.qty,rCli=item.clientUnit*item.qty,rProf=rCli-rB2B;
     const gTxt=item.guideLength>0?' • Prowadnica: '+formatCm(item.guideLength)+' cm':'';
     const varBadge=item.variant?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${item.variant}</span>`:'';
+    const roomTitle=item.room?item.room:`Pozycja #${idx+1}`;
     const wDet=appMode==='work'?`
       <div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono">
         <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span>
@@ -966,7 +1051,7 @@ function renderCartAndTotals(){
     c.innerHTML+=`
       <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3">
         <div class="flex justify-between items-start">
-          <div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 mr-1.5">#${idx+1}</span><span class="font-bold text-sm text-white">${item.room}</span></div>
+          <div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 mr-1.5">#${idx+1}</span><span class="font-bold text-sm text-white">${roomTitle}</span></div>
           <div class="text-right"><div class="text-[11px] text-slate-400 font-mono">${item.qty} szt. x ${item.clientUnit} zł</div><div class="font-mono font-extrabold text-base text-white">${rCli} zł</div></div>
         </div>
         <div class="text-xs text-slate-300 mt-1">${item.system}</div>
@@ -974,7 +1059,7 @@ function renderCartAndTotals(){
         ${wDet}
       </div>`;
   });
-  if(cart.length===0)c.innerHTML='<div class="text-center py-6 text-xs text-slate-500">Koszyk jest pusty. Dodaj pierwszą pozycję powyżej.</div>';
+  if(cart.length===0)c.innerHTML='<div class="text-center py-6 text-xs text-slate-500">Koszyk jest pusty. Kliknij POMIAR lub dodaj pozycję.</div>';
   const t=computeTotalsObject();
   document.getElementById('cartCountBadge').innerText=cart.length+' poz. ('+t.totalSzt+' szt.)';
   document.getElementById('sumB2BCost').innerText=t.sumB2B+' zł';
@@ -998,35 +1083,56 @@ function speakText(txt,cb){
   }else if(cb)cb();
 }
 
+// Oczyszczanie transkrypcji z duplikatów Androida (np. "85 x" + "85 na 220")
 function buildCleanTranscript(results){
   let combined='';
   for(let i=0;i<results.length;i++){
     const rawPiece=(results[i][0].transcript||'').trim();
     if(!rawPiece)continue;
     if(!combined){combined=rawPiece;continue;}
-    const normComb=combined.toLowerCase().replace(/[.,!?]/g,'').trim();
-    const normPiece=rawPiece.toLowerCase().replace(/[.,!?]/g,'').trim();
-    if(normPiece.startsWith(normComb))combined=rawPiece;
-    else if(normComb.startsWith(normPiece)){}
-    else if(!normComb.endsWith(normPiece))combined+=' '+rawPiece;
+    const normComb=combined.toLowerCase().replace(/\s*(x|\*|razy)\s*/g,' na ').replace(/[.,!?]/g,'').trim();
+    const normPiece=rawPiece.toLowerCase().replace(/\s*(x|\*|razy)\s*/g,' na ').replace(/[.,!?]/g,'').trim();
+    const firstNumComb=(normComb.match(/^[0-9]+/)||[])[0];
+    const firstNumPiece=(normPiece.match(/^[0-9]+/)||[])[0];
+    if(normPiece.startsWith(normComb)||(firstNumComb&&firstNumComb===firstNumPiece&&normPiece.length>=normComb.length)){
+      combined=rawPiece;
+    }else if(normComb.startsWith(normPiece)){
+    }else if(!normComb.endsWith(normPiece)){
+      combined+=' '+rawPiece;
+    }
   }
   return combined.trim();
 }
 
 function parseSpokenMeasurement(tr){
   const raw=tr.trim(),lo=raw.toLowerCase();
+  const sys=getCurrentSystemObj();
   let color=document.getElementById('itemColor').value;
-  if(lo.includes('antracyt'))color='Antracyt (RAL 7016)';
-  else if(lo.includes('biały')||lo.includes('bialy'))color='Biały';
-  else if(lo.includes('brąz')||lo.includes('braz'))color='Brązowy';
-  else if(lo.includes('dąb')||lo.includes('dab'))color='Złoty Dąb';
-  else if(lo.includes('orzech'))color='Orzech';
-  else if(lo.includes('winchester'))color='Winchester';
-  else if(lo.includes('mahoń')||lo.includes('mahon'))color='Mahoń';
-  const nums=raw.match(/[0-9]+(?:[.,][0-9]+)?/g);
+  if(sys.id==='rol_dach'){
+    if(lo.includes('anod')||lo.includes('srebr'))color='Anoda';
+    else if(lo.includes('biał')||lo.includes('bial'))color='Biały';
+  }else{
+    if(lo.includes('antracyt'))color='Antracyt (RAL 7016)';
+    else if(lo.includes('biały')||lo.includes('bialy'))color='Biały';
+    else if(lo.includes('brąz')||lo.includes('braz'))color='Brązowy';
+    else if(lo.includes('dąb')||lo.includes('dab'))color='Złoty Dąb';
+    else if(lo.includes('orzech'))color='Orzech';
+    else if(lo.includes('winchester'))color='Winchester';
+    else if(lo.includes('mahoń')||lo.includes('mahon'))color='Mahoń';
+  }
+
+  const rawNums=raw.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
+  // Usuń powielony pierwszy wymiar (np. ["85", "85", "220"] -> ["85", "220"])
+  const dedupNums=[];
+  for(let i=0;i<rawNums.length;i++){
+    if(i>0&&rawNums[i]===rawNums[i-1]&&rawNums.length>=3)continue;
+    dedupNums.push(rawNums[i]);
+  }
+
   let w=parseFloat(document.getElementById('itemWidth').value)||80,h=parseFloat(document.getElementById('itemHeight').value)||140;
-  if(nums&&nums.length>=2){
-    w=parseFloat(nums[0].replace(',','.'));h=parseFloat(nums[1].replace(',','.'));
+  if(dedupNums.length>=2){
+    w=parseFloat(dedupNums[dedupNums.length-2].replace(',','.'));
+    h=parseFloat(dedupNums[dedupNums.length-1].replace(',','.'));
     if(w>=350&&h>=350){w=parseFloat((w/10).toFixed(1));h=parseFloat((h/10).toFixed(1));}
   }
   let room='';
@@ -1034,7 +1140,7 @@ function parseSpokenMeasurement(tr){
   if(fm&&fm.index>0){
     room=raw.substring(0,fm.index).replace(/\b(i wtedy|wtedy|no to|teraz|dobra|okej|ok|pomiar|okno|wymiar)\b/gi,'').replace(/[,:-]+$/g,'').trim();
   }
-  room=room?(room.charAt(0).toUpperCase()+room.slice(1)):(document.getElementById('itemRoom').value.trim()||'Okno z pomiaru');
+  room=room?(room.charAt(0).toUpperCase()+room.slice(1)):document.getElementById('itemRoom').value.trim();
   return{room,width:w,height:h,color};
 }
 
@@ -1047,7 +1153,7 @@ function stopAllVoice(){
   document.getElementById('voiceActiveBanner').classList.add('hidden');
   document.getElementById('voiceConfirmButtons').classList.add('hidden');
   document.getElementById('voiceBlockedFallback').classList.add('hidden');
-  document.getElementById('voiceStateBadge').innerText='Gotowy (1 klik -> wymiar -> „Tak”)';
+  document.getElementById('voiceStateBadge').innerText='1 klik -> wymiar -> „Tak” (Auto-zapis)';
 }
 
 function startVoiceFlow(){
@@ -1056,7 +1162,7 @@ function startVoiceFlow(){
   document.getElementById('voiceConfirmButtons').classList.add('hidden');
   document.getElementById('voiceBlockedFallback').classList.add('hidden');
   document.getElementById('voiceHeardPreview').classList.add('hidden');
-  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz pokój i wymiar w cm (np. „130 na 225”)';
+  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz wymiar w cm (np. „85 na 220”)';
   document.getElementById('voiceStateBadge').innerText='🔴 Mikrofon aktywny (30s)...';
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
@@ -1082,13 +1188,14 @@ function startVoiceFlow(){
       const pr=document.getElementById('voiceHeardPreview');
       if(fullTranscript){pr.innerText='Słyszę: „'+fullTranscript+'”';pr.classList.remove('hidden');}
 
-      const nums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g);
-      if(nums&&nums.length>=2){
+      const rawNums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
+      const hasSecondDistinct=(rawNums.length>=2 && !(rawNums.length===2 && rawNums[0]===rawNums[1] && !/(\bna\b|x|\*)/i.test(fullTranscript)));
+      if(hasSecondDistinct){
         if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
         voiceDebounceTimer=setTimeout(()=>{
           const finalCheck=(sessionSavedText+' '+currentSegmentText).trim();
-          const finalNums=finalCheck.match(/[0-9]+(?:[.,][0-9]+)?/g);
-          if(finalNums&&finalNums.length>=2&&!capturedTwoNumbers){
+          const finalNums=finalCheck.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
+          if(finalNums.length>=2&&!capturedTwoNumbers){
             capturedTwoNumbers=true;voiceListening30s=false;
             if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
             try{activeRecognition.stop();}catch(err){}
@@ -1125,11 +1232,13 @@ function triggerVoiceConfirmationStep(p){
   document.getElementById('itemHeight').value=p.height;
   recalcCurrentItem();
   const pr=document.getElementById('voiceHeardPreview');
-  pr.innerText=p.room+': '+formatCm(p.width)+' x '+formatCm(p.height)+' cm ('+p.color+')';
+  const labelRoom=p.room||'Wymiar';
+  pr.innerText=labelRoom+': '+formatCm(p.width)+' x '+formatCm(p.height)+' cm ('+p.color+')';
   pr.classList.remove('hidden');
   document.getElementById('voiceConfirmButtons').classList.remove('hidden');
   document.getElementById('voiceLiveInstruction').innerText='🗣️ Powiedz „TAK” po pytaniu lektora...';
-  speakText(p.room+', wymiar '+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów, kolor '+p.color+'. Czy zatwierdzasz?',()=>{
+  const spokenPrefix=p.room?(p.room+', wymiar '):'Wymiar ';
+  speakText(spokenPrefix+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów, kolor '+p.color+'. Czy zatwierdzasz?',()=>{
     playBeep(1040,90);listenForYesNoDirectly();
   });
 }
@@ -1170,11 +1279,14 @@ function confirmVoiceItem(ok){
 function getFormattedDate(){return new Date().toLocaleDateString('pl-PL');}
 
 function generateClientOfferText(){
-  const cli=document.getElementById('clientAddress').value.trim()||'Klient indywidualny';
-  let L=[`*WYCENA SYSTEMÓW OSŁON OKIENNYCH - ${brandConfig.shortName||'ARX'}*`,'👤 Klient: '+cli,'📅 Data pomiaru: '+getFormattedDate(),'------------------------------'];
+  const cName=document.getElementById('clientName').value.trim();
+  const cAddr=document.getElementById('clientAddress').value.trim();
+  const clientHeader=[cName,cAddr].filter(Boolean).join(' • ')||'Klient indywidualny';
+  let L=[`*WYCENA SYSTEMÓW OSŁON OKIENNYCH - ${brandConfig.shortName||'ARX'}*`,'👤 Klient: '+clientHeader,'📅 Data pomiaru: '+getFormattedDate(),'------------------------------'];
   cart.forEach((it,i)=>{
     const rSum=it.clientUnit*it.qty,gTxt=it.guideLength>0?' (Prowadnica: '+formatCm(it.guideLength)+' cm)':'';
-    L.push((i+1)+'. *'+it.room+'*','   • System: '+it.system,'   • Kolor osprzętu: '+it.color,'   • Wymiar: '+formatCm(it.width)+' x '+formatCm(it.height)+' cm'+gTxt+' | Ilość: '+it.qty+' szt.','   • Wartość: '+rSum+' zł');
+    const roomLine=it.room?` (${it.room})`:'';
+    L.push((i+1)+'. *'+it.system+roomLine+'*','   • Kolor osprzętu: '+it.color,'   • Wymiar: '+formatCm(it.width)+' x '+formatCm(it.height)+' cm'+gTxt+' | Ilość: '+it.qty+' szt.','   • Wartość: '+rSum+' zł');
   });
   const t=computeTotalsObject();
   L.push('------------------------------');
@@ -1183,18 +1295,23 @@ function generateClientOfferText(){
   return L.join(NL);
 }
 
+// Zestawienie B2B: BEZ numeru telefonu klienta, BEZ "(drzwiowa/tarasowa)", BEZ "[Opis okna: Okno z pomiaru]", z WYTŁUSZCZONYMI liczbami
 function generateB2BOrderText(){
-  const cli=document.getElementById('clientAddress').value.trim()||'Brak opisu',ph=document.getElementById('clientPhone').value.trim();
-  let L=[`ZAMÓWIENIE PRODUKCYJNE B2B - ${brandConfig.shortName||'ARX'} (`+getFormattedDate()+')','Referencja zlecenia: '+cli+(ph?' ('+ph+')':''),'=============================='];
+  const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Brak opisu';
+  let L=[`ZAMÓWIENIE PRODUKCYJNE B2B - ${brandConfig.shortName||'ARX'} (`+getFormattedDate()+')','Referencja zlecenia: '+cliAddr,'=============================='];
   const t=computeTotalsObject();
   cart.forEach((it,i)=>{
-    L.push('Lp. '+(i+1)+' | '+it.system);
-    if(it.variant)L.push('   Wariant: '+it.variant);
-    L.push('   Wymiar: SZER '+formatCm(it.width)+' cm x WYS '+formatCm(it.height)+' cm');
-    if(it.guideLength>0)L.push('   Długość prowadnic: '+formatCm(it.guideLength)+' cm');
-    L.push('   Kolor profilu/osprzętu: '+it.color,'   Ilość: '+it.qty+' szt. [Opis okna: '+it.room+']','------------------------------');
+    const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
+    L.push('Lp. '+toBoldTextDigits(i+1)+' | '+cleanSysName);
+    if(it.variant)L.push('   Wariant: '+toBoldTextDigits(it.variant));
+    L.push('   Wymiar: SZER '+toBoldTextDigits(formatCm(it.width))+' cm x WYS '+toBoldTextDigits(formatCm(it.height))+' cm');
+    if(it.guideLength>0)L.push('   Długość prowadnic: '+toBoldTextDigits(formatCm(it.guideLength))+' cm');
+    L.push('   Kolor profilu/osprzętu: '+it.color);
+    const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
+    const roomSuffix=hasCustomRoom?` [Opis: ${it.room.trim()}]`:'';
+    L.push('   Ilość: '+toBoldTextDigits(it.qty)+' szt.'+roomSuffix,'------------------------------');
   });
-  L.push('ŁĄCZNIE SZTUK DO PRODUKCJI: '+t.totalSzt+' szt.','Szacowany koszt zakupu B2B: '+t.sumB2B+' zł');
+  L.push('ŁĄCZNIE SZTUK DO PRODUKCJI: '+toBoldTextDigits(t.totalSzt)+' szt.');
   return L.join(NL);
 }
 
@@ -1212,14 +1329,32 @@ function exportOfferSMS(){
   const txt=generateClientOfferText();
   document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';
   document.getElementById('modalTextarea').value=txt;
+  document.getElementById('modalClientSendActions').classList.remove('hidden');
   document.getElementById('exportModal').classList.remove('hidden');
   copyTextToClipboard(txt);
+}
+
+function sendDirectSMS(){
+  const txt=generateClientOfferText();
+  const ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();
+  copyTextToClipboard(txt);
+  const sep=/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?';
+  window.location.href='sms:'+(ph||'')+sep+'body='+encodeURIComponent(txt);
+}
+
+function sendDirectWhatsApp(){
+  const txt=generateClientOfferText();
+  let ph=document.getElementById('clientPhone').value.replace(/[^0-9]/g,'');
+  if(ph.length===9)ph='48'+ph;
+  copyTextToClipboard(txt);
+  window.open('https://wa.me/'+(ph||'')+'?text='+encodeURIComponent(txt),'_blank');
 }
 
 function exportOrderB2B(){
   const txt=generateB2BOrderText();
   document.getElementById('modalTitle').innerText='Zestawienie dla hurtowni B2B';
   document.getElementById('modalTextarea').value=txt;
+  document.getElementById('modalClientSendActions').classList.add('hidden');
   document.getElementById('exportModal').classList.remove('hidden');
   copyTextToClipboard(txt);
 }
@@ -1256,7 +1391,7 @@ function deleteSelectedEmail(){
 function sendOrderByEmail(){
   const em=document.getElementById('supplierEmailSelect').value||'';
   if(!em){showToast('Najpierw dodaj adres e-mail hurtowni!');return;}
-  const cli=document.getElementById('clientAddress').value.trim()||'Zlecenie';
+  const cli=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie';
   const txt=generateB2BOrderText();copyTextToClipboard(txt);
   window.location.href='mailto:'+em+'?subject='+encodeURIComponent(`Zamówienie B2B ${brandConfig.shortName||'ARX'} - `+cli)+'&body='+encodeURIComponent(txt);
 }
@@ -1264,32 +1399,47 @@ function sendOrderByEmail(){
 function getSavedProjects(){try{const r=localStorage.getItem('arx_saved_projects');return r?JSON.parse(r):[];}catch(e){return[];}}
 function updateSavedProjectsCount(){document.getElementById('savedCount').innerText=getSavedProjects().length;}
 
-function saveProject(forcedStatus){
-  const statusToSave=forcedStatus||'quote';
+// Cichy auto-zapis w tle (bez konieczności przewijania góra-dół)
+function autoSaveProjectQuiet(){
+  const cName=document.getElementById('clientName').value.trim();
+  const cAddr=document.getElementById('clientAddress').value.trim();
+  const cPhone=document.getElementById('clientPhone').value.trim();
+  if(cart.length===0&&!cName&&!cAddr&&!cPhone)return;
+  saveProject(currentOrderStatus,true);
+}
+
+function saveProject(forcedStatus,quiet=false){
+  const statusToSave=forcedStatus||currentOrderStatus||'quote';
   currentOrderStatus=statusToSave;
   updateOrderStatusBadge();
-  const address=document.getElementById('clientAddress').value.trim()||'Pomiar bez adresu',phone=document.getElementById('clientPhone').value.trim();
+  const clientName=document.getElementById('clientName').value.trim();
+  const address=document.getElementById('clientAddress').value.trim()||clientName||'Pomiar bez adresu';
+  const phone=document.getElementById('clientPhone').value.trim();
   const now=new Date(),monthKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),yearKey=String(now.getFullYear());
   const t=computeTotalsObject(),list=getSavedProjects();
 
+  const recordData={
+    date:getFormattedDate(),monthKey,yearKey,status:statusToSave,
+    clientName,address,phone,discountMode,discountVal:document.getElementById('discountInput').value,
+    revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]
+  };
+
   if(currentLoadedProjectId){
     const idx=list.findIndex(x=>x.id===currentLoadedProjectId);
-    if(idx!==-1){
-      list[idx]={...list[idx],status:statusToSave,address,phone,discountMode,discountVal:document.getElementById('discountInput').value,revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]};
-    }else{
-      currentLoadedProjectId=Date.now();
-      list.unshift({id:currentLoadedProjectId,date:getFormattedDate(),monthKey,yearKey,status:statusToSave,address,phone,discountMode,discountVal:document.getElementById('discountInput').value,revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]});
-    }
+    if(idx!==-1)list[idx]={...list[idx],...recordData};
+    else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}
   }else{
     currentLoadedProjectId=Date.now();
-    list.unshift({id:currentLoadedProjectId,date:getFormattedDate(),monthKey,yearKey,status:statusToSave,address,phone,discountMode,discountVal:document.getElementById('discountInput').value,revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]});
+    list.unshift({id:currentLoadedProjectId,...recordData});
   }
 
   try{
     localStorage.setItem('arx_saved_projects',JSON.stringify(list));
     updateSavedProjectsCount();
-    playBeep(statusToSave==='done'?1080:880,130);
-    showToast(statusToSave==='done'?'Potwierdzono realizację zamówienia!':'Zapisano wycenę (Niezrealizowane)');
+    if(!quiet){
+      playBeep(statusToSave==='done'?1080:880,110);
+      showToast(statusToSave==='done'?'Oznaczono jako ZREALIZOWANE!':'Zapisano jako Wycenę (Niezrealizowane)');
+    }
   }catch(e){}
 }
 
@@ -1323,31 +1473,49 @@ function toggleProjectStatus(id){
   }
 }
 
+// Podsumowanie finansowe (Obrót / Koszt B2B / Czysty Zysk) liczy ZAWSZE TYLKO ZREALIZOWANE zlecenia z danego okresu
 function renderSavedAndReports(){
   const list=getSavedProjects(),fVal=document.getElementById('reportFilterSelect').value,sFil=document.getElementById('reportStatusFilter').value;
-  const fil=list.filter(p=>{
+  const periodMatched=list.filter(p=>{
     if(reportPeriod==='month'&&(p.monthKey||'2026-10')!==fVal)return false;
     if(reportPeriod==='year'&&(p.yearKey||'2026')!==fVal)return false;
+    return true;
+  });
+
+  let sRev=0,sB2B=0,sProf=0,doneCount=0,quoteCount=0;
+  periodMatched.forEach(p=>{
+    if(p.status==='done'){
+      doneCount++;
+      sRev+=(p.revenue||0);
+      sB2B+=(p.b2bCost||0);
+      sProf+=(p.netProfit||0);
+    }else{
+      quoteCount++;
+    }
+  });
+
+  document.getElementById('repTotalRevenue').innerText=sRev+' zł';
+  document.getElementById('repTotalB2B').innerText=sB2B+' zł';
+  document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
+  document.getElementById('repCountInfo').innerText=`Zrealizowane: ${doneCount} | Niezrealizowane (Wyceny): ${quoteCount}`;
+
+  const fil=periodMatched.filter(p=>{
     const st=p.status||'quote';
     if(sFil==='done'&&st!=='done')return false;
     if(sFil==='quote'&&st!=='quote')return false;
     return true;
   });
-  let sRev=0,sB2B=0,sProf=0;
-  fil.forEach(p=>{sRev+=(p.revenue||0);sB2B+=(p.b2bCost||0);sProf+=(p.netProfit||0);});
-  document.getElementById('repTotalRevenue').innerText=sRev+' zł';
-  document.getElementById('repTotalB2B').innerText=sB2B+' zł';
-  document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
-  document.getElementById('repCountInfo').innerText='Liczba pomiarów: '+fil.length;
+
   const c=document.getElementById('savedProjectsList');c.innerHTML='';
   if(!fil.length){c.innerHTML='<div class="text-center py-6 text-xs text-slate-400">Brak pomiarów dla wybranego filtra.</div>';return;}
   fil.forEach(p=>{
     const done=p.status==='done';
     const bdg=done?`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold">✓ Zrealizowane</button>`:`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold">⏳ Niezrealizowane</button>`;
+    const titleLine=[p.clientName,p.address].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(' • ')||'Pomiar';
     c.innerHTML+=`
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <div class="flex justify-between items-start">
-          <div><div class="font-bold text-sm text-white">${p.address}</div><div class="text-xs text-slate-400 font-mono">${p.phone||'Brak tel.'} • ${p.date}</div></div>
+          <div><div class="font-bold text-sm text-white">${titleLine}</div><div class="text-xs text-slate-400 font-mono">${p.phone||'Brak tel.'} • ${p.date}</div></div>
           ${bdg}
         </div>
         <div class="flex justify-between items-center pt-1.5 border-t border-slate-900">
@@ -1368,7 +1536,9 @@ function loadSavedProject(id){
   currentLoadedProjectId=p.id;
   currentOrderStatus=p.status||'quote';
   updateOrderStatusBadge();
-  document.getElementById('clientAddress').value=p.address;document.getElementById('clientPhone').value=p.phone||'';
+  document.getElementById('clientName').value=p.clientName||'';
+  document.getElementById('clientAddress').value=p.address||'';
+  document.getElementById('clientPhone').value=p.phone||'';
   discountMode=p.discountMode||'pln';document.getElementById('discountInput').value=p.discountVal||0;cart=p.cart||[];
   closeSavedModal();renderCartAndTotals();showToast('Wczytano pomiar!');
 }
@@ -1379,10 +1549,13 @@ function deleteSavedProject(id){
   updateSavedProjectsCount();renderSavedAndReports();
 }
 function resetAll(){
-  if(!confirm('Wyczyścić bieżący pomiar?'))return;
+  if(!confirm('Rozpocząć nowy, czysty pomiar? (Poprzedni jest już zapisany w folderze)'))return;
   currentLoadedProjectId=null;currentOrderStatus='quote';updateOrderStatusBadge();
-  document.getElementById('clientAddress').value='';document.getElementById('clientPhone').value='';document.getElementById('discountInput').value=0;
-  cart=[];renderCartAndTotals();showToast('Wyczyszczono');
+  document.getElementById('clientName').value='';
+  document.getElementById('clientAddress').value='';
+  document.getElementById('clientPhone').value='';
+  document.getElementById('discountInput').value=0;
+  cart=[];renderCartAndTotals();showToast('Nowy arkusz pomiarowy');
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
