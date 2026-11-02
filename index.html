@@ -20,7 +20,6 @@ input[type="range"]{accent-color:#f59e0b;}
 .no-scrollbar::-webkit-scrollbar{display:none;}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
 
-/* MOTYW JASNY (LIGHT MODE) */
 html.light body{background-color:#f1f5f9;color:#0f172a;}
 html.light header,html.light footer{background-color:rgba(255,255,255,0.96)!important;border-color:#cbd5e1!important;}
 html.light .card-bg{background-color:#ffffff;border:1px solid #cbd5e1;box-shadow:0 2px 6px rgba(15,23,42,0.05);}
@@ -36,6 +35,23 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 </style>
 </head>
 <body class="font-sans min-h-screen pb-28">
+
+<!-- BLOKADA PIN -->
+<div id="pinLockScreen" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4 hidden">
+  <div class="card-bg rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl border border-amber-500/40">
+    <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/40">
+      <i class="fa-solid fa-lock"></i>
+    </div>
+    <div>
+      <h2 id="pinTitle" class="font-extrabold text-base text-white">Podaj kod PIN</h2>
+      <p id="pinSub" class="text-xs text-slate-400 mt-1">Zabezpieczenie dostępu do cennika i danych</p>
+    </div>
+    <input type="password" id="pinInput" maxlength="4" placeholder="••••" class="w-full input-bg rounded-2xl py-3 text-center font-mono font-bold text-2xl text-white tracking-widest">
+    <button type="button" onclick="verifyPinCode()" class="w-full py-3.5 rounded-2xl bg-amber-500 text-slate-950 font-extrabold text-sm shadow-lg active:scale-95 transition">
+      Odblokuj aplikację
+    </button>
+  </div>
+</div>
 
 <div id="toastBox" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-sm">
   <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
@@ -406,7 +422,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY, UDOSTĘPNIANIE PLIKU PDF Z LOGO ARX I ZAMÓWIENIE B2B -->
+  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -536,7 +552,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 
     <div class="overflow-y-auto flex-1 space-y-4 pr-1">
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2.5">
-        <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-id-card mr-1"></i> 1. Dane Twojej Firmy</div>
+        <div class="text-xs font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid id-card mr-1"></i> 1. Dane Twojej Firmy i Blokada PIN</div>
         <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="block text-[10px] text-slate-400 mb-1">Skrót logo</label>
@@ -550,6 +566,10 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
         <div>
           <label class="block text-[10px] text-slate-400 mb-1">Podpis firmowy w ofercie SMS i szablonie Maila B2B</label>
           <input type="text" id="setBrandContact" placeholder="np. ARX — Rolety • Moskitiery • Montaż" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs text-white">
+        </div>
+        <div>
+          <label class="block text-[10px] text-amber-400 mb-1 font-bold">Kod PIN zabezpieczenia (4 cyfry):</label>
+          <input type="password" id="setAppPin" maxlength="4" placeholder="np. 1234 (zostaw puste by wyłączyć)" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white text-center">
         </div>
       </div>
 
@@ -618,7 +638,7 @@ const ROOF_BLIND_COLORS=[
   {val:'Anoda',label:'Anoda (Srebrny)'}
 ];
 
-const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX — Rolety • Moskitiery • Montaż'};
+const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX — Rolety • Moskitiery • Montaż',pinCode:''};
 
 const VARIANT_DRAWINGS={
   'Pomiar nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},
@@ -643,24 +663,49 @@ function loadThemePreference(){
   applyThemeMode(saved);
 }
 function applyThemeMode(mode){
-  const htmlEl=document.documentElement;
-  const ic=document.getElementById('themeIcon');
+  const htmlEl=document.documentElement,ic=document.getElementById('themeIcon');
   if(mode==='light'){
-    htmlEl.classList.remove('dark');
-    htmlEl.classList.add('light');
+    htmlEl.classList.remove('dark');htmlEl.classList.add('light');
     if(ic)ic.className='fa-solid fa-moon text-sm text-slate-700';
   }else{
-    htmlEl.classList.remove('light');
-    htmlEl.classList.add('dark');
+    htmlEl.classList.remove('light');htmlEl.classList.add('dark');
     if(ic)ic.className='fa-solid fa-sun text-sm text-amber-400';
   }
 }
 function toggleTheme(){
-  const isLight=document.documentElement.classList.contains('light');
-  const next=isLight?'dark':'light';
+  const isLight=document.documentElement.classList.contains('light'),next=isLight?'dark':'light';
   try{localStorage.setItem('arx_theme_mode',next);}catch(e){}
   applyThemeMode(next);
   showToast(next==='light'?'Włączono motyw jasny ☀️':'Włączono motyw ciemny 🌙');
+}
+
+// SPRAWDZANIE KODU PIN
+function checkPinLockOnStart(){
+  try{
+    const rawBrand=localStorage.getItem('arx_brand_config_v14')||localStorage.getItem('arx_brand_config_v13');
+    if(rawBrand){
+      const cfg=JSON.parse(rawBrand);
+      if(cfg.pinCode && cfg.pinCode.trim().length===4){
+        document.getElementById('pinLockScreen').classList.remove('hidden');
+      }
+    }
+  }catch(e){}
+}
+function verifyPinCode(){
+  const val=document.getElementById('pinInput').value.trim();
+  try{
+    const rawBrand=localStorage.getItem('arx_brand_config_v14')||localStorage.getItem('arx_brand_config_v13');
+    if(rawBrand){
+      const cfg=JSON.parse(rawBrand);
+      if(val===cfg.pinCode.trim()){
+        document.getElementById('pinLockScreen').classList.add('hidden');
+        showToast('Odblokowano pomyślnie!');
+      }else{
+        showToast('Błędny kod PIN!');
+        document.getElementById('pinInput').value='';
+      }
+    }
+  }catch(e){}
 }
 
 function updateVariantDrawing(){
@@ -732,11 +777,11 @@ function toggleCurrentOrderStatus(){
 
 function loadAppConfig(){
   try{
-    const rawBrand=localStorage.getItem('arx_brand_config_v13')||localStorage.getItem('arx_brand_config_v12');
+    const rawBrand=localStorage.getItem('arx_brand_config_v14')||localStorage.getItem('arx_brand_config_v13');
     if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
   }catch(e){brandConfig={...DEFAULT_BRAND};}
   try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v13')||localStorage.getItem('arx_systems_catalog_v12');
+    const rawCat=localStorage.getItem('arx_systems_catalog_v14')||localStorage.getItem('arx_systems_catalog_v13');
     if(rawCat){
       const parsed=JSON.parse(rawCat);
       systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
@@ -837,6 +882,7 @@ function openSettingsModal(){
   document.getElementById('setBrandShort').value=brandConfig.shortName||'ARX';
   document.getElementById('setBrandFull').value=brandConfig.fullName||'ARX Wyceny';
   document.getElementById('setBrandContact').value=brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż';
+  document.getElementById('setAppPin').value=brandConfig.pinCode||'';
   renderCatalogInputsInModal(systemsCatalog);
   document.getElementById('settingsModal').classList.remove('hidden');
 }
@@ -858,6 +904,7 @@ function saveSettingsFromModal(){
   brandConfig.shortName=document.getElementById('setBrandShort').value.trim()||'ARX';
   brandConfig.fullName=document.getElementById('setBrandFull').value.trim()||'ARX Wyceny';
   brandConfig.contactLine=document.getElementById('setBrandContact').value.trim()||'ARX — Rolety • Moskitiery • Montaż';
+  brandConfig.pinCode=document.getElementById('setAppPin').value.trim();
   systemsCatalog.forEach((s,i)=>{
     s.rate=Math.max(0,parseFloat(document.getElementById('catRate_'+i).value)||0);
     s.rateDecor=Math.max(0,parseFloat(document.getElementById('catRateDec_'+i).value)||0);
@@ -868,8 +915,8 @@ function saveSettingsFromModal(){
     s.defaultMargin=Math.max(0,parseFloat(document.getElementById('catMarg_'+i).value)||0);
   });
   try{
-    localStorage.setItem('arx_brand_config_v13',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v13',JSON.stringify(systemsCatalog));
+    localStorage.setItem('arx_brand_config_v14',JSON.stringify(brandConfig));
+    localStorage.setItem('arx_systems_catalog_v14',JSON.stringify(systemsCatalog));
   }catch(e){}
   document.getElementById('brandHeaderTitle').innerText=brandConfig.fullName||'ARX Wyceny';
   onSystemChange();closeSettingsModal();
@@ -891,8 +938,8 @@ function importBackupJSON(ev){
   reader.onload=(e)=>{
     try{
       const data=JSON.parse(e.target.result);
-      if(data.brandConfig)localStorage.setItem('arx_brand_config_v13',JSON.stringify(data.brandConfig));
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v13',JSON.stringify(data.systemsCatalog));
+      if(data.brandConfig)localStorage.setItem('arx_brand_config_v14',JSON.stringify(data.brandConfig));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v14',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
       loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();
@@ -946,7 +993,9 @@ function onSystemChange(){
   const sys=getCurrentSystemObj();
   updateColorDropdownForSystem(sys);
   document.getElementById('installFee').value=sys.install||0;
-  document.getElementById('marginSlider').value=(sys.defaultMargin!==undefined)?sys.defaultMargin:0;
+  // ZABEZPIECZENIE: Dla moskitiery ramkowej domyślny narzut to 0% (żeby małe powierzchnie nie wariowały), dla innych z cennika
+  const defMarg=(sys.id==='mosk_ramk')?0:((sys.defaultMargin!==undefined)?sys.defaultMargin:0);
+  document.getElementById('marginSlider').value=defMarg;
   if(['mosk_plis','mosk_alu','mosk_slim'].includes(sys.id)){
     document.getElementById('installFeeLabel').innerText='Stała kwota doliczana za 1 szt. (+700 zł):';
   }else{
@@ -1425,7 +1474,6 @@ function generateB2BOrderText(){
   return L.join(NL);
 }
 
-// Budowanie czystego układu HTML karty zamówienia z logo ARX
 function buildOrderCardInnerHtml(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const groupsMap=new Map();
@@ -1459,7 +1507,24 @@ function buildOrderCardInnerHtml(){
     </div>`;
   });
   const t=computeTotalsObject();
-  const logoSvg=document.getElementById('arxLogoHeader').innerHTML.replace('width="110" height="40"','width="200" height="72"');
+  const logoSvg=`<svg width="200" height="72" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+    <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/>
+    <rect x="17" y="31" width="7" height="62" fill="#f07414"/>
+    <rect x="106" y="31" width="7" height="62" fill="#f07414"/>
+    <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/>
+    <rect x="27" y="40" width="76" height="6.5" fill="#f07414"/>
+    <rect x="27" y="49" width="76" height="6.5" fill="#f07414"/>
+    <rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
+    <g fill="#b0b5bc">
+      <circle cx="33" cy="70" r="2.2"/><circle cx="41" cy="70" r="2.2"/><circle cx="49" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="65" cy="70" r="2.2"/><circle cx="73" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="89" cy="70" r="2.2"/><circle cx="97" cy="70" r="2.2"/>
+      <circle cx="33" cy="77" r="2.2"/><circle cx="41" cy="77" r="2.2"/><circle cx="49" cy="77" r="2.2"/><circle cx="57" cy="77" r="2.2"/><circle cx="65" cy="77" r="2.2"/><circle cx="73" cy="77" r="2.2"/><circle cx="81" cy="77" r="2.2"/><circle cx="89" cy="77" r="2.2"/><circle cx="97" cy="77" r="2.2"/>
+      <circle cx="33" cy="84" r="2.2"/><circle cx="41" cy="84" r="2.2"/><circle cx="49" cy="84" r="2.2"/><circle cx="57" cy="84" r="2.2"/><circle cx="65" cy="84" r="2.2"/><circle cx="73" cy="84" r="2.2"/><circle cx="81" cy="84" r="2.2"/><circle cx="89" cy="84" r="2.2"/><circle cx="97" cy="84" r="2.2"/>
+      <circle cx="33" cy="91" r="2.2"/><circle cx="41" cy="91" r="2.2"/><circle cx="49" cy="91" r="2.2"/><circle cx="57" cy="91" r="2.2"/><circle cx="65" cy="91" r="2.2"/><circle cx="73" cy="91" r="2.2"/><circle cx="81" cy="91" r="2.2"/><circle cx="89" cy="91" r="2.2"/><circle cx="97" cy="91" r="2.2"/>
+    </g>
+    <text x="122" y="92" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="86" fill="#09254a" letter-spacing="-2">ARX</text>
+    <rect x="8" y="100" width="344" height="24" rx="6" fill="#09254a"/>
+    <text x="180" y="117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14.5" fill="#ffffff" letter-spacing="1.2">ROLETY • MOSKITIERY • MONTAŻ</text>
+  </svg>`;
   return `
     <div style="font-family:Inter,Arial,sans-serif;padding:18px;color:#0f172a;background:#ffffff;">
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #09254a;padding-bottom:12px;">
@@ -1478,43 +1543,29 @@ function buildOrderCardInnerHtml(){
     </div>`;
 }
 
-// Bezpośrednie generowanie pliku PDF i otwarcie okienka "Udostępnij" (Gmail / WhatsApp / Messenger)
 async function shareOrderPDFFile(){
   if(cart.length===0){showToast('Dodaj najpierw pozycję do zamówienia!');return;}
-  const btn=document.getElementById('btnSharePdfMain');
-  const origHtml=btn?btn.innerHTML:'';
+  const btn=document.getElementById('btnSharePdfMain'),origHtml=btn?btn.innerHTML:'';
   if(btn)btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Generowanie pliku PDF...';
 
   const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ_-]/g,'_');
   const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
 
   const tempDiv=document.createElement('div');
-  tempDiv.style.width='720px';
-  tempDiv.style.background='#ffffff';
+  tempDiv.style.width='720px';tempDiv.style.background='#ffffff';
   tempDiv.innerHTML=buildOrderCardInnerHtml();
 
   try{
     if(typeof html2pdf==='undefined'){
       openPrintableOrderWithLogo();
-      if(btn)btn.innerHTML=origHtml;
-      return;
+      if(btn)btn.innerHTML=origHtml;return;
     }
-    const opt={
-      margin:8,
-      filename:fileName,
-      image:{type:'jpeg',quality:0.98},
-      html2canvas:{scale:2,useCORS:true},
-      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    };
+    const opt={margin:8,filename:fileName,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
     const pdfBlob=await html2pdf().set(opt).from(tempDiv).outputPdf('blob');
     const pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
 
     if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
-      await navigator.share({
-        files:[pdfFile],
-        title:`Zamówienie B2B ARX - ${cliAddr}`,
-        text:generateB2BOrderText()
-      });
+      await navigator.share({files:[pdfFile],title:`Zamówienie B2B ARX - ${cliAddr}`,text:generateB2BOrderText()});
       showToast('Udostępniono plik PDF!');
     }else{
       const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
@@ -1786,7 +1837,7 @@ function resetAll(){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-  loadThemePreference();loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
+  loadThemePreference();checkPinLockOnStart();loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
 });
 window.addEventListener('pageshow',()=>{onSystemChange();});
 </script>
