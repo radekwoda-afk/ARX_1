@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ARX Wyceny | Rolety • Moskitiery • Montaż</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script>
@@ -16,7 +16,6 @@ html,body{max-width:100vw;overflow-x:hidden;background-color:#0b0f19;color:#f1f5
 .card-bg{background-color:#131926;border:1px solid #1e293b;}
 .input-bg{background-color:#0b0f19;border:1px solid #1e293b;}
 .input-bg:focus{border-color:#f59e0b;outline:none;}
-input[type="range"]{accent-color:#f59e0b;touch-action:none;}
 .no-scrollbar::-webkit-scrollbar{display:none;}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
 html.light,html.light body{background-color:#f1f5f9;color:#0f172a;}
@@ -35,7 +34,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 </head>
 <body class="font-sans min-h-screen pb-28">
 
-<!-- EKRAN BLOKADY PIN (DOMYŚLNY PIN: 1234) -->
+<!-- BLOKADA PIN (DOMYŚLNY PIN: 1234) -->
 <div id="pinLockScreen" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4 hidden">
   <div class="card-bg rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl border border-amber-500/40">
     <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/40">
@@ -43,7 +42,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
     <div>
       <h2 class="font-extrabold text-base text-white">Blokada ARX Wyceny</h2>
-      <p class="text-xs text-slate-400 mt-1">Podaj 4-cyfrowy kod PIN, aby wejść</p>
+      <p class="text-xs text-slate-400 mt-1">Podaj 4-cyfrowy kod PIN</p>
     </div>
     <input type="password" inputmode="numeric" id="pinInput" maxlength="4" oninput="if(this.value.length===4)verifyPinCode()" placeholder="••••" class="w-full input-bg rounded-2xl py-3 text-center font-mono font-bold text-2xl text-white tracking-widest">
     <button type="button" onclick="verifyPinCode()" class="w-full py-3.5 rounded-2xl bg-amber-500 text-slate-950 font-extrabold text-sm shadow-lg active:scale-95 transition">
@@ -56,48 +55,40 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
   <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
 </div>
 
-<header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-2.5 pt-2 pb-2">
+<!-- GÓRNY PASEK: TYLKO LOGO ARX PO LEWEJ I PRZYCISKI PO PRAWEJ -->
+<header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-2 pb-2">
   <div class="max-w-md mx-auto">
-    <div class="flex justify-between items-center gap-1.5 mb-2">
-      <div class="flex items-center gap-2 min-w-0">
-        <div id="arxLogoHeader" class="bg-white rounded-xl px-1.5 py-0.5 shadow border border-slate-700 shrink-0 flex items-center justify-center">
-          <svg width="92" height="34" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
-            <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/>
-            <rect x="17" y="31" width="7" height="62" fill="#f07414"/>
-            <rect x="106" y="31" width="7" height="62" fill="#f07414"/>
-            <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/>
-            <rect x="27" y="40" width="76" height="6.5" fill="#f07414"/>
-            <rect x="27" y="49" width="76" height="6.5" fill="#f07414"/>
-            <rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
-            <g fill="#b0b5bc">
-              <circle cx="33" cy="70" r="2.2"/><circle cx="45" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="69" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="95" cy="70" r="2.2"/>
-              <circle cx="33" cy="78" r="2.2"/><circle cx="45" cy="78" r="2.2"/><circle cx="57" cy="78" r="2.2"/><circle cx="69" cy="78" r="2.2"/><circle cx="81" cy="78" r="2.2"/><circle cx="95" cy="78" r="2.2"/>
-              <circle cx="33" cy="86" r="2.2"/><circle cx="45" cy="86" r="2.2"/><circle cx="57" cy="86" r="2.2"/><circle cx="69" cy="86" r="2.2"/><circle cx="81" cy="86" r="2.2"/><circle cx="95" cy="86" r="2.2"/>
-            </g>
-            <text x="122" y="92" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="86" fill="#09254a" letter-spacing="-2">ARX</text>
-            <rect x="8" y="100" width="344" height="24" rx="6" fill="#09254a"/>
-            <text x="180" y="117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14.5" fill="#ffffff" letter-spacing="1.2">ROLETY • MOSKITIERY • MONTAŻ</text>
-          </svg>
-        </div>
-        <div class="min-w-0">
-          <div class="flex items-center gap-1">
-            <span id="brandHeaderTitle" class="font-extrabold text-xs text-white truncate">ARX Wyceny</span>
-            <span id="modeBadge" class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30 shrink-0">ROBOCZY</span>
-          </div>
-          <p class="text-[10px] text-slate-400 truncate">Auto-zapis • Pomiar</p>
-        </div>
+    <div class="flex justify-between items-center mb-2">
+      <div id="arxLogoHeader" class="bg-white rounded-xl px-2 py-1 shadow border border-slate-700 shrink-0 flex items-center justify-center">
+        <svg width="114" height="38" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/>
+          <rect x="17" y="31" width="7" height="62" fill="#f07414"/>
+          <rect x="106" y="31" width="7" height="62" fill="#f07414"/>
+          <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/>
+          <rect x="27" y="40" width="76" height="6.5" fill="#f07414"/>
+          <rect x="27" y="49" width="76" height="6.5" fill="#f07414"/>
+          <rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
+          <g fill="#b0b5bc">
+            <circle cx="33" cy="70" r="2.2"/><circle cx="45" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="69" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="95" cy="70" r="2.2"/>
+            <circle cx="33" cy="78" r="2.2"/><circle cx="45" cy="78" r="2.2"/><circle cx="57" cy="78" r="2.2"/><circle cx="69" cy="78" r="2.2"/><circle cx="81" cy="78" r="2.2"/><circle cx="95" cy="78" r="2.2"/>
+            <circle cx="33" cy="86" r="2.2"/><circle cx="45" cy="86" r="2.2"/><circle cx="57" cy="86" r="2.2"/><circle cx="69" cy="86" r="2.2"/><circle cx="81" cy="86" r="2.2"/><circle cx="95" cy="86" r="2.2"/>
+          </g>
+          <text x="122" y="92" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="86" fill="#09254a" letter-spacing="-2">ARX</text>
+          <rect x="8" y="100" width="344" height="24" rx="6" fill="#09254a"/>
+          <text x="180" y="117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14.5" fill="#ffffff" letter-spacing="1.2">ROLETY • MOSKITIERY • MONTAŻ</text>
+        </svg>
       </div>
-      <div class="flex items-center gap-1 shrink-0">
-        <button type="button" onclick="toggleTheme()" title="Motyw Jasny / Ciemny" class="w-8 h-8 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
-          <i id="themeIcon" class="fa-solid fa-sun text-xs"></i>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button type="button" onclick="toggleTheme()" title="Motyw Jasny / Ciemny" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
+          <i id="themeIcon" class="fa-solid fa-sun text-sm"></i>
         </button>
-        <button type="button" onclick="openSavedModal()" title="Zapisane pomiary" class="h-8 px-2 rounded-xl card-bg flex items-center gap-1 text-xs font-bold text-slate-200 active:scale-95 transition">
-          <i class="fa-solid fa-folder text-amber-500 text-xs"></i><span id="savedCount" class="bg-slate-800 px-1 py-0.5 rounded text-[10px]">0</span>
+        <button type="button" onclick="openSavedModal()" title="Zapisane pomiary" class="h-9 px-2.5 rounded-xl card-bg flex items-center gap-1.5 text-xs font-bold text-slate-200 active:scale-95 transition">
+          <i class="fa-solid fa-folder text-amber-500"></i><span id="savedCount" class="bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">0</span>
         </button>
-        <button type="button" onclick="openSettingsModal()" title="Ustawienia i Cennik" class="w-8 h-8 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
-          <i class="fa-solid fa-gear text-xs"></i>
+        <button type="button" onclick="openSettingsModal()" title="Ustawienia i Cennik" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
+          <i class="fa-solid fa-gear text-sm"></i>
         </button>
-        <button type="button" onclick="resetAll()" title="Nowy pomiar" class="w-8 h-8 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition">
+        <button type="button" onclick="resetAll()" title="Nowy pomiar" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition">
           <i class="fa-solid fa-plus text-xs"></i>
         </button>
       </div>
@@ -146,6 +137,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
+  <!-- 2. SZYBKI POMIAR GŁOSOWY (TYLKO WYMIAR, BEZ KOLORU) -->
   <section id="voiceSection" class="card-bg rounded-2xl p-3 shadow-lg border-amber-500/30">
     <div class="flex justify-between items-center mb-2">
       <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
@@ -158,7 +150,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
       <div class="flex justify-between items-center gap-2">
         <div class="flex items-center gap-2 min-w-0">
           <span class="w-3 h-3 rounded-full bg-red-500 animate-ping shrink-0"></span>
-          <span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz wymiar w cm</span>
+          <span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz sam wymiar w cm</span>
         </div>
         <button type="button" onclick="stopAllVoice()" class="text-xs text-slate-400 px-2 py-0.5 rounded bg-slate-800 shrink-0">Stop</button>
       </div>
@@ -169,11 +161,12 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
       </div>
       <div id="voiceBlockedFallback" class="hidden mt-2 pt-2 border-t border-slate-800 space-y-1.5">
         <p class="text-[11px] text-amber-300">Wpisz lub podyktuj wymiar poniżej (i dopowiedz „tak”):</p>
-        <input type="text" id="voiceFallbackInput" oninput="onFallbackInput()" placeholder="np. 85 na 220..." class="w-full input-bg rounded-xl px-3 py-2 text-xs text-white">
+        <input type="text" id="voiceFallbackInput" oninput="onFallbackInput()" placeholder="np. 74 na 130..." class="w-full input-bg rounded-xl px-3 py-2 text-xs text-white">
       </div>
     </div>
   </section>
 
+  <!-- 3. NOWA POZYCJA POMIAROWA -->
   <section id="editorSection" class="card-bg rounded-2xl p-3 shadow-lg space-y-3">
     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
       <div class="flex items-center gap-2">
@@ -405,7 +398,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B (DOPASOWANE DO EKRANU) -->
+  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B -->
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -426,7 +419,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           <i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)
         </button>
         <button type="button" onclick="openPrintableOrderWithLogo()" class="py-2.5 px-2 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-print"></i> Podgląd Karty PDF
+          <i class="fa-solid fa-file-pdf"></i> Podgląd Karty PDF
         </button>
       </div>
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-2">
@@ -468,6 +461,26 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </div>
 </footer>
+
+<!-- MODAL PODGLĄDU KARTY ZAMÓWIENIA PDF Z DZIAŁAJĄCYMI PRZYCISKAMI -->
+<div id="pdfPreviewModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5">
+  <div class="bg-white rounded-2xl max-w-md w-full p-3 shadow-2xl border border-slate-300 space-y-2.5 max-h-[92vh] flex flex-col text-slate-900">
+    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+      <span class="font-extrabold text-xs uppercase tracking-wider text-slate-700"><i class="fa-solid fa-file-pdf text-amber-500 mr-1"></i> Podgląd Karty Zamówienia ARX</span>
+      <button type="button" onclick="closePdfPreviewModal()" class="w-8 h-8 rounded-lg bg-slate-200 text-slate-800 font-bold flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <button type="button" onclick="shareOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
+        <i class="fa-solid fa-share-from-square"></i> Udostępnij PDF (Gmail / WA)
+      </button>
+      <button type="button" onclick="downloadOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
+        <i class="fa-solid fa-download"></i> Pobierz PDF na tel.
+      </button>
+    </div>
+    <div id="pdfCardPreviewContainer" class="overflow-y-auto flex-1 border border-slate-300 rounded-xl p-1 bg-slate-100"></div>
+    <button type="button" onclick="closePdfPreviewModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-white font-bold text-xs">Zamknij podgląd</button>
+  </div>
+</div>
 
 <div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3">
@@ -541,7 +554,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
             <input type="text" id="setBrandShort" maxlength="5" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-white uppercase">
           </div>
           <div class="col-span-2">
-            <label class="block text-[10px] text-slate-400 mb-1">Nazwa firmy (nagłówek)</label>
+            <label class="block text-[10px] text-slate-400 mb-1">Nazwa firmy</label>
             <input type="text" id="setBrandFull" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-white">
           </div>
         </div>
@@ -619,8 +632,8 @@ function toBoldTextDigits(str){
 function loadThemePreference(){applyThemeMode(localStorage.getItem('arx_theme_mode')||'dark');}
 function applyThemeMode(mode){
   const h=document.documentElement,ic=document.getElementById('themeIcon');
-  if(mode==='light'){h.classList.remove('dark');h.classList.add('light');if(ic)ic.className='fa-solid fa-moon text-xs text-slate-700';}
-  else{h.classList.remove('light');h.classList.add('dark');if(ic)ic.className='fa-solid fa-sun text-xs text-amber-400';}
+  if(mode==='light'){h.classList.remove('dark');h.classList.add('light');if(ic)ic.className='fa-solid fa-moon text-sm text-slate-700';}
+  else{h.classList.remove('light');h.classList.add('dark');if(ic)ic.className='fa-solid fa-sun text-sm text-amber-400';}
 }
 function toggleTheme(){
   const next=document.documentElement.classList.contains('light')?'dark':'light';
@@ -696,11 +709,11 @@ function toggleCurrentOrderStatus(){
 
 function loadAppConfig(){
   try{
-    const rawBrand=localStorage.getItem('arx_brand_config_v15')||localStorage.getItem('arx_brand_config_v14');
+    const rawBrand=localStorage.getItem('arx_brand_config_v16')||localStorage.getItem('arx_brand_config_v15');
     if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
   }catch(e){brandConfig={...DEFAULT_BRAND};}
   try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v15')||localStorage.getItem('arx_systems_catalog_v14');
+    const rawCat=localStorage.getItem('arx_systems_catalog_v16')||localStorage.getItem('arx_systems_catalog_v15');
     if(rawCat){
       const parsed=JSON.parse(rawCat);
       systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
@@ -709,7 +722,6 @@ function loadAppConfig(){
       });
     }else systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));
   }catch(e){systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));}
-  document.getElementById('brandHeaderTitle').innerText=brandConfig.fullName||'ARX Wyceny';
   populateSystemsDropdown();
 }
 
@@ -775,10 +787,9 @@ function saveSettingsFromModal(){
     s.defaultMargin=Math.max(0,parseFloat(document.getElementById('catMarg_'+i).value)||0);
   });
   try{
-    localStorage.setItem('arx_brand_config_v15',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v15',JSON.stringify(systemsCatalog));
+    localStorage.setItem('arx_brand_config_v16',JSON.stringify(brandConfig));
+    localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(systemsCatalog));
   }catch(e){}
-  document.getElementById('brandHeaderTitle').innerText=brandConfig.fullName||'ARX Wyceny';
   onSystemChange();closeSettingsModal();showToast('Zapisano cennik i ustawienia!');
 }
 
@@ -795,8 +806,8 @@ function importBackupJSON(ev){
   r.onload=(e)=>{
     try{
       const data=JSON.parse(e.target.result);
-      if(data.brandConfig)localStorage.setItem('arx_brand_config_v15',JSON.stringify(data.brandConfig));
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v15',JSON.stringify(data.systemsCatalog));
+      if(data.brandConfig)localStorage.setItem('arx_brand_config_v16',JSON.stringify(data.brandConfig));
+      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
       loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();showToast('Wczytano kopię!');
@@ -809,8 +820,6 @@ function switchMode(m){
   appMode=m;const w=m==='work';
   document.getElementById('btnModeWork').className=w?'py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition':'py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
   document.getElementById('btnModeClient').className=!w?'py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-blue-600 text-white shadow transition':'py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition';
-  const badge=document.getElementById('modeBadge');
-  badge.innerText=w?'ROBOCZY':'KLIENT';
   document.getElementById('voiceSection').classList.toggle('hidden',!w);
   document.getElementById('editorSection').classList.toggle('hidden',!w);
   document.getElementById('clientBanner').classList.toggle('hidden',w);
@@ -931,7 +940,6 @@ function recalcCurrentItem(){
 
 function addItemToCart(){
   const sys=getCurrentSystemObj();
-  // Zawsze pilnuj zerowego dodatkowego narzutu przy moskitierze ramkowej (180 zł/m²), aby nie dublować ceny
   if(sys.id==='mosk_ramk')document.getElementById('marginSlider').value=0;
   const it=recalcCurrentItem();
   it.id=Date.now();
@@ -1039,20 +1047,7 @@ function buildCleanTranscript(results){
 }
 
 function parseSpokenMeasurement(tr){
-  const raw=tr.trim(),lo=raw.toLowerCase(),sys=getCurrentSystemObj();
-  let color=document.getElementById('itemColor').value;
-  if(sys.id==='rol_dach'){
-    if(lo.includes('anod')||lo.includes('srebr'))color='Anoda';
-    else if(lo.includes('biał')||lo.includes('bial'))color='Biały';
-  }else{
-    if(lo.includes('antracyt'))color='Antracyt (RAL 7016)';
-    else if(lo.includes('biały')||lo.includes('bialy'))color='Biały';
-    else if(lo.includes('brąz')||lo.includes('braz'))color='Brązowy';
-    else if(lo.includes('dąb')||lo.includes('dab'))color='Złoty Dąb';
-    else if(lo.includes('orzech'))color='Orzech';
-    else if(lo.includes('winchester'))color='Winchester';
-    else if(lo.includes('mahoń')||lo.includes('mahon'))color='Mahoń';
-  }
+  const raw=tr.trim();
   const rawNums=raw.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
   const dedupNums=[];
   for(let i=0;i<rawNums.length;i++){
@@ -1068,7 +1063,7 @@ function parseSpokenMeasurement(tr){
   let room='';const fm=raw.match(/[0-9]+/);
   if(fm&&fm.index>0)room=raw.substring(0,fm.index).replace(/\b(i wtedy|wtedy|no to|teraz|dobra|okej|ok|pomiar|okno|wymiar)\b/gi,'').replace(/[,:-]+$/g,'').trim();
   room=room?(room.charAt(0).toUpperCase()+room.slice(1)):document.getElementById('itemRoom').value.trim();
-  return{room,width:w,height:h,color};
+  return{room,width:w,height:h};
 }
 
 function stopAllVoice(){
@@ -1089,7 +1084,7 @@ function startVoiceFlow(){
   document.getElementById('voiceConfirmButtons').classList.add('hidden');
   document.getElementById('voiceBlockedFallback').classList.add('hidden');
   document.getElementById('voiceHeardPreview').classList.add('hidden');
-  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz wymiar w cm';
+  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz sam wymiar w cm';
   document.getElementById('voiceStateBadge').innerText='🔴 Aktywny (30s)';
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
@@ -1134,19 +1129,19 @@ function startVoiceFlow(){
   }catch(e){document.getElementById('voiceBlockedFallback').classList.remove('hidden');}
 }
 
+// POTWIERDZENIE GŁOSOWE: TYLKO WYMIAR, BEZ CZYTANIA I WYŚWIETLANIA KOLORU
 function triggerVoiceConfirmationStep(p){
   pendingVoiceItem=p;
-  document.getElementById('itemColor').value=p.color;
   document.getElementById('itemRoom').value=p.room;
   document.getElementById('itemWidth').value=p.width;
   document.getElementById('itemHeight').value=p.height;
   recalcCurrentItem();
   const pr=document.getElementById('voiceHeardPreview');
-  pr.innerText=(p.room||'Wymiar')+': '+formatCm(p.width)+' x '+formatCm(p.height)+' cm ('+p.color+')';
+  pr.innerText=(p.room||'Wymiar')+': '+formatCm(p.width)+' x '+formatCm(p.height)+' cm';
   pr.classList.remove('hidden');
   document.getElementById('voiceConfirmButtons').classList.remove('hidden');
   document.getElementById('voiceLiveInstruction').innerText='🗣️ Powiedz „TAK” po pytaniu lektora...';
-  speakText((p.room?(p.room+', wymiar '):'Wymiar ')+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów, kolor '+p.color+'. Czy zatwierdzasz?',()=>{
+  speakText((p.room?(p.room+', '):'Wymiar ')+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów. Czy zatwierdzasz?',()=>{
     playBeep(1040,90);listenForYesNoDirectly();
   });
 }
@@ -1224,7 +1219,8 @@ function generateB2BOrderText(){
   return L.join(NL);
 }
 
-function buildOrderCardInnerHtml(){
+// NATYWNY GENERATOR KARTY ZAMÓWIENIA ARX NA CANVAS + PDF (100% POPRAWNY PLIK W GMAILU I WHATSAPPIE)
+function renderOrderSheetCanvas(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const groupsMap=new Map();
   cart.forEach(it=>{
@@ -1233,73 +1229,169 @@ function buildOrderCardInnerHtml(){
     if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
     groupsMap.get(key).items.push(it);
   });
-  let groupsHtml='';
+
+  let totalRows=0;
+  groupsMap.forEach(g=>{totalRows+=g.items.length;});
+  const groupCount=groupsMap.size;
+  const W=1000;
+  const H=Math.max(650,240+(groupCount*78)+(totalRows*56)+110);
+
+  const cv=document.createElement('canvas');
+  cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+
+  // Białe tło
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,W,H);
+
+  // Rysowanie Logo ARX w lewym górnym rogu
+  ctx.fillStyle='#f07414';
+  ctx.beginPath();ctx.roundRect(40,32,96,18,5);ctx.fill();
+  ctx.fillRect(45,54,7,54);ctx.fillRect(124,54,7,54);
+  for(let r=0;r<4;r++)ctx.fillRect(55,54+(r*8),66,5.5);
+  ctx.fillStyle='#b0b5bc';
+  for(let r=0;r<3;r++){
+    for(let c=0;c<7;c++){
+      ctx.beginPath();ctx.arc(61+(c*9),89+(r*7),2,0,Math.PI*2);ctx.fill();
+    }
+  }
+  ctx.fillStyle='#09254a';
+  ctx.font='900 74px Inter, Arial, sans-serif';
+  ctx.fillText('ARX',142,105);
+  ctx.beginPath();ctx.roundRect(38,114,270,22,5);ctx.fill();
+  ctx.fillStyle='#ffffff';
+  ctx.font='800 12px Inter, Arial, sans-serif';
+  ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',54,129);
+
+  // Prawy nagłówek zamówienia
+  ctx.fillStyle='#09254a';
+  ctx.textAlign='right';
+  ctx.font='900 24px Inter, Arial, sans-serif';
+  ctx.fillText('ZAMÓWIENIE PRODUKCYJNE',W-40,62);
+  ctx.fillStyle='#334155';
+  ctx.font='700 17px Inter, Arial, sans-serif';
+  ctx.fillText('Data: '+getFormattedDate(),W-40,92);
+  ctx.fillText('Referencja: '+cliAddr,W-40,118);
+  ctx.textAlign='left';
+
+  // Linia pod nagłówkiem
+  ctx.fillStyle='#09254a';
+  ctx.fillRect(40,150,W-80,4);
+
+  let y=176;
   groupsMap.forEach(grp=>{
-    let rows='';
+    // Belka grupy (Granatowa z pomarańczowym kolorem)
+    ctx.fillStyle='#09254a';
+    ctx.beginPath();ctx.roundRect(40,y,W-80,44,8);ctx.fill();
+    ctx.fillStyle='#ffffff';
+    ctx.font='800 18px Inter, Arial, sans-serif';
+    ctx.fillText(grp.system.toUpperCase(),58,y+28);
+    ctx.fillStyle='#f59e0b';
+    ctx.textAlign='right';
+    ctx.fillText('KOLOR: '+grp.color.toUpperCase(),W-58,y+28);
+    ctx.textAlign='left';
+    y+=44;
+
     grp.items.forEach((it,idx)=>{
+      ctx.fillStyle=idx%2===0?'#f8fafc':'#ffffff';
+      ctx.fillRect(42,y,W-84,50);
+      ctx.strokeStyle='#cbd5e1';
+      ctx.lineWidth=1;
+      ctx.strokeRect(42,y,W-84,50);
+
+      ctx.fillStyle='#0f172a';
+      ctx.font='800 18px Inter, Arial, sans-serif';
+      ctx.fillText((idx+1)+'.',60,y+32);
+
+      const gTxt=it.guideLength>0?` (prowadnica: ${formatCm(it.guideLength)} cm)`:'';
+      ctx.font='900 21px Inter, Arial, sans-serif';
+      ctx.fillText(`${formatCm(it.width)} x ${formatCm(it.height)} cm${gTxt}`,115,y+32);
+
+      ctx.font='900 19px Inter, Arial, sans-serif';
+      ctx.fillText(`${it.qty} szt.`,460,y+32);
+
       const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar');
       const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
-      const notes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join(' &bull; ');
-      const gTxt=it.guideLength>0?` (prowadnica: <b>${formatCm(it.guideLength)} cm</b>)`:'';
-      rows+=`<tr>
-        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;font-weight:800;width:36px;">${idx+1}.</td>
-        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;font-size:15px;font-weight:900;">${formatCm(it.width)} x ${formatCm(it.height)} cm${gTxt}</td>
-        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;font-weight:900;text-align:center;width:70px;">${it.qty} szt.</td>
-        <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;color:#334155;font-weight:600;padding-left:24px;">${notes||'—'}</td>
-      </tr>`;
+      const notes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join('  •  ');
+      ctx.fillStyle='#334155';
+      ctx.font='700 17px Inter, Arial, sans-serif';
+      ctx.fillText(notes||'—',570,y+32);
+      y+=50;
     });
-    groupsHtml+=`<div style="margin-top:16px;border:2px solid #09254a;border-radius:10px;overflow:hidden;">
-      <div style="background:#09254a;color:#fff;padding:8px 14px;font-weight:800;font-size:13px;display:flex;justify-content:space-between;">
-        <span>${grp.system.toUpperCase()}</span><span style="color:#f59e0b;">KOLOR: ${grp.color.toUpperCase()}</span>
-      </div>
-      <table style="width:100%;border-collapse:collapse;font-family:Inter,Arial,sans-serif;font-size:13px;">${rows}</table>
-    </div>`;
+    y+=24;
   });
+
+  // Stopka podsumowania
   const t=computeTotalsObject();
-  const logoSvg=document.getElementById('arxLogoHeader').innerHTML.replace('width="92" height="34"','width="190" height="68"');
-  return `<div style="font-family:Inter,Arial,sans-serif;padding:18px;color:#0f172a;background:#ffffff;">
-    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #09254a;padding-bottom:12px;">
-      <div>${logoSvg}</div>
-      <div style="text-align:right;font-size:12px;">
-        <div style="font-weight:900;font-size:15px;color:#09254a;">ZAMÓWIENIE PRODUKCYJNE</div>
-        <div>Data: <b>${getFormattedDate()}</b></div><div>Referencja: <b>${cliAddr}</b></div>
-      </div>
-    </div>
-    ${groupsHtml||'<p style="padding:20px 0;">Brak pozycji w zamówieniu.</p>'}
-    <div style="margin-top:16px;padding:10px 14px;background:#f1f5f9;border-radius:8px;font-weight:900;font-size:14px;display:flex;justify-content:space-between;">
-      <span>ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.</span><span>${brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'}</span>
-    </div>
-  </div>`;
+  ctx.fillStyle='#e2e8f0';
+  ctx.beginPath();ctx.roundRect(40,y,W-80,52,8);ctx.fill();
+  ctx.fillStyle='#09254a';
+  ctx.font='900 20px Inter, Arial, sans-serif';
+  ctx.fillText(`ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.`,60,y+33);
+  ctx.textAlign='right';
+  ctx.font='800 17px Inter, Arial, sans-serif';
+  ctx.fillText(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż',W-60,y+33);
+  ctx.textAlign='left';
+
+  return cv;
+}
+
+function buildValidPdfBlob(){
+  const cv=renderOrderSheetCanvas();
+  const imgData=cv.toDataURL('image/jpeg',0.95);
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const pageW=210;
+  const margin=10;
+  const drawW=pageW-(margin*2);
+  const drawH=(cv.height/cv.width)*drawW;
+  pdf.addImage(imgData,'JPEG',margin,margin,drawW,Math.min(277,drawH));
+  return pdf.output('blob');
 }
 
 async function shareOrderPDFFile(){
-  if(cart.length===0){showToast('Dodaj najpierw pozycję!');return;}
-  const btn=document.getElementById('btnSharePdfMain'),origHtml=btn?btn.innerHTML:'';
-  if(btn)btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Generowanie PDF...';
-  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ_-]/g,'_');
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
   const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
-  const tempDiv=document.createElement('div');tempDiv.style.width='720px';tempDiv.style.background='#ffffff';tempDiv.innerHTML=buildOrderCardInnerHtml();
   try{
-    if(typeof html2pdf==='undefined'){openPrintableOrderWithLogo();if(btn)btn.innerHTML=origHtml;return;}
-    const opt={margin:8,filename:fileName,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
-    const pdfBlob=await html2pdf().set(opt).from(tempDiv).outputPdf('blob');
+    const pdfBlob=buildValidPdfBlob();
     const pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
     if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
-      await navigator.share({files:[pdfFile],title:`Zamówienie B2B ARX - ${cliAddr}`,text:generateB2BOrderText()});
-      showToast('Udostępniono plik PDF!');
+      await navigator.share({
+        files:[pdfFile],
+        title:`Zamówienie B2B ARX - ${cliAddr}`,
+        text:generateB2BOrderText()
+      });
+      showToast('Wysłano plik PDF!');
     }else{
-      const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);
-      showToast('Pobrano plik PDF!');
+      downloadOrderPDFFile();
     }
-  }catch(e){}
-  if(btn)btn.innerHTML=origHtml;
+  }catch(e){
+    if(e&&e.name!=='AbortError')downloadOrderPDFFile();
+  }
+}
+
+function downloadOrderPDFFile(){
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
+  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
+  const pdfBlob=buildValidPdfBlob();
+  const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
+  a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  showToast('Pobrano plik PDF na telefon!');
 }
 
 function openPrintableOrderWithLogo(){
-  const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
-  const w=window.open('','_blank');if(!w){showToast('Zezwól na otwarcie karty');return;}
-  w.document.write(`<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Zamówienie ARX - ${cliAddr}</title><style>@media print{.no-print{display:none!important;}}</style></head><body style="font-family:Inter,Arial,sans-serif;padding:12px;max-width:750px;margin:0 auto;color:#0f172a;background:#fff;"><div class="no-print" style="display:flex;gap:10px;margin-bottom:14px;padding:10px;background:#0f172a;border-radius:10px;"><button onclick="window.opener&&window.opener.shareOrderPDFFile()" style="flex:1;background:#10b981;color:#0f172a;border:none;padding:10px;border-radius:8px;font-weight:900;font-size:12px;cursor:pointer;">📤 Udostępnij PDF (Gmail / WhatsApp)</button><button onclick="window.print()" style="background:#f07414;color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;">🖨️ Drukuj / PDF</button></div>${buildOrderCardInnerHtml()}</body></html>`);
-  w.document.close();
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+  const cv=renderOrderSheetCanvas();
+  const dataUrl=cv.toDataURL('image/png');
+  const box=document.getElementById('pdfCardPreviewContainer');
+  box.innerHTML=`<img src="${dataUrl}" alt="Karta zamówienia ARX" class="w-full h-auto rounded-lg shadow">`;
+  document.getElementById('pdfPreviewModal').classList.remove('hidden');
+}
+
+function closePdfPreviewModal(){
+  document.getElementById('pdfPreviewModal').classList.add('hidden');
 }
 
 function copyTextToClipboard(txt){
