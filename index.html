@@ -5,19 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ARX Wyceny | Rolety • Moskitiery • Montaż</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script>
 tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}
 </script>
 <style>
-body{background-color:#0b0f19;color:#f1f5f9;-webkit-tap-highlight-color:transparent;}
+body{background-color:#0b0f19;color:#f1f5f9;-webkit-tap-highlight-color:transparent;transition:background-color .2s,color .2s;}
 .card-bg{background-color:#131926;border:1px solid #1e293b;}
 .input-bg{background-color:#0b0f19;border:1px solid #1e293b;}
 .input-bg:focus{border-color:#f59e0b;outline:none;}
 input[type="range"]{accent-color:#f59e0b;}
 .no-scrollbar::-webkit-scrollbar{display:none;}
 .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
+
+/* MOTYW JASNY (LIGHT MODE) */
+html.light body{background-color:#f1f5f9;color:#0f172a;}
+html.light header,html.light footer{background-color:rgba(255,255,255,0.96)!important;border-color:#cbd5e1!important;}
+html.light .card-bg{background-color:#ffffff;border:1px solid #cbd5e1;box-shadow:0 2px 6px rgba(15,23,42,0.05);}
+html.light .input-bg{background-color:#f8fafc;border:1px solid #94a3b8;color:#0f172a!important;}
+html.light .bg-slate-950,html.light .bg-slate-950\/90,html.light .bg-slate-950\/80,html.light .bg-\[\#0e1420\],html.light .bg-\[\#131926\]{background-color:#f8fafc!important;border-color:#cbd5e1!important;}
+html.light .bg-slate-900,html.light .bg-slate-800,html.light .bg-slate-800\/90{background-color:#e2e8f0!important;border-color:#cbd5e1!important;color:#0f172a!important;}
+html.light .text-white,html.light .text-slate-100,html.light .text-slate-200{color:#0f172a!important;}
+html.light .text-slate-300,html.light .text-slate-400{color:#475569!important;}
+html.light .text-amber-400,html.light .text-amber-300{color:#b45309!important;}
+html.light .text-emerald-400,html.light .text-emerald-300{color:#047857!important;}
+html.light .border-slate-800,html.light .border-slate-800\/80,html.light .border-slate-700{border-color:#cbd5e1!important;}
+html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff6ff)!important;border-color:#93c5fd!important;}
 </style>
 </head>
 <body class="font-sans min-h-screen pb-28">
@@ -29,10 +44,9 @@ input[type="range"]{accent-color:#f59e0b;}
 <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-2.5 pb-2.5">
   <div class="max-w-md mx-auto">
     <div class="flex justify-between items-center mb-2.5">
-      <div class="flex items-center gap-2.5">
-        <!-- Wektorowe Logo ARX wbudowane na stałe -->
-        <div id="arxLogoHeader" class="bg-white rounded-xl px-2 py-1 shadow-md border border-slate-700 shrink-0 flex items-center justify-center">
-          <svg width="118" height="42" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+      <div class="flex items-center gap-2">
+        <div id="arxLogoHeader" class="bg-white rounded-xl px-1.5 py-1 shadow-md border border-slate-700 shrink-0 flex items-center justify-center">
+          <svg width="110" height="40" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
             <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/>
             <rect x="17" y="31" width="7" height="62" fill="#f07414"/>
             <rect x="106" y="31" width="7" height="62" fill="#f07414"/>
@@ -52,15 +66,18 @@ input[type="range"]{accent-color:#f59e0b;}
           </svg>
         </div>
         <div>
-          <div class="flex items-center gap-1.5">
-            <span id="brandHeaderTitle" class="font-extrabold text-sm tracking-tight text-white">ARX Wyceny</span>
+          <div class="flex items-center gap-1">
+            <span id="brandHeaderTitle" class="font-extrabold text-xs tracking-tight text-white">ARX Wyceny</span>
             <span id="modeBadge" class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">ROBOCZY</span>
           </div>
-          <p class="text-[10px] text-slate-400">System Pomiarowy • Auto-zapis</p>
+          <p class="text-[10px] text-slate-400">Auto-zapis • Pomiar</p>
         </div>
       </div>
-      <div class="flex items-center gap-1.5">
-        <button type="button" onclick="openSavedModal()" title="Zapisane pomiary i raporty" class="h-9 px-2.5 rounded-xl card-bg flex items-center gap-1.5 text-xs font-bold text-slate-200 active:scale-95 transition">
+      <div class="flex items-center gap-1">
+        <button type="button" onclick="toggleTheme()" title="Przełącz motyw Jasny / Ciemny" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
+          <i id="themeIcon" class="fa-solid fa-sun text-sm"></i>
+        </button>
+        <button type="button" onclick="openSavedModal()" title="Zapisane pomiary i raporty" class="h-9 px-2 rounded-xl card-bg flex items-center gap-1 text-xs font-bold text-slate-200 active:scale-95 transition">
           <i class="fa-solid fa-folder text-amber-500"></i><span id="savedCount" class="bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">0</span>
         </button>
         <button type="button" onclick="openSettingsModal()" title="Ustawienia i Cennik" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
@@ -195,7 +212,6 @@ input[type="range"]{accent-color:#f59e0b;}
         </div>
       </div>
 
-      <!-- RODZAJ MOCOWANIA (BLASZKI 0, 3, 6, 9, 12, 14, 18, 20 LUB SPRĘŻYNKI) -->
       <div id="mountSectionBox" class="bg-slate-950/90 border border-amber-500/30 rounded-xl p-2.5">
         <label class="block text-xs font-semibold text-amber-400 mb-1.5"><i class="fa-solid fa-paperclip mr-1"></i> Rodzaj mocowania (Zaczepy)</label>
         <div class="grid grid-cols-2 gap-2">
@@ -390,7 +406,7 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B Z LOGO ARX -->
+  <!-- 7. EKSPORT WYCENY, UDOSTĘPNIANIE PLIKU PDF Z LOGO ARX I ZAMÓWIENIE B2B -->
   <section class="card-bg rounded-2xl p-3.5 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -403,12 +419,15 @@ input[type="range"]{accent-color:#f59e0b;}
     </div>
 
     <div id="b2bExportSection" class="space-y-2.5 pt-1">
+      <button type="button" id="btnSharePdfMain" onclick="shareOrderPDFFile()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-md active:scale-95 transition">
+        <i class="fa-solid fa-share-from-square text-sm"></i> Udostępnij plik PDF z Logo ARX (Gmail / WhatsApp)
+      </button>
       <div class="grid grid-cols-2 gap-2">
-        <button type="button" onclick="exportOrderB2B()" class="py-3 px-3 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5">
+        <button type="button" onclick="exportOrderB2B()" class="py-2.5 px-3 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5">
           <i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)
         </button>
-        <button type="button" onclick="openPrintableOrderWithLogo()" class="py-3 px-3 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-file-pdf"></i> Karta z Logo ARX
+        <button type="button" onclick="openPrintableOrderWithLogo()" class="py-2.5 px-3 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-print"></i> Podgląd Karty PDF
         </button>
       </div>
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
@@ -616,6 +635,32 @@ function isDecorColor(c){return ['Złoty Dąb','Orzech','Winchester','Mahoń','A
 function toBoldTextDigits(str){
   const map={'0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵'};
   return String(str).replace(/[0-9]/g,d=>map[d]||d);
+}
+
+// OBSŁUGA MOTYWU JASNY / CIEMNY
+function loadThemePreference(){
+  const saved=localStorage.getItem('arx_theme_mode')||'dark';
+  applyThemeMode(saved);
+}
+function applyThemeMode(mode){
+  const htmlEl=document.documentElement;
+  const ic=document.getElementById('themeIcon');
+  if(mode==='light'){
+    htmlEl.classList.remove('dark');
+    htmlEl.classList.add('light');
+    if(ic)ic.className='fa-solid fa-moon text-sm text-slate-700';
+  }else{
+    htmlEl.classList.remove('light');
+    htmlEl.classList.add('dark');
+    if(ic)ic.className='fa-solid fa-sun text-sm text-amber-400';
+  }
+}
+function toggleTheme(){
+  const isLight=document.documentElement.classList.contains('light');
+  const next=isLight?'dark':'light';
+  try{localStorage.setItem('arx_theme_mode',next);}catch(e){}
+  applyThemeMode(next);
+  showToast(next==='light'?'Włączono motyw jasny ☀️':'Włączono motyw ciemny 🌙');
 }
 
 function updateVariantDrawing(){
@@ -1337,7 +1382,6 @@ function generateClientOfferText(){
   return L.join(NL);
 }
 
-// ZGRUPOWANE ZAMÓWIENIE PRODUKCYJNE B2B (System + Kolor jako nagłówek grupy, pod spodem lista wymiarów + po długiej spacji Pomiar nr X i Blaszki/Sprężynki)
 function generateB2BOrderText(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const companyBanner=(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż').toUpperCase();
@@ -1381,8 +1425,8 @@ function generateB2BOrderText(){
   return L.join(NL);
 }
 
-// Karta zamówienia z dużym wektorowym logo ARX (do druku / zapisu PDF na telefonie)
-function openPrintableOrderWithLogo(){
+// Budowanie czystego układu HTML karty zamówienia z logo ARX
+function buildOrderCardInnerHtml(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const groupsMap=new Map();
   cart.forEach(it=>{
@@ -1406,8 +1450,8 @@ function openPrintableOrderWithLogo(){
         <td style="padding:7px 10px;border-bottom:1px solid #cbd5e1;color:#334155;font-weight:600;padding-left:28px;">${notes||'—'}</td>
       </tr>`;
     });
-    groupsHtml+=`<div style="margin-top:18px;border:2px solid #09254a;border-radius:10px;overflow:hidden;">
-      <div style="background:#09254a;color:#fff;padding:8px 14px;font-weight:800;font-size:14px;display:flex;justify-content:space-between;">
+    groupsHtml+=`<div style="margin-top:16px;border:2px solid #09254a;border-radius:10px;overflow:hidden;">
+      <div style="background:#09254a;color:#fff;padding:8px 14px;font-weight:800;font-size:13px;display:flex;justify-content:space-between;">
         <span>${grp.system.toUpperCase()}</span>
         <span style="color:#f59e0b;">KOLOR: ${grp.color.toUpperCase()}</span>
       </div>
@@ -1415,24 +1459,87 @@ function openPrintableOrderWithLogo(){
     </div>`;
   });
   const t=computeTotalsObject();
-  const logoSvg=document.getElementById('arxLogoHeader').innerHTML;
+  const logoSvg=document.getElementById('arxLogoHeader').innerHTML.replace('width="110" height="40"','width="200" height="72"');
+  return `
+    <div style="font-family:Inter,Arial,sans-serif;padding:18px;color:#0f172a;background:#ffffff;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #09254a;padding-bottom:12px;">
+        <div>${logoSvg}</div>
+        <div style="text-align:right;font-size:12px;">
+          <div style="font-weight:900;font-size:15px;color:#09254a;">ZAMÓWIENIE PRODUKCYJNE</div>
+          <div>Data: <b>${getFormattedDate()}</b></div>
+          <div>Referencja: <b>${cliAddr}</b></div>
+        </div>
+      </div>
+      ${groupsHtml||'<p style="padding:20px 0;">Brak pozycji w zamówieniu.</p>'}
+      <div style="margin-top:16px;padding:10px 14px;background:#f1f5f9;border-radius:8px;font-weight:900;font-size:14px;display:flex;justify-content:space-between;">
+        <span>ŁĄCZNIE SZTUK DO PRODUKCJI: ${t.totalSzt} szt.</span>
+        <span>${brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'}</span>
+      </div>
+    </div>`;
+}
+
+// Bezpośrednie generowanie pliku PDF i otwarcie okienka "Udostępnij" (Gmail / WhatsApp / Messenger)
+async function shareOrderPDFFile(){
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do zamówienia!');return;}
+  const btn=document.getElementById('btnSharePdfMain');
+  const origHtml=btn?btn.innerHTML:'';
+  if(btn)btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Generowanie pliku PDF...';
+
+  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ_-]/g,'_');
+  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
+
+  const tempDiv=document.createElement('div');
+  tempDiv.style.width='720px';
+  tempDiv.style.background='#ffffff';
+  tempDiv.innerHTML=buildOrderCardInnerHtml();
+
+  try{
+    if(typeof html2pdf==='undefined'){
+      openPrintableOrderWithLogo();
+      if(btn)btn.innerHTML=origHtml;
+      return;
+    }
+    const opt={
+      margin:8,
+      filename:fileName,
+      image:{type:'jpeg',quality:0.98},
+      html2canvas:{scale:2,useCORS:true},
+      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+    };
+    const pdfBlob=await html2pdf().set(opt).from(tempDiv).outputPdf('blob');
+    const pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
+
+    if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
+      await navigator.share({
+        files:[pdfFile],
+        title:`Zamówienie B2B ARX - ${cliAddr}`,
+        text:generateB2BOrderText()
+      });
+      showToast('Udostępniono plik PDF!');
+    }else{
+      const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
+      a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);
+      showToast('Pobrano plik PDF na urządzenie!');
+    }
+  }catch(e){
+    if(e&&e.name!=='AbortError')showToast('Przerwano lub pobrano PDF');
+  }
+  if(btn)btn.innerHTML=origHtml;
+}
+
+function openPrintableOrderWithLogo(){
+  const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
+  const cardContent=buildOrderCardInnerHtml();
   const w=window.open('','_blank');
   if(!w){showToast('Zezwól na otwarcie karty w przeglądarce');return;}
-  w.document.write(`<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Zamówienie ARX - ${cliAddr}</title></head>
-  <body style="font-family:Inter,Arial,sans-serif;padding:20px;max-width:750px;margin:0 auto;color:#0f172a;">
-    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #09254a;padding-bottom:14px;">
-      <div>${logoSvg.replace('width="118" height="42"','width="210" height="75"')}</div>
-      <div style="text-align:right;font-size:13px;">
-        <div style="font-weight:900;font-size:16px;color:#09254a;">ZAMÓWIENIE PRODUKCYJNE</div>
-        <div>Data: <b>${getFormattedDate()}</b></div>
-        <div>Referencja: <b>${cliAddr}</b></div>
-      </div>
+  w.document.write(`<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Zamówienie ARX - ${cliAddr}</title>
+  <style>@media print{.no-print{display:none!important;}}</style></head>
+  <body style="font-family:Inter,Arial,sans-serif;padding:12px;max-width:750px;margin:0 auto;color:#0f172a;background:#fff;">
+    <div class="no-print" style="display:flex;gap:10px;margin-bottom:14px;padding:10px;background:#0f172a;border-radius:10px;">
+      <button onclick="window.opener && window.opener.shareOrderPDFFile()" style="flex:1;background:#10b981;color:#0f172a;border:none;padding:10px 14px;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer;">📤 Udostępnij plik PDF (Gmail / WhatsApp)</button>
+      <button onclick="window.print()" style="background:#f07414;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:800;font-size:13px;cursor:pointer;">🖨️ Drukuj / Zapisz PDF</button>
     </div>
-    ${groupsHtml||'<p style="padding:20px 0;">Brak pozycji w zamówieniu.</p>'}
-    <div style="margin-top:18px;padding:12px 16px;background:#f1f5f9;border-radius:8px;font-weight:900;font-size:15px;display:flex;justify-content:space-between;">
-      <span>ŁĄCZNIE SZTUK DO PRODUKCJI: ${t.totalSzt} szt.</span>
-      <button onclick="window.print()" style="background:#f07414;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-weight:800;cursor:pointer;">Drukuj / Zapisz PDF</button>
-    </div>
+    ${cardContent}
   </body></html>`);
   w.document.close();
 }
@@ -1679,7 +1786,7 @@ function resetAll(){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-  loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
+  loadThemePreference();loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
 });
 window.addEventListener('pageshow',()=>{onSystemChange();});
 </script>
