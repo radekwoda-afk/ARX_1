@@ -34,7 +34,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 </head>
 <body class="font-sans min-h-screen pb-28">
 
-<!-- BLOKADA PIN -->
 <div id="pinLockScreen" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4 hidden">
   <div class="card-bg rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl border border-amber-500/40">
     <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/40">
@@ -60,7 +59,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
   <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
 </div>
 
-<!-- GÓRNY PASEK: TYLKO LOGO ARX PO LEWEJ I IKONY PO PRAWEJ -->
 <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-2 pb-2">
   <div class="max-w-md mx-auto">
     <div class="flex justify-between items-center mb-2">
@@ -142,7 +140,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
-  <!-- 2. SZYBKI POMIAR GŁOSOWY (TYLKO WYMIAR, BEZ KOLORU) -->
   <section id="voiceSection" class="card-bg rounded-2xl p-3 shadow-lg border-amber-500/30">
     <div class="flex justify-between items-center mb-2">
       <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
@@ -171,7 +168,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
-  <!-- 3. NOWA POZYCJA POMIAROWA -->
   <section id="editorSection" class="card-bg rounded-2xl p-3 shadow-lg space-y-3">
     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
       <div class="flex items-center gap-2">
@@ -403,7 +399,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B -->
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -461,13 +456,12 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
         <span>⏳ Wycena</span>
       </button>
       <button type="button" onclick="exportOfferSMS()" class="px-3 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1 shadow active:scale-95 transition">
-        <i class="fa-solid fa-comment-sms text-sm"></i> Oferta SMS
+        <i class="fa-solid fa-comment-sms text-sm"></i> SMS
       </button>
     </div>
   </div>
 </footer>
 
-<!-- MODAL PODGLĄDU KARTY ZAMÓWIENIA PDF -->
 <div id="pdfPreviewModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5">
   <div class="bg-white rounded-2xl max-w-md w-full p-3 shadow-2xl border border-slate-300 space-y-2.5 max-h-[92vh] flex flex-col text-slate-900">
     <div class="flex justify-between items-center border-b border-slate-200 pb-2">
@@ -646,11 +640,8 @@ function toggleTheme(){
   applyThemeMode(next);showToast(next==='light'?'Motyw jasny ☀️':'Motyw ciemny 🌙');
 }
 
-// NIEZAWODNA OBSŁUGA KODU PIN (STAŁY KLUCZ arx_user_pin + ZAPAMIĘTYWANIE URZĄDZENIA)
 function getStoredCustomPin(){
-  let p=localStorage.getItem('arx_user_pin');
-  if(p!==null)return p;
-  // Odzyskaj PIN z wcześniejszych wersji (v14, v15, v16), jeśli użytkownik go ustawił
+  let p=localStorage.getItem('arx_user_pin');if(p!==null)return p;
   const keys=['arx_brand_config_v16','arx_brand_config_v15','arx_brand_config_v14'];
   for(const k of keys){
     try{
@@ -678,7 +669,7 @@ function savePinImmediately(val){
 function checkPinLockOnStart(){
   if(sessionStorage.getItem('arx_pin_unlocked')==='1'||localStorage.getItem('arx_pin_trusted_device')==='1')return;
   const savedPin=getStoredCustomPin();
-  if(savedPin===''){return;} // Wyłączony PIN
+  if(savedPin==='')return;
   if(savedPin===null){
     document.getElementById('pinScreenTitle').innerText='Ustaw swój kod PIN';
     document.getElementById('pinScreenSub').innerText='Wpisz swój 4-cyfrowy kod PIN, aby zabezpieczyć aplikację';
@@ -695,7 +686,6 @@ function verifyPinCode(){
   const savedPin=getStoredCustomPin();
   const remember=document.getElementById('pinRememberDevice').checked;
 
-  // Jeśli własny PIN nie był jeszcze zapisany w arx_user_pin, zapisz wpisany przez Ciebie kod i odblokuj!
   if(savedPin===null){
     try{
       localStorage.setItem('arx_user_pin',val);
@@ -1399,7 +1389,16 @@ function buildValidPdfBlob(){
   const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const pageW=210,margin=10,drawW=pageW-(margin*2),drawH=(cv.height/cv.width)*drawW;
   pdf.addImage(imgData,'JPEG',margin,margin,drawW,Math.min(277,drawH));
-  return pdf.output('blob');
+  
+  const dataUri = pdf.output('datauristring');
+  const byteString = atob(dataUri.split(',')[1]);
+  const mimeString = dataUri.split(',')[0].split(':')[1].split(';')[0];
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], {type: mimeString});
 }
 
 async function shareOrderPDFFile(){
@@ -1547,7 +1546,7 @@ function renderSavedAndReports(){
   document.getElementById('repTotalRevenue').innerText=sRev+' zł';
   document.getElementById('repTotalB2B').innerText=sB2B+' zł';
   document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
-  document.getElementById('repCountInfo').innerText=`Zrealizowane: ${doneCount} | Niezrealizowane: ${quoteCount}`;
+  document.getElementById('repCountInfo',).innerText=`Zrealizowane: ${doneCount} | Niezrealizowane: ${quoteCount}`;
   const fil=periodMatched.filter(p=>{const st=p.status||'quote';if(sFil==='done'&&st!=='done')return false;if(sFil==='quote'&&st!=='quote')return false;return true;});
   const c=document.getElementById('savedProjectsList');c.innerHTML='';
   if(!fil.length){c.innerHTML='<div class="text-center py-6 text-xs text-slate-400">Brak pomiarów dla wybranego filtra.</div>';return;}
