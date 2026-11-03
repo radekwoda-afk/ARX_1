@@ -8,9 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script>
-tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}
-</script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
 <style>
 html,body{max-width:100vw;overflow-x:hidden;background-color:#0b0f19;color:#f1f5f9;-webkit-tap-highlight-color:transparent;transition:background-color .2s,color .2s;}
 .card-bg{background-color:#131926;border:1px solid #1e293b;}
@@ -36,9 +34,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 
 <div id="pinLockScreen" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4 hidden">
   <div class="card-bg rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl border border-amber-500/40">
-    <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/40">
-      <i class="fa-solid fa-lock"></i>
-    </div>
+    <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/40"><i class="fa-solid fa-lock"></i></div>
     <div>
       <h2 id="pinScreenTitle" class="font-extrabold text-base text-white">Blokada ARX Wyceny</h2>
       <p id="pinScreenSub" class="text-xs text-slate-400 mt-1">Podaj swój 4-cyfrowy kod PIN</p>
@@ -49,9 +45,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
       <input type="checkbox" id="pinRememberDevice" checked class="w-4 h-4 accent-amber-500 rounded">
       <span>Zapamiętaj na tym telefonie</span>
     </label>
-    <button type="button" onclick="verifyPinCode()" class="w-full py-3.5 rounded-2xl bg-amber-500 text-slate-950 font-extrabold text-sm shadow-lg active:scale-95 transition">
-      Odblokuj aplikację
-    </button>
+    <button type="button" onclick="verifyPinCode()" class="w-full py-3.5 rounded-2xl bg-amber-500 text-slate-950 font-extrabold text-sm shadow-lg active:scale-95 transition">Odblokuj aplikację</button>
   </div>
 </div>
 
@@ -64,61 +58,35 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     <div class="flex justify-between items-center mb-2">
       <div id="arxLogoHeader" class="bg-white rounded-xl px-2 py-1 shadow border border-slate-700 shrink-0 flex items-center justify-center">
         <svg width="114" height="38" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
-          <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/>
-          <rect x="17" y="31" width="7" height="62" fill="#f07414"/>
-          <rect x="106" y="31" width="7" height="62" fill="#f07414"/>
-          <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/>
-          <rect x="27" y="40" width="76" height="6.5" fill="#f07414"/>
-          <rect x="27" y="49" width="76" height="6.5" fill="#f07414"/>
-          <rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
-          <g fill="#b0b5bc">
-            <circle cx="33" cy="70" r="2.2"/><circle cx="45" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="69" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="95" cy="70" r="2.2"/>
-            <circle cx="33" cy="78" r="2.2"/><circle cx="45" cy="78" r="2.2"/><circle cx="57" cy="78" r="2.2"/><circle cx="69" cy="78" r="2.2"/><circle cx="81" cy="78" r="2.2"/><circle cx="95" cy="78" r="2.2"/>
-            <circle cx="33" cy="86" r="2.2"/><circle cx="45" cy="86" r="2.2"/><circle cx="57" cy="86" r="2.2"/><circle cx="69" cy="86" r="2.2"/><circle cx="81" cy="86" r="2.2"/><circle cx="95" cy="86" r="2.2"/>
-          </g>
+          <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/><rect x="17" y="31" width="7" height="62" fill="#f07414"/><rect x="106" y="31" width="7" height="62" fill="#f07414"/>
+          <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/><rect x="27" y="40" width="76" height="6.5" fill="#f07414"/><rect x="27" y="49" width="76" height="6.5" fill="#f07414"/><rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
+          <g fill="#b0b5bc"><circle cx="33" cy="70" r="2.2"/><circle cx="45" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="69" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="95" cy="70" r="2.2"/><circle cx="33" cy="78" r="2.2"/><circle cx="45" cy="78" r="2.2"/><circle cx="57" cy="78" r="2.2"/><circle cx="69" cy="78" r="2.2"/><circle cx="81" cy="78" r="2.2"/><circle cx="95" cy="78" r="2.2"/><circle cx="33" cy="86" r="2.2"/><circle cx="45" cy="86" r="2.2"/><circle cx="57" cy="86" r="2.2"/><circle cx="69" cy="86" r="2.2"/><circle cx="81" cy="86" r="2.2"/><circle cx="95" cy="86" r="2.2"/></g>
           <text x="122" y="92" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="86" fill="#09254a" letter-spacing="-2">ARX</text>
           <rect x="8" y="100" width="344" height="24" rx="6" fill="#09254a"/>
           <text x="180" y="117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14.5" fill="#ffffff" letter-spacing="1.2">ROLETY • MOSKITIERY • MONTAŻ</text>
         </svg>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
-        <button type="button" onclick="toggleTheme()" title="Motyw Jasny / Ciemny" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
-          <i id="themeIcon" class="fa-solid fa-sun text-sm"></i>
-        </button>
-        <button type="button" onclick="openSavedModal()" title="Szukaj klienta / Zapisane pomiary" class="h-9 px-2.5 rounded-xl card-bg flex items-center gap-1.5 text-xs font-bold text-slate-200 active:scale-95 transition">
-          <i class="fa-solid fa-magnifying-glass text-amber-500"></i><span id="savedCount" class="bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">0</span>
-        </button>
-        <button type="button" onclick="openSettingsModal()" title="Ustawienia i Cennik" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition">
-          <i class="fa-solid fa-gear text-sm"></i>
-        </button>
-        <button type="button" onclick="resetAll()" title="Nowy pomiar" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition">
-          <i class="fa-solid fa-plus text-xs"></i>
-        </button>
+        <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition"><i id="themeIcon" class="fa-solid fa-sun text-sm"></i></button>
+        <button type="button" onclick="openSavedModal()" class="h-9 px-2.5 rounded-xl card-bg flex items-center gap-1.5 text-xs font-bold text-slate-200 active:scale-95 transition"><i class="fa-solid fa-magnifying-glass text-amber-500"></i><span id="savedCount" class="bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">0</span></button>
+        <button type="button" onclick="openSettingsModal()" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition"><i class="fa-solid fa-gear text-sm"></i></button>
+        <button type="button" onclick="resetAll()" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-slate-300 active:scale-95 transition"><i class="fa-solid fa-plus text-xs"></i></button>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-1.5 bg-[#131926] p-1 rounded-xl border border-slate-800">
-      <button type="button" id="btnModeWork" onclick="switchMode('work')" class="py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition">
-        <i class="fa-solid fa-screwdriver-wrench"></i> Tryb Roboczy
-      </button>
-      <button type="button" id="btnModeClient" onclick="switchMode('client')" class="py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition">
-        <i class="fa-solid fa-user"></i> Widok dla Klienta
-      </button>
+      <button type="button" id="btnModeWork" onclick="switchMode('work')" class="py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow transition"><i class="fa-solid fa-screwdriver-wrench"></i> Tryb Roboczy</button>
+      <button type="button" id="btnModeClient" onclick="switchMode('client')" class="py-1.5 px-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 text-slate-300 transition"><i class="fa-solid fa-user"></i> Widok dla Klienta</button>
     </div>
   </div>
 </header>
 
 <main class="max-w-md mx-auto px-2.5 pt-2.5 space-y-3">
-
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2">
     <div class="flex justify-between items-center gap-1">
       <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-user text-amber-500 mr-1"></i> DANE KLIENTA</span>
       <div class="flex items-center gap-1.5">
-        <button type="button" onclick="openSavedModal()" class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 active:scale-95 transition">
-          <i class="fa-solid fa-magnifying-glass text-amber-400 mr-1"></i>Szukaj klienta
-        </button>
-        <button type="button" onclick="toggleCurrentOrderStatus()" id="currentOrderStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-800 text-amber-400 border border-amber-500/30 active:scale-95 transition">
-          ⏳ Wycena
-        </button>
+        <button type="button" onclick="openSavedModal()" class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 active:scale-95 transition"><i class="fa-solid fa-magnifying-glass text-amber-400 mr-1"></i>Szukaj w bazie</button>
+        <button type="button" onclick="toggleCurrentOrderStatus()" id="currentOrderStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-800 text-amber-400 border border-amber-500/30 active:scale-95 transition">⏳ Wycena</button>
       </div>
     </div>
     <div>
@@ -137,10 +105,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 
   <section id="clientBanner" class="hidden bg-gradient-to-br from-blue-950/60 to-slate-900 border border-blue-500/30 rounded-2xl p-3.5 shadow-lg">
     <div class="flex justify-between items-center gap-2">
-      <div>
-        <h2 class="font-bold text-sm text-white">Podsumowanie Pomiaru i Wyceny ARX</h2>
-        <p class="text-xs text-slate-300 mt-0.5">Produkt na wymiar z montażem.</p>
-      </div>
+      <div><h2 class="font-bold text-sm text-white">Podsumowanie Pomiaru i Wyceny ARX</h2><p class="text-xs text-slate-300 mt-0.5">Produkt na wymiar z montażem.</p></div>
       <button type="button" onclick="switchMode('work')" class="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 whitespace-nowrap">+ Dodaj okno</button>
     </div>
   </section>
@@ -150,15 +115,10 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
       <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
       <span id="voiceStateBadge" class="text-[10px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-medium">1 klik -> wymiar -> „Tak”</span>
     </div>
-    <button type="button" id="btnVoiceStart" onclick="startVoiceFlow()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-base tracking-wide shadow-md flex items-center justify-center gap-2 active:scale-95 transition">
-      <i class="fa-solid fa-microphone"></i> <span>POMIAR</span>
-    </button>
+    <button type="button" id="btnVoiceStart" onclick="startVoiceFlow()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-base tracking-wide shadow-md flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-microphone"></i> <span>POMIAR</span></button>
     <div id="voiceActiveBanner" class="hidden mt-2.5 bg-slate-950 border border-amber-500/60 rounded-xl p-3">
       <div class="flex justify-between items-center gap-2">
-        <div class="flex items-center gap-2 min-w-0">
-          <span class="w-3 h-3 rounded-full bg-red-500 animate-ping shrink-0"></span>
-          <span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz sam wymiar w cm</span>
-        </div>
+        <div class="flex items-center gap-2 min-w-0"><span class="w-3 h-3 rounded-full bg-red-500 animate-ping shrink-0"></span><span id="voiceLiveInstruction" class="text-xs font-bold text-amber-400">Słucham (30s)... Powiedz sam wymiar w cm</span></div>
         <button type="button" onclick="stopAllVoice()" class="text-xs text-slate-400 px-2 py-0.5 rounded bg-slate-800 shrink-0">Stop</button>
       </div>
       <div id="voiceHeardPreview" class="text-sm font-mono font-bold text-white mt-2 hidden"></div>
@@ -175,31 +135,17 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 
   <section id="editorSection" class="card-bg rounded-2xl p-3 shadow-lg space-y-3">
     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-      <div class="flex items-center gap-2">
-        <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs"><i class="fa-solid fa-ruler-combined"></i></span>
-        <h2 class="font-bold text-sm text-white">Nowa pozycja pomiarowa</h2>
-      </div>
-      <button type="button" onclick="openSettingsModal()" class="text-[11px] font-bold text-amber-400 hover:underline flex items-center gap-1">
-        <i class="fa-solid fa-gear"></i> Edytuj cennik
-      </button>
+      <div class="flex items-center gap-2"><span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs"><i class="fa-solid fa-ruler-combined"></i></span><h2 class="font-bold text-sm text-white">Nowa pozycja pomiarowa</h2></div>
+      <button type="button" onclick="openSettingsModal()" class="text-[11px] font-bold text-amber-400 hover:underline flex items-center gap-1"><i class="fa-solid fa-gear"></i> Edytuj cennik</button>
     </div>
-
     <div>
       <label class="block text-xs font-semibold text-slate-300 mb-1">1. Wybierz system osłonowy</label>
-      <div class="relative">
-        <select id="itemSystem" onchange="onSystemChange()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select>
-        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
-      </div>
+      <div class="relative"><select id="itemSystem" onchange="onSystemChange()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select><i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i></div>
     </div>
-
     <div>
       <label class="block text-xs font-semibold text-slate-300 mb-1">2. Kolor osprzętu / profilu</label>
-      <div class="relative">
-        <select id="itemColor" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select>
-        <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
-      </div>
+      <div class="relative"><select id="itemColor" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2.5 text-sm font-semibold text-white appearance-none pr-9"></select><i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i></div>
     </div>
-
     <div id="variantSectionBox" class="hidden space-y-2.5">
       <div>
         <label class="block text-xs font-semibold text-amber-400 mb-1"><i class="fa-solid fa-compass-drafting mr-1"></i> 3. Sposób pomiarowania (Pomiar nr 1–8)</label>
@@ -220,34 +166,14 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           <div id="variantDrawingBox" class="w-[110px] h-[84px] shrink-0 bg-white rounded-xl border-2 border-amber-500/60 flex items-center justify-center shadow-inner overflow-hidden"></div>
         </div>
       </div>
-
       <div id="mountSectionBox" class="bg-slate-950/90 border border-amber-500/30 rounded-xl p-2.5">
         <label class="block text-xs font-semibold text-amber-400 mb-1"><i class="fa-solid fa-paperclip mr-1"></i> Rodzaj mocowania (Zaczepy)</label>
         <div class="grid grid-cols-2 gap-2">
-          <div class="relative">
-            <select id="itemMountType" onchange="onMountTypeChange()" class="w-full input-bg rounded-xl px-3 py-2 text-xs font-bold text-white appearance-none pr-7">
-              <option value="Blaszki">Blaszki</option>
-              <option value="Sprężynki">Sprężynki</option>
-            </select>
-            <i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
-          </div>
-          <div id="clipSizeWrapper" class="relative">
-            <select id="itemClipSize" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-400 appearance-none pr-7 border-amber-500/40">
-              <option value="0">Wysokość: 0</option>
-              <option value="3">Wysokość: 3</option>
-              <option value="6">Wysokość: 6</option>
-              <option value="9" selected>Wysokość: 9</option>
-              <option value="12">Wysokość: 12</option>
-              <option value="14">Wysokość: 14</option>
-              <option value="18">Wysokość: 18</option>
-              <option value="20">Wysokość: 20</option>
-            </select>
-            <i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i>
-          </div>
+          <div class="relative"><select id="itemMountType" onchange="onMountTypeChange()" class="w-full input-bg rounded-xl px-3 py-2 text-xs font-bold text-white appearance-none pr-7"><option value="Blaszki">Blaszki</option><option value="Sprężynki">Sprężynki</option></select><i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i></div>
+          <div id="clipSizeWrapper" class="relative"><select id="itemClipSize" onchange="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-400 appearance-none pr-7 border-amber-500/40"><option value="0">Wysokość: 0</option><option value="3">Wysokość: 3</option><option value="6">Wysokość: 6</option><option value="9" selected>Wysokość: 9</option><option value="12">Wysokość: 12</option><option value="14">Wysokość: 14</option><option value="18">Wysokość: 18</option><option value="20">Wysokość: 20</option></select><i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-amber-500 text-xs pointer-events-none"></i></div>
         </div>
       </div>
     </div>
-
     <div>
       <label class="block text-xs font-semibold text-slate-300 mb-1">4. Pomieszczenie / Notatka (opcjonalnie)</label>
       <input type="text" id="itemRoom" placeholder="Zostaw puste lub wpisz np. Kuchnia, Salon..." class="w-full input-bg rounded-xl px-3 py-2 text-sm text-white mb-2">
@@ -261,17 +187,10 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
         <button type="button" onclick="appendRoomTag('Dachowe')" class="px-2.5 py-1 rounded-lg bg-slate-800/90 border border-slate-700 text-xs font-medium text-slate-200 whitespace-nowrap">+ Dachowe</button>
       </div>
     </div>
-
     <div class="space-y-2">
       <div class="grid grid-cols-3 gap-2">
-        <div>
-          <label class="block text-[11px] text-slate-400 mb-1">Szerokość (cm)</label>
-          <input type="number" step="0.1" id="itemWidth" value="80" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-base text-white">
-        </div>
-        <div>
-          <label class="block text-[11px] text-slate-400 mb-1">Wysokość (cm)</label>
-          <input type="number" step="0.1" id="itemHeight" value="140" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-base text-white">
-        </div>
+        <div><label class="block text-[11px] text-slate-400 mb-1">Szerokość (cm)</label><input type="number" step="0.1" id="itemWidth" value="" placeholder="0" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-base text-white"></div>
+        <div><label class="block text-[11px] text-slate-400 mb-1">Wysokość (cm)</label><input type="number" step="0.1" id="itemHeight" value="" placeholder="0" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl py-2 text-center font-mono font-bold text-base text-white"></div>
         <div>
           <label class="block text-[11px] text-slate-400 mb-1">Ilość sztuk</label>
           <div class="flex items-center input-bg rounded-xl overflow-hidden h-[42px]">
@@ -281,41 +200,29 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           </div>
         </div>
       </div>
-
       <div id="guideRailBox" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-xl p-2.5">
         <label class="block text-xs font-bold text-amber-400 mb-1"><i class="fa-solid fa-arrows-left-right mr-1"></i> Długość prowadnic (cm):</label>
         <input type="number" step="0.1" id="itemGuideLength" value="200" oninput="recalcCurrentItem()" class="w-full input-bg rounded-xl px-3 py-2 font-mono font-bold text-sm text-white border-amber-500/40">
       </div>
-
       <div class="bg-slate-950/90 border border-slate-800/80 rounded-xl px-3 py-2 flex justify-between text-xs text-slate-300">
-        <span>Powierzchnia: <strong id="calcArea" class="font-mono text-white">1.12 m²</strong></span>
-        <span>Obwód: <strong id="calcPerim" class="font-mono text-white">4.40 mb</strong></span>
+        <span>Powierzchnia: <strong id="calcArea" class="font-mono text-white">0.00 m²</strong></span>
+        <span>Obwód: <strong id="calcPerim" class="font-mono text-white">0.00 mb</strong></span>
       </div>
     </div>
-
     <div class="bg-[#0e1420] border border-amber-500/25 rounded-2xl p-3 space-y-2.5">
       <span class="block text-[11px] font-bold uppercase tracking-wider text-amber-500"><i class="fa-solid fa-calculator mr-1"></i> KALKULACJA B2B I CENY KLIENTA</span>
-
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex justify-between items-center gap-2">
-        <div class="min-w-0">
-          <div class="text-[11px] text-slate-400">Wyliczenie wg Twojego cennika ⚙️:</div>
-          <div id="formulaB2BText" class="text-[11px] font-mono text-amber-400 mt-0.5 break-words"></div>
-        </div>
+        <div class="min-w-0"><div class="text-[11px] text-slate-400">Wyliczenie wg Twojego cennika ⚙️:</div><div id="formulaB2BText" class="text-[11px] font-mono text-amber-400 mt-0.5 break-words">Wpisz lub podyktuj wymiar...</div></div>
         <div id="estB2BDisplay" class="text-base font-mono font-bold text-white shrink-0">0 zł</div>
       </div>
-
       <div>
         <label class="block text-[11px] text-slate-400 mb-1">Ręczna cena B2B 1 szt. z tabeli / od dostawcy (zł):</label>
         <input type="number" id="manualB2B" oninput="recalcCurrentItem()" placeholder="Wpisz kwotę z tabeli (zastępuje wyliczenie B2B)..." class="w-full input-bg rounded-xl px-3 py-2 text-xs font-mono text-white">
       </div>
-
       <div id="marginSliderBox">
         <div class="flex justify-between items-center mb-1">
           <span class="text-xs text-slate-300 font-medium">Dodatkowy narzut (%):</span>
-          <div class="flex items-center gap-1.5">
-            <span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+0 zł</span>
-            <span id="marginPctBadge" class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono font-bold text-xs">0%</span>
-          </div>
+          <div class="flex items-center gap-1.5"><span id="marginPlnBadge" class="text-xs font-mono font-bold text-emerald-400">+0 zł</span><span id="marginPctBadge" class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono font-bold text-xs">0%</span></div>
         </div>
         <div class="grid grid-cols-6 gap-1">
           <button type="button" onclick="setMarginPct(0)" class="py-1.5 rounded-lg bg-slate-800 text-xs font-mono text-amber-400 border border-amber-500/40 font-bold">0%</button>
@@ -327,7 +234,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
         </div>
         <input type="hidden" id="marginSlider" value="0">
       </div>
-
       <div>
         <span id="installFeeLabel" class="block text-xs text-slate-300 font-medium mb-1">Kwota doliczana / montaż za 1 szt. (zł):</span>
         <div class="flex gap-2 items-center">
@@ -336,24 +242,17 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           <button type="button" onclick="changeInstall(10)" class="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 font-mono font-bold text-xs text-slate-200">+10</button>
         </div>
       </div>
-
       <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
         <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="previewB2B" class="font-mono font-bold text-sm text-white mt-0.5">0 zł</div></div>
-        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+202 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">z montażem</div></div>
-        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">202 zł</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2"><div class="text-[10px] text-slate-400">Twój zarobek</div><div id="previewProfit" class="font-mono font-bold text-sm text-emerald-400 mt-0.5">+0 zł</div><div id="previewProfitSub" class="text-[9px] text-slate-400">z montażem</div></div>
+        <div class="bg-slate-950/80 rounded-xl p-2 border border-amber-500/30"><div class="text-[10px] text-amber-300">Cena klienta</div><div id="previewClientPrice" class="font-mono font-extrabold text-sm text-amber-400 mt-0.5">0 zł</div></div>
       </div>
     </div>
-
-    <button type="button" onclick="addItemToCart()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
-      <i class="fa-solid fa-plus-circle text-base"></i> DODAJ DO WYCENY (AUTO-ZAPIS)
-    </button>
+    <button type="button" onclick="addItemToCart()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-extrabold text-sm shadow-lg flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-plus-circle text-base"></i> DODAJ DO WYCENY (AUTO-ZAPIS)</button>
   </section>
 
   <section class="card-bg rounded-2xl p-3 shadow-lg">
-    <div class="flex justify-between items-center mb-2.5">
-      <div class="flex items-center gap-2"><i class="fa-solid fa-list-check text-amber-500"></i><h2 class="font-bold text-sm text-white">Koszyk pomiarowy</h2></div>
-      <span id="cartCountBadge" class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded-lg">0 poz. (0 szt.)</span>
-    </div>
+    <div class="flex justify-between items-center mb-2.5"><div class="flex items-center gap-2"><i class="fa-solid fa-list-check text-amber-500"></i><h2 class="font-bold text-sm text-white">Koszyk pomiarowy</h2></div><span id="cartCountBadge" class="text-xs font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded-lg">0 poz. (0 szt.)</span></div>
     <div id="cartItemsContainer" class="space-y-2"></div>
   </section>
 
@@ -374,59 +273,30 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2.5">
     <div id="financialWorkBox" class="space-y-2.5">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-1.5"><i class="fa-solid fa-coins text-amber-500"></i><h2 class="font-bold text-xs uppercase tracking-wider text-white">PODSUMOWANIE FINANSOWE</h2></div>
-        <span id="profitShareBadge" class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Udział zysku: 0%</span>
-      </div>
+      <div class="flex justify-between items-center"><div class="flex items-center gap-1.5"><i class="fa-solid fa-coins text-amber-500"></i><h2 class="font-bold text-xs uppercase tracking-wider text-white">PODSUMOWANIE FINANSOWE</h2></div><span id="profitShareBadge" class="text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Udział zysku: 0%</span></div>
       <div class="grid grid-cols-2 gap-2">
-        <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5">
-          <div class="text-[11px] text-slate-400">Koszt zakupu B2B</div>
-          <div id="sumB2BCost" class="font-mono font-extrabold text-base text-white mt-0.5">0 zł</div>
-          <div id="sumMarginInstallBreak" class="text-[10px] text-slate-400 mt-0.5">Zysk brutto: 0 zł</div>
-        </div>
-        <div class="bg-emerald-950/25 border border-emerald-500/30 rounded-xl p-2.5">
-          <div class="text-[11px] text-emerald-300">Twój czysty zysk</div>
-          <div id="sumNetProfit" class="font-mono font-extrabold text-base text-emerald-400 mt-0.5">+0 zł</div>
-          <div class="text-[10px] text-slate-400 mt-0.5">Po odjęciu rabatu</div>
-        </div>
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5"><div class="text-[11px] text-slate-400">Koszt zakupu B2B</div><div id="sumB2BCost" class="font-mono font-extrabold text-base text-white mt-0.5">0 zł</div><div id="sumMarginInstallBreak" class="text-[10px] text-slate-400 mt-0.5">Zysk brutto: 0 zł</div></div>
+        <div class="bg-emerald-950/25 border border-emerald-500/30 rounded-xl p-2.5"><div class="text-[11px] text-emerald-300">Twój czysty zysk</div><div id="sumNetProfit" class="font-mono font-extrabold text-base text-emerald-400 mt-0.5">+0 zł</div><div class="text-[10px] text-slate-400 mt-0.5">Po odjęciu rabatu</div></div>
       </div>
     </div>
     <div class="bg-slate-950 border border-amber-500/40 rounded-xl p-3">
-      <div class="flex justify-between items-center text-xs text-slate-400 mb-1">
-        <span>Suma przed rabatem: <strong id="sumBeforeDisc" class="font-mono text-slate-200">0 zł</strong></span>
-        <span class="text-amber-400">Rabat: <strong id="sumDiscAmount" class="font-mono">-0 zł</strong></span>
-      </div>
+      <div class="flex justify-between items-center text-xs text-slate-400 mb-1"><span>Suma przed rabatem: <strong id="sumBeforeDisc" class="font-mono text-slate-200">0 zł</strong></span><span class="text-amber-400">Rabat: <strong id="sumDiscAmount" class="font-mono">-0 zł</strong></span></div>
       <div class="text-[11px] uppercase tracking-wider text-amber-400 font-bold">DO ZAPŁATY PRZEZ KLIENTA</div>
-      <div class="flex justify-between items-baseline mt-0.5">
-        <div id="sumClientTotal" class="font-mono font-extrabold text-2xl text-white">0 zł</div>
-        <span class="text-xs text-slate-400">Z montażem</span>
-      </div>
+      <div class="flex justify-between items-baseline mt-0.5"><div id="sumClientTotal" class="font-mono font-extrabold text-2xl text-white">0 zł</div><span class="text-xs text-slate-400">Z montażem</span></div>
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY I AUTOMATYCZNE ZAŁĄCZANIE PLIKU PDF Z LOGO ARX -->
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
-      <button type="button" onclick="sendDirectSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
-        <i class="fa-solid fa-comment-sms"></i> Wyślij SMS
-      </button>
-      <button type="button" onclick="exportOfferSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
-        <i class="fa-brands fa-whatsapp text-emerald-400"></i> Podgląd / WhatsApp
-      </button>
+      <button type="button" onclick="sendDirectSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow"><i class="fa-solid fa-comment-sms"></i> Wyślij SMS</button>
+      <button type="button" onclick="exportOfferSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-brands fa-whatsapp text-emerald-400"></i> Podgląd / WhatsApp</button>
     </div>
-
     <div id="b2bExportSection" class="space-y-2 pt-1">
-      <button type="button" id="btnSharePdfMain" onclick="shareOrderPDFFile()" class="w-full py-3 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-md active:scale-95 transition">
-        <i class="fa-solid fa-share-from-square text-sm"></i> Udostępnij plik PDF z Logo ARX (Gmail / WhatsApp)
-      </button>
+      <button type="button" id="btnSharePdfMain" onclick="shareOrderPDFFile(false)" class="w-full py-3 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-md active:scale-95 transition"><i class="fa-solid fa-share-from-square text-sm"></i> Udostępnij plik PDF z Logo ARX (Gmail / WhatsApp)</button>
       <div class="grid grid-cols-2 gap-2">
-        <button type="button" onclick="exportOrderB2B()" class="py-2.5 px-2 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)
-        </button>
-        <button type="button" onclick="openPrintableOrderWithLogo()" class="py-2.5 px-2 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-file-pdf"></i> Podgląd Karty PDF
-        </button>
+        <button type="button" onclick="exportOrderB2B()" class="py-2.5 px-2 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)</button>
+        <button type="button" onclick="openPrintableOrderWithLogo()" class="py-2.5 px-2 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-solid fa-file-pdf"></i> Podgląd Karty PDF</button>
       </div>
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-2">
         <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400"><i class="fa-solid fa-envelope text-amber-500 mr-1"></i> Baza adresów e-mail hurtowni</span>
@@ -438,49 +308,29 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           <input type="email" id="newSupplierEmail" placeholder="Wpisz e-mail hurtowni..." class="flex-1 min-w-0 input-bg rounded-xl px-2.5 py-2 text-xs text-white">
           <button type="button" onclick="addSupplierEmail()" class="px-2.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-amber-400 font-bold text-xs shrink-0">+ Dodaj</button>
         </div>
-        <button type="button" onclick="shareOrderPDFFile(true)" class="w-full py-2.5 px-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
-          <i class="fa-solid fa-paper-plane"></i> Wyślij zamówienie z załącznikiem PDF (ARX)
-        </button>
+        <button type="button" onclick="shareOrderPDFFile(true)" class="w-full py-2.5 px-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition"><i class="fa-solid fa-paper-plane"></i> Wyślij zamówienie z załącznikiem PDF (ARX)</button>
       </div>
     </div>
   </section>
-
 </main>
 
 <footer class="fixed bottom-0 left-0 right-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-t border-slate-800 px-2.5 py-2">
   <div class="max-w-md mx-auto flex items-center justify-between gap-1.5">
-    <div id="footerProfitCol">
-      <div class="text-[9px] font-bold uppercase text-slate-400">ZYSK</div>
-      <div id="footerProfitVal" class="font-mono font-extrabold text-sm text-emerald-400">+0 zł</div>
-    </div>
-    <div>
-      <div id="footerClientLabel" class="text-[9px] font-bold uppercase text-slate-400">KLIENT</div>
-      <div id="footerClientVal" class="font-mono font-extrabold text-base text-amber-400">0 zł</div>
-    </div>
+    <div id="footerProfitCol"><div class="text-[9px] font-bold uppercase text-slate-400">ZYSK</div><div id="footerProfitVal" class="font-mono font-extrabold text-sm text-emerald-400">+0 zł</div></div>
+    <div><div id="footerClientLabel" class="text-[9px] font-bold uppercase text-slate-400">KLIENT</div><div id="footerClientVal" class="font-mono font-extrabold text-base text-amber-400">0 zł</div></div>
     <div class="flex items-center gap-1.5">
-      <button type="button" id="footerStatusBtn" onclick="toggleCurrentOrderStatus()" class="px-2.5 py-2 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition">
-        <span>⏳ Wycena</span>
-      </button>
-      <button type="button" onclick="exportOfferSMS()" class="px-3 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1 shadow active:scale-95 transition">
-        <i class="fa-solid fa-comment-sms text-sm"></i> SMS
-      </button>
+      <button type="button" id="footerStatusBtn" onclick="toggleCurrentOrderStatus()" class="px-2.5 py-2 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] flex items-center gap-1 active:scale-95 transition"><span>⏳ Wycena</span></button>
+      <button type="button" onclick="exportOfferSMS()" class="px-3 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1 shadow active:scale-95 transition"><i class="fa-solid fa-comment-sms text-sm"></i> Oferta SMS</button>
     </div>
   </div>
 </footer>
 
 <div id="pdfPreviewModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5">
   <div class="bg-white rounded-2xl max-w-md w-full p-3 shadow-2xl border border-slate-300 space-y-2.5 max-h-[92vh] flex flex-col text-slate-900">
-    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
-      <span class="font-extrabold text-xs uppercase tracking-wider text-slate-700"><i class="fa-solid fa-file-pdf text-amber-500 mr-1"></i> Karta Zamówienia ARX</span>
-      <button type="button" onclick="closePdfPreviewModal()" class="w-8 h-8 rounded-lg bg-slate-200 text-slate-800 font-bold flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+    <div class="flex justify-between items-center border-b border-slate-200 pb-2"><span class="font-extrabold text-xs uppercase tracking-wider text-slate-700"><i class="fa-solid fa-file-pdf text-amber-500 mr-1"></i> Karta Zamówienia ARX</span><button type="button" onclick="closePdfPreviewModal()" class="w-8 h-8 rounded-lg bg-slate-200 text-slate-800 font-bold flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
     <div class="grid grid-cols-2 gap-2">
-      <button type="button" onclick="shareOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
-        <i class="fa-solid fa-share-from-square"></i> Udostępnij PDF (Gmail / WA)
-      </button>
-      <button type="button" onclick="downloadOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
-        <i class="fa-solid fa-download"></i> Pobierz PDF na tel.
-      </button>
+      <button type="button" onclick="shareOrderPDFFile(false)" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition"><i class="fa-solid fa-share-from-square"></i> Udostępnij PDF (Gmail / WA)</button>
+      <button type="button" onclick="downloadOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition"><i class="fa-solid fa-download"></i> Pobierz PDF na tel.</button>
     </div>
     <div id="pdfCardPreviewContainer" class="overflow-y-auto flex-1 border border-slate-300 rounded-xl p-1 bg-slate-100"></div>
     <button type="button" onclick="closePdfPreviewModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-white font-bold text-xs">Zamknij podgląd</button>
@@ -489,18 +339,11 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 
 <div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-4 shadow-2xl border border-slate-700 space-y-3">
-    <div class="flex justify-between items-center">
-      <h3 id="modalTitle" class="font-bold text-sm text-white">Gotowy tekst</h3>
-      <button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+    <div class="flex justify-between items-center"><h3 id="modalTitle" class="font-bold text-sm text-white">Gotowy tekst</h3><button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
     <textarea id="modalTextarea" rows="11" class="w-full input-bg rounded-xl p-3 font-mono text-xs text-slate-100 whitespace-pre"></textarea>
     <div id="modalClientSendActions" class="grid grid-cols-2 gap-2">
-      <button type="button" onclick="sendDirectSMS()" class="py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
-        <i class="fa-solid fa-paper-plane"></i> Wyślij SMS
-      </button>
-      <button type="button" onclick="sendDirectWhatsApp()" class="py-2.5 rounded-xl bg-emerald-600/25 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5">
-        <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp
-      </button>
+      <button type="button" onclick="sendDirectSMS()" class="py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow"><i class="fa-solid fa-paper-plane"></i> Wyślij SMS</button>
+      <button type="button" onclick="sendDirectWhatsApp()" class="py-2.5 rounded-xl bg-emerald-600/25 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-brands fa-whatsapp text-base"></i> WhatsApp</button>
     </div>
     <div class="flex gap-2">
       <button type="button" onclick="copyModalTextAgain()" class="flex-1 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">Kopiuj ponownie</button>
@@ -509,81 +352,59 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
   </div>
 </div>
 
-<!-- MODAL ZAPISANYCH POMIARÓW + WYSZUKIWARKA KLIENTÓW PO IMIENIU, ADRESIE LUB TELEFONIE -->
-<div id="savedModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-3">
-  <div class="card-bg rounded-2xl max-w-md w-full p-3.5 shadow-2xl border border-slate-700 space-y-2.5 max-h-[92vh] flex flex-col">
-    <div class="flex justify-between items-center">
-      <h3 class="font-bold text-sm text-white"><i class="fa-solid fa-folder-open text-amber-500 mr-1.5"></i> Baza Klientów, Pomiary i Raporty</h3>
+<div id="savedModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-2">
+  <div class="card-bg rounded-2xl max-w-md w-full p-3 shadow-2xl border border-slate-700 space-y-2 h-[94vh] flex flex-col">
+    <div class="flex justify-between items-center shrink-0">
+      <h3 class="font-bold text-sm text-white"><i class="fa-solid fa-folder-open text-amber-500 mr-1.5"></i> Baza Klientów i Pomiary</h3>
       <button type="button" onclick="closeSavedModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <!-- WYSZUKIWARKA KLIENTÓW -->
-    <div class="relative">
+    <div class="relative shrink-0">
       <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-amber-400 text-xs pointer-events-none"></i>
-      <input type="text" id="clientSearchInput" oninput="renderSavedAndReports()" placeholder="Szukaj klienta: imię, adres lub telefon..." class="w-full input-bg rounded-xl pl-8 pr-8 py-2.5 text-xs font-medium text-white border-amber-500/40">
-      <button type="button" onclick="clearClientSearch()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs px-1">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <input type="text" id="clientSearchInput" oninput="renderSavedAndReports()" placeholder="Szukaj klienta: imię, adres lub telefon..." class="w-full input-bg rounded-xl pl-8 pr-8 py-2 text-xs font-medium text-white border-amber-500/40">
+      <button type="button" onclick="clearClientSearch()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs px-1"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-2">
-      <div class="grid grid-cols-3 gap-1 bg-slate-900 p-1 rounded-lg text-xs">
-        <button type="button" id="tabPeriodMonth" onclick="setReportPeriod('month')" class="py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold">Miesięczne</button>
-        <button type="button" id="tabPeriodYear" onclick="setReportPeriod('year')" class="py-1.5 rounded-md text-slate-300 font-medium">Roczne</button>
-        <button type="button" id="tabPeriodAll" onclick="setReportPeriod('all')" class="py-1.5 rounded-md text-slate-300 font-medium">Wszystkie</button>
+    <div class="bg-slate-950 border border-slate-800 rounded-xl p-2 space-y-1.5 shrink-0">
+      <div class="grid grid-cols-3 gap-1 bg-slate-900 p-1 rounded-lg text-[11px]">
+        <button type="button" id="tabPeriodMonth" onclick="setReportPeriod('month')" class="py-1 rounded-md bg-amber-500 text-slate-950 font-bold">Miesięczne</button>
+        <button type="button" id="tabPeriodYear" onclick="setReportPeriod('year')" class="py-1 rounded-md text-slate-300 font-medium">Roczne</button>
+        <button type="button" id="tabPeriodAll" onclick="setReportPeriod('all')" class="py-1 rounded-md text-slate-300 font-medium">Wszystkie</button>
       </div>
-      <div class="flex gap-2">
-        <select id="reportFilterSelect" onchange="renderSavedAndReports()" class="flex-1 min-w-0 input-bg rounded-lg px-2 py-1.5 text-xs font-mono text-white"></select>
-        <select id="reportStatusFilter" onchange="renderSavedAndReports()" class="input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-amber-400">
+      <div class="flex gap-1.5">
+        <select id="reportFilterSelect" onchange="renderSavedAndReports()" class="flex-1 min-w-0 input-bg rounded-lg px-2 py-1 text-xs font-mono text-white"></select>
+        <select id="reportStatusFilter" onchange="renderSavedAndReports()" class="input-bg rounded-lg px-2 py-1 text-xs font-bold text-amber-400">
           <option value="all">Wszystkie</option>
           <option value="done">Zrealizowane</option>
           <option value="quote">Niezrealizowane</option>
         </select>
       </div>
-      <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 text-center">
-        Podsumowanie finansowe (Tylko Zrealizowane):
+      <button type="button" onclick="toggleReportSummaryBox()" class="w-full py-1 px-2 rounded-lg bg-slate-900 border border-slate-800 text-[11px] font-bold text-emerald-400 flex items-center justify-between">
+        <span>📊 Podsumowanie finansowe (Pokaż / Ukryj)</span>
+        <span id="repCountInfo" class="text-[10px] text-slate-400 font-mono">0 / 0</span>
+      </button>
+      <div id="repSummaryCollapsible" class="hidden grid grid-cols-3 gap-1.5 text-center pt-1">
+        <div class="bg-slate-900 rounded-lg p-1.5 border border-slate-800"><div class="text-[9px] text-slate-400">Obrót</div><div id="repTotalRevenue" class="font-mono font-bold text-xs text-white">0 zł</div></div>
+        <div class="bg-slate-900 rounded-lg p-1.5 border border-slate-800"><div class="text-[9px] text-slate-400">Koszt B2B</div><div id="repTotalB2B" class="font-mono font-bold text-xs text-slate-300">0 zł</div></div>
+        <div class="bg-emerald-950/30 rounded-lg p-1.5 border border-emerald-500/30"><div class="text-[9px] text-emerald-300">Czysty Zysk</div><div id="repTotalProfit" class="font-mono font-extrabold text-xs text-emerald-400">+0 zł</div></div>
       </div>
-      <div class="grid grid-cols-3 gap-1.5 text-center">
-        <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Obrót</div><div id="repTotalRevenue" class="font-mono font-bold text-xs text-white mt-0.5">0 zł</div></div>
-        <div class="bg-slate-900 rounded-lg p-2 border border-slate-800"><div class="text-[10px] text-slate-400">Koszt B2B</div><div id="repTotalB2B" class="font-mono font-bold text-xs text-slate-300 mt-0.5">0 zł</div></div>
-        <div class="bg-emerald-950/30 rounded-lg p-2 border border-emerald-500/30"><div class="text-[10px] text-emerald-300">Czysty Zysk</div><div id="repTotalProfit" class="font-mono font-extrabold text-xs text-emerald-400 mt-0.5">+0 zł</div></div>
-      </div>
-      <div id="repCountInfo" class="text-[10px] text-slate-400 text-center font-mono">Zrealizowane: 0 | Niezrealizowane: 0</div>
     </div>
-    <div id="savedProjectsList" class="space-y-2 overflow-y-auto flex-1 pr-1"></div>
-    <button type="button" onclick="closeSavedModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
+    <div id="savedProjectsList" class="space-y-2 overflow-y-auto flex-1 pr-1 min-h-0"></div>
+    <button type="button" onclick="closeSavedModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs shrink-0">Zamknij</button>
   </div>
 </div>
 
 <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-3">
   <div class="card-bg rounded-2xl max-w-md w-full p-3.5 shadow-2xl border border-slate-700 space-y-3 max-h-[92vh] flex flex-col">
-    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-      <h3 class="font-bold text-sm text-white"><i class="fa-solid fa-gear text-amber-500 mr-1.5"></i> Ustawienia Firmy, PIN i Cennik</h3>
-      <button type="button" onclick="closeSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+    <div class="flex justify-between items-center border-b border-slate-800 pb-2"><h3 class="font-bold text-sm text-white"><i class="fa-solid fa-gear text-amber-500 mr-1.5"></i> Ustawienia Firmy, PIN i Cennik</h3><button type="button" onclick="closeSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
     <div class="overflow-y-auto flex-1 space-y-3 pr-1">
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <div class="text-xs font-bold uppercase tracking-wider text-amber-400">1. Dane Firmy i Kod PIN</div>
         <div class="grid grid-cols-3 gap-2">
-          <div>
-            <label class="block text-[10px] text-slate-400 mb-1">Skrót</label>
-            <input type="text" id="setBrandShort" maxlength="5" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-white uppercase">
-          </div>
-          <div class="col-span-2">
-            <label class="block text-[10px] text-slate-400 mb-1">Nazwa firmy</label>
-            <input type="text" id="setBrandFull" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-white">
-          </div>
+          <div><label class="block text-[10px] text-slate-400 mb-1">Skrót</label><input type="text" id="setBrandShort" maxlength="5" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-white uppercase"></div>
+          <div class="col-span-2"><label class="block text-[10px] text-slate-400 mb-1">Nazwa firmy</label><input type="text" id="setBrandFull" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs font-bold text-white"></div>
         </div>
-        <div>
-          <label class="block text-[10px] text-slate-400 mb-1">Podpis w ofercie SMS i Mailu B2B</label>
-          <input type="text" id="setBrandContact" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs text-white">
-        </div>
-        <div>
-          <label class="block text-[10px] text-amber-400 mb-1 font-bold">Twój kod PIN (4 cyfry — zapisuje się od razu):</label>
-          <input type="text" inputmode="numeric" id="setAppPin" maxlength="4" oninput="savePinImmediately(this.value)" placeholder="Wpisz 4 cyfry (lub zostaw puste by wyłączyć)" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white text-center">
-        </div>
+        <div><label class="block text-[10px] text-slate-400 mb-1">Podpis w ofercie SMS i Mailu B2B</label><input type="text" id="setBrandContact" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs text-white"></div>
+        <div><label class="block text-[10px] text-amber-400 mb-1 font-bold">Twój kod PIN (4 cyfry — zapisuje się od razu):</label><input type="text" inputmode="numeric" id="setAppPin" maxlength="4" oninput="savePinImmediately(this.value)" placeholder="Wpisz 4 cyfry (lub zostaw puste by wyłączyć)" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white text-center"></div>
       </div>
-
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <span class="text-xs font-bold uppercase tracking-wider text-amber-400">2. Cennik Zakupu (B2B) i Sprzedaży (Klient)</span>
         <div class="grid grid-cols-2 gap-2 pb-1">
@@ -592,7 +413,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
         </div>
         <div id="settingsCatalogList" class="space-y-2"></div>
       </div>
-
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
         <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">3. Kopia Zapasowa (Cennik + Pomiary)</div>
         <div class="grid grid-cols-2 gap-2">
@@ -621,18 +441,10 @@ const DEFAULT_SYSTEMS=[
   {id:'rol_kas_dn',name:'Roleta w kasecie (Dzień / Noc)',calcType:'m2',rate:185,rateDecor:185,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:135,install:55,defaultMargin:40,guide:0,variants:0},
   {id:'rol_zew',name:'Roleta zewnętrzna (z napędem elektrycznym)',calcType:'m2',rate:480,rateDecor:480,clientRate:0,clientRateDecor:0,b2bExtra:0,clientExtra:0,minPrice:650,install:220,defaultMargin:40,guide:0,variants:0}
 ];
-const STANDARD_COLORS=[
-  {val:'Biały',label:'Biały'},{val:'Brązowy',label:'Brązowy'},{val:'Antracyt (RAL 7016)',label:'Antracyt (RAL 7016)'},
-  {val:'Złoty Dąb',label:'Złoty Dąb (dekor)'},{val:'Orzech',label:'Orzech (dekor)'},{val:'Winchester',label:'Winchester (dekor)'},{val:'Mahoń',label:'Mahoń (dekor)'}
-];
+const STANDARD_COLORS=[{val:'Biały',label:'Biały'},{val:'Brązowy',label:'Brązowy'},{val:'Antracyt (RAL 7016)',label:'Antracyt (RAL 7016)'},{val:'Złoty Dąb',label:'Złoty Dąb (dekor)'},{val:'Orzech',label:'Orzech (dekor)'},{val:'Winchester',label:'Winchester (dekor)'},{val:'Mahoń',label:'Mahoń (dekor)'}];
 const ROOF_BLIND_COLORS=[{val:'Biały',label:'Biały'},{val:'Anoda',label:'Anoda (Srebrny)'}];
 const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX — Rolety • Moskitiery • Montaż'};
-const VARIANT_DRAWINGS={
-  'Pomiar nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},'Pomiar nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
-  'Pomiar nr 3':{label:'NR:3',l:'out',r:'out',t:'in',b:'in'},'Pomiar nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},
-  'Pomiar nr 5':{label:'NR:5',l:'out',r:'out',t:'out',b:'out'},'Pomiar nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},
-  'Pomiar nr 7':{label:'NR:7',l:'out',r:'out',t:'out',b:'in'},'Pomiar nr 8':{label:'NR:8',l:'in',r:'in',t:'out',b:'out'}
-};
+const VARIANT_DRAWINGS={'Pomiar nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},'Pomiar nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},'Pomiar nr 3':{label:'NR:3',l:'out',r:'out',t:'in',b:'in'},'Pomiar nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},'Pomiar nr 5':{label:'NR:5',l:'out',r:'out',t:'out',b:'out'},'Pomiar nr 6':{label:'NR:6',l:'out',r:'in',t:'out',b:'in'},'Pomiar nr 7':{label:'NR:7',l:'out',r:'out',t:'out',b:'in'},'Pomiar nr 8':{label:'NR:8',l:'in',r:'in',t:'out',b:'out'}};
 
 let appMode='work',discountMode='pln',cart=[],currentLoadedProjectId=null,currentOrderStatus='quote';
 let pendingVoiceItem=null,activeRecognition=null,fallbackTimer=null,reportPeriod='month';
@@ -641,123 +453,60 @@ let systemsCatalog=[],brandConfig={...DEFAULT_BRAND};
 const NL=String.fromCharCode(10);
 
 function isDecorColor(c){return ['Złoty Dąb','Orzech','Winchester','Mahoń','Anoda'].some(d=>c.includes(d));}
-function toBoldTextDigits(str){
-  const map={'0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵'};
-  return String(str).replace(/[0-9]/g,d=>map[d]||d);
+function toBoldTextDigits(str){const map={'0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵'};return String(str).replace(/[0-9]/g,d=>map[d]||d);}
+function formatSpokenCm(v){
+  const s=formatCm(v);
+  if(s.endsWith('.5'))return s.slice(0,-2)+' i pół';
+  if(s.includes('.'))return s.replace('.',' przecinek ');
+  return s;
 }
+function pushModalState(){try{history.pushState({arxModal:true},'');}catch(e){}}
+window.addEventListener('popstate',()=>{
+  const modals=['savedModal','pdfPreviewModal','settingsModal','exportModal'];
+  let closed=false;
+  modals.forEach(id=>{const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')){el.classList.add('hidden');closed=true;}});
+  if(!closed){try{history.pushState({arxRoot:true},'');}catch(e){}}
+});
+
 function loadThemePreference(){applyThemeMode(localStorage.getItem('arx_theme_mode')||'dark');}
 function applyThemeMode(mode){
   const h=document.documentElement,ic=document.getElementById('themeIcon');
   if(mode==='light'){h.classList.remove('dark');h.classList.add('light');if(ic)ic.className='fa-solid fa-moon text-sm text-slate-700';}
   else{h.classList.remove('light');h.classList.add('dark');if(ic)ic.className='fa-solid fa-sun text-sm text-amber-400';}
 }
-function toggleTheme(){
-  const next=document.documentElement.classList.contains('light')?'dark':'light';
-  try{localStorage.setItem('arx_theme_mode',next);}catch(e){}
-  applyThemeMode(next);showToast(next==='light'?'Motyw jasny ☀️':'Motyw ciemny 🌙');
-}
+function toggleTheme(){const next=document.documentElement.classList.contains('light')?'dark':'light';try{localStorage.setItem('arx_theme_mode',next);}catch(e){}applyThemeMode(next);showToast(next==='light'?'Motyw jasny ☀️':'Motyw ciemny 🌙');}
 
 function getStoredCustomPin(){
   let p=localStorage.getItem('arx_user_pin');if(p!==null)return p;
-  const keys=['arx_brand_config_v16','arx_brand_config_v15','arx_brand_config_v14'];
-  for(const k of keys){
-    try{
-      const raw=localStorage.getItem(k);
-      if(raw){
-        const parsed=JSON.parse(raw);
-        if(parsed.pinCode&&parsed.pinCode.trim()!==''&&parsed.pinCode.trim()!=='1234'){
-          localStorage.setItem('arx_user_pin',parsed.pinCode.trim());
-          return parsed.pinCode.trim();
-        }
-      }
-    }catch(e){}
-  }
+  for(const k of ['arx_brand_config_v16','arx_brand_config_v15']){try{const raw=localStorage.getItem(k);if(raw){const parsed=JSON.parse(raw);if(parsed.pinCode&&parsed.pinCode.trim()!==''&&parsed.pinCode.trim()!=='1234'){localStorage.setItem('arx_user_pin',parsed.pinCode.trim());return parsed.pinCode.trim();}}}catch(e){}}
   return null;
 }
-
-function savePinImmediately(val){
-  const clean=val.replace(/[^0-9]/g,'').trim();
-  try{
-    localStorage.setItem('arx_user_pin',clean);
-    if(clean==='')localStorage.removeItem('arx_pin_trusted_device');
-  }catch(e){}
-}
-
+function savePinImmediately(val){const clean=val.replace(/[^0-9]/g,'').trim();try{localStorage.setItem('arx_user_pin',clean);if(clean==='')localStorage.removeItem('arx_pin_trusted_device');}catch(e){}}
 function checkPinLockOnStart(){
   if(sessionStorage.getItem('arx_pin_unlocked')==='1'||localStorage.getItem('arx_pin_trusted_device')==='1')return;
-  const savedPin=getStoredCustomPin();
-  if(savedPin==='')return;
-  if(savedPin===null){
-    document.getElementById('pinScreenTitle').innerText='Ustaw swój kod PIN';
-    document.getElementById('pinScreenSub').innerText='Wpisz swój 4-cyfrowy kod PIN, aby zabezpieczyć aplikację';
-  }else{
-    document.getElementById('pinScreenTitle').innerText='Blokada ARX Wyceny';
-    document.getElementById('pinScreenSub').innerText='Podaj swój 4-cyfrowy kod PIN';
-  }
+  const savedPin=getStoredCustomPin();if(savedPin==='')return;
+  if(savedPin===null){document.getElementById('pinScreenTitle').innerText='Ustaw swój kod PIN';document.getElementById('pinScreenSub').innerText='Wpisz swój 4-cyfrowy kod PIN, aby zabezpieczyć aplikację';}
+  else{document.getElementById('pinScreenTitle').innerText='Blokada ARX Wyceny';document.getElementById('pinScreenSub').innerText='Podaj swój 4-cyfrowy kod PIN';}
   document.getElementById('pinLockScreen').classList.remove('hidden');
 }
-
 function verifyPinCode(){
-  const val=document.getElementById('pinInput').value.trim();
-  if(val.length<4)return;
-  const savedPin=getStoredCustomPin();
-  const remember=document.getElementById('pinRememberDevice').checked;
-
-  if(savedPin===null){
-    try{
-      localStorage.setItem('arx_user_pin',val);
-      sessionStorage.setItem('arx_pin_unlocked','1');
-      if(remember)localStorage.setItem('arx_pin_trusted_device','1');
-    }catch(e){}
-    document.getElementById('pinLockScreen').classList.add('hidden');
-    showToast('Zapisano Twój PIN i odblokowano!');
-    return;
-  }
-
-  if(val===savedPin){
-    try{
-      sessionStorage.setItem('arx_pin_unlocked','1');
-      if(remember)localStorage.setItem('arx_pin_trusted_device','1');
-    }catch(e){}
-    document.getElementById('pinErrorMsg').classList.add('hidden');
-    document.getElementById('pinLockScreen').classList.add('hidden');
-    showToast('Odblokowano!');
-  }else{
-    document.getElementById('pinErrorMsg').classList.remove('hidden');
-    document.getElementById('pinInput').value='';
-    playBeep(320,180);
-  }
+  const val=document.getElementById('pinInput').value.trim();if(val.length<4)return;
+  const savedPin=getStoredCustomPin(),remember=document.getElementById('pinRememberDevice').checked;
+  if(savedPin===null||val===savedPin){
+    try{if(savedPin===null)localStorage.setItem('arx_user_pin',val);sessionStorage.setItem('arx_pin_unlocked','1');if(remember)localStorage.setItem('arx_pin_trusted_device','1');}catch(e){}
+    document.getElementById('pinErrorMsg').classList.add('hidden');document.getElementById('pinLockScreen').classList.add('hidden');showToast('Odblokowano!');
+  }else{document.getElementById('pinErrorMsg').classList.remove('hidden');document.getElementById('pinInput').value='';playBeep(320,180);}
 }
 
 function updateVariantDrawing(){
-  const sel=document.getElementById('itemVariant'),box=document.getElementById('variantDrawingBox');
-  if(!sel||!box)return;
+  const sel=document.getElementById('itemVariant'),box=document.getElementById('variantDrawingBox');if(!sel||!box)return;
   const cfg=VARIANT_DRAWINGS[sel.value]||VARIANT_DRAWINGS['Pomiar nr 1'];
   const xL=cfg.l==='out'?6:20,xR=cfg.r==='out'?110:96,yT=cfg.t==='out'?6:18,yB=cfg.b==='out'?82:70,mX=58,mY=44;
-  box.innerHTML=`<svg width="106" height="80" viewBox="0 0 116 88" xmlns="http://www.w3.org/2000/svg">
-    <rect x="6" y="6" width="104" height="76" fill="none" stroke="#0f172a" stroke-width="2"/>
-    <rect x="20" y="18" width="76" height="52" fill="none" stroke="#0f172a" stroke-width="2"/>
-    <text x="23" y="30" font-family="Inter,Arial,sans-serif" font-size="9.5" font-weight="800" fill="#0f172a">${cfg.label}</text>
-    <line x1="${xL}" y1="${mY}" x2="${xR}" y2="${mY}" stroke="#dc2626" stroke-width="2"/>
-    <polyline points="${xL+5},${mY-3.5} ${xL},${mY} ${xL+5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-    <polyline points="${xR-5},${mY-3.5} ${xR},${mY} ${xR-5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-    <line x1="${mX}" y1="${yT}" x2="${mX}" y2="${yB}" stroke="#dc2626" stroke-width="2"/>
-    <polyline points="${mX-3.5},${yT+5} ${mX},${yT} ${mX+3.5},${yT+5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-    <polyline points="${mX-3.5},${yB-5} ${mX},${yB} ${mX+3.5},${yB-5}" fill="none" stroke="#dc2626" stroke-width="2"/>
-  </svg>`;
+  box.innerHTML=`<svg width="106" height="80" viewBox="0 0 116 88" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="104" height="76" fill="none" stroke="#0f172a" stroke-width="2"/><rect x="20" y="18" width="76" height="52" fill="none" stroke="#0f172a" stroke-width="2"/><text x="23" y="30" font-family="Inter,Arial,sans-serif" font-size="9.5" font-weight="800" fill="#0f172a">${cfg.label}</text><line x1="${xL}" y1="${mY}" x2="${xR}" y2="${mY}" stroke="#dc2626" stroke-width="2"/><polyline points="${xL+5},${mY-3.5} ${xL},${mY} ${xL+5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/><polyline points="${xR-5},${mY-3.5} ${xR},${mY} ${xR-5},${mY+3.5}" fill="none" stroke="#dc2626" stroke-width="2"/><line x1="${mX}" y1="${yT}" x2="${mX}" y2="${yB}" stroke="#dc2626" stroke-width="2"/><polyline points="${mX-3.5},${yT+5} ${mX},${yT} ${mX+3.5},${yT+5}" fill="none" stroke="#dc2626" stroke-width="2"/><polyline points="${mX-3.5},${yB-5} ${mX},${yB} ${mX+3.5},${yB-5}" fill="none" stroke="#dc2626" stroke-width="2"/></svg>`;
 }
-
-function onMountTypeChange(){
-  document.getElementById('clipSizeWrapper').classList.toggle('hidden',document.getElementById('itemMountType').value==='Sprężynki');
-  recalcCurrentItem();
-}
-function showToast(m,ms=2500){
-  const b=document.getElementById('toastBox');document.getElementById('toastMsg').innerText=m;
-  b.classList.remove('hidden');setTimeout(()=>b.classList.add('hidden'),ms);
-}
-function playBeep(f=880,d=120){
-  try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;g.gain.value=0.15;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>{o.stop();c.close();},d);}catch(e){}
-}
+function onMountTypeChange(){document.getElementById('clipSizeWrapper').classList.toggle('hidden',document.getElementById('itemMountType').value==='Sprężynki');recalcCurrentItem();}
+function showToast(m,ms=2500){const b=document.getElementById('toastBox');document.getElementById('toastMsg').innerText=m;b.classList.remove('hidden');setTimeout(()=>b.classList.add('hidden'),ms);}
+function playBeep(f=880,d=120){try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;g.gain.value=0.15;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>{o.stop();c.close();},d);}catch(e){}}
 function formatCm(v){const n=parseFloat(v)||0;return Number.isInteger(n)?n.toString():n.toFixed(1).replace(/\.0$/,'');}
 
 function updateOrderStatusBadge(){
@@ -770,83 +519,39 @@ function updateOrderStatusBadge(){
     if(fb){fb.innerHTML='<span>⏳ Wycena</span>';fb.className='px-2.5 py-2 rounded-xl bg-slate-800 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] flex items-center gap-1';}
   }
 }
-function toggleCurrentOrderStatus(){
-  currentOrderStatus=currentOrderStatus==='done'?'quote':'done';
-  updateOrderStatusBadge();saveProject(currentOrderStatus,false);
-}
+function toggleCurrentOrderStatus(){currentOrderStatus=currentOrderStatus==='done'?'quote':'done';updateOrderStatusBadge();saveProject(currentOrderStatus,false);}
 
 function loadAppConfig(){
-  try{
-    const rawBrand=localStorage.getItem('arx_brand_config_v16')||localStorage.getItem('arx_brand_config_v15');
-    if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};
-  }catch(e){brandConfig={...DEFAULT_BRAND};}
-  try{
-    const rawCat=localStorage.getItem('arx_systems_catalog_v16')||localStorage.getItem('arx_systems_catalog_v15');
-    if(rawCat){
-      const parsed=JSON.parse(rawCat);
-      systemsCatalog=DEFAULT_SYSTEMS.map(def=>{
-        const found=parsed.find(x=>x.id===def.id);
-        return found?{...def,...found,name:def.name,variants:def.variants}:def;
-      });
-    }else systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));
-  }catch(e){systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));}
+  try{const rawBrand=localStorage.getItem('arx_brand_config_v16')||localStorage.getItem('arx_brand_config_v15');if(rawBrand)brandConfig={...DEFAULT_BRAND,...JSON.parse(rawBrand)};}catch(e){brandConfig={...DEFAULT_BRAND};}
+  try{const rawCat=localStorage.getItem('arx_systems_catalog_v16')||localStorage.getItem('arx_systems_catalog_v15');if(rawCat){const parsed=JSON.parse(rawCat);systemsCatalog=DEFAULT_SYSTEMS.map(def=>{const found=parsed.find(x=>x.id===def.id);return found?{...def,...found,name:def.name,variants:def.variants}:def;});}else systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));}catch(e){systemsCatalog=JSON.parse(JSON.stringify(DEFAULT_SYSTEMS));}
   populateSystemsDropdown();
 }
-
-function populateSystemsDropdown(){
-  const sel=document.getElementById('itemSystem'),prevVal=sel.value;sel.innerHTML='';
-  systemsCatalog.forEach((s,idx)=>{const o=document.createElement('option');o.value=idx;o.innerText=s.name;sel.appendChild(o);});
-  sel.value=(prevVal!==''&&systemsCatalog[prevVal])?prevVal:'0';
-}
-function updateColorDropdownForSystem(sys){
-  const colSel=document.getElementById('itemColor'),prevCol=colSel.value;
-  const list=sys.id==='rol_dach'?ROOF_BLIND_COLORS:STANDARD_COLORS;colSel.innerHTML='';
-  list.forEach(c=>{const o=document.createElement('option');o.value=c.val;o.innerText=c.label;colSel.appendChild(o);});
-  colSel.value=list.some(c=>c.val===prevCol)?prevCol:list[0].val;
-}
+function populateSystemsDropdown(){const sel=document.getElementById('itemSystem'),prevVal=sel.value;sel.innerHTML='';systemsCatalog.forEach((s,idx)=>{const o=document.createElement('option');o.value=idx;o.innerText=s.name;sel.appendChild(o);});sel.value=(prevVal!==''&&systemsCatalog[prevVal])?prevVal:'0';}
+function updateColorDropdownForSystem(sys){const colSel=document.getElementById('itemColor'),prevCol=colSel.value,list=sys.id==='rol_dach'?ROOF_BLIND_COLORS:STANDARD_COLORS;colSel.innerHTML='';list.forEach(c=>{const o=document.createElement('option');o.value=c.val;o.innerText=c.label;colSel.appendChild(o);});colSel.value=list.some(c=>c.val===prevCol)?prevCol:list[0].val;}
 function getCurrentSystemObj(){return systemsCatalog[parseInt(document.getElementById('itemSystem').value)||0]||systemsCatalog[0];}
 
 function renderCatalogInputsInModal(listData){
   const container=document.getElementById('settingsCatalogList');container.innerHTML='';
   listData.forEach((s,i)=>{
-    container.innerHTML+=`<div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-2">
-      <div class="font-bold text-xs text-white">${i+1}. ${s.name}</div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block text-[10px] text-slate-400 mb-0.5">Zakup B2B Std (zł)</label><input type="number" id="catRate_${i}" value="${s.rate||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono font-bold text-white text-center"></div>
-        <div><label class="block text-[10px] text-slate-400 mb-0.5">Zakup B2B Dekor (zł)</label><input type="number" id="catRateDec_${i}" value="${s.rateDecor!==undefined?s.rateDecor:(s.rate||0)}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-slate-200 text-center"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="block text-[10px] text-amber-300 mb-0.5">Klient Std (zł/m²)</label><input type="number" id="catCliRate_${i}" value="${s.clientRate||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono font-bold text-amber-400 text-center"></div>
-        <div><label class="block text-[10px] text-amber-300 mb-0.5">Klient Dekor (zł/m²)</label><input type="number" id="catCliRateDec_${i}" value="${s.clientRateDecor!==undefined?s.clientRateDecor:(s.clientRate||0)}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-amber-300 text-center"></div>
-      </div>
-      <div class="grid grid-cols-3 gap-2">
-        <div><label class="block text-[10px] text-slate-400 mb-0.5">Min B2B (zł)</label><input type="number" id="catMin_${i}" value="${s.minPrice||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-slate-300 text-center"></div>
-        <div><label class="block text-[10px] text-emerald-300 mb-0.5">Doliczka (zł)</label><input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono font-bold text-emerald-400 text-center"></div>
-        <div><label class="block text-[10px] text-slate-400 mb-0.5">Narzut (%)</label><input type="number" id="catMarg_${i}" value="${s.defaultMargin||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-slate-200 text-center"></div>
-      </div>
-    </div>`;
+    container.innerHTML+=`<div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 space-y-2"><div class="font-bold text-xs text-white">${i+1}. ${s.name}</div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[10px] text-slate-400 mb-0.5">Zakup B2B Std (zł)</label><input type="number" id="catRate_${i}" value="${s.rate||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono font-bold text-white text-center"></div><div><label class="block text-[10px] text-slate-400 mb-0.5">Zakup B2B Dekor (zł)</label><input type="number" id="catRateDec_${i}" value="${s.rateDecor!==undefined?s.rateDecor:(s.rate||0)}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-slate-200 text-center"></div></div><div class="grid grid-cols-2 gap-2"><div><label class="block text-[10px] text-amber-300 mb-0.5">Klient Std (zł/m²)</label><input type="number" id="catCliRate_${i}" value="${s.clientRate||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono font-bold text-amber-400 text-center"></div><div><label class="block text-[10px] text-amber-300 mb-0.5">Klient Dekor (zł/m²)</label><input type="number" id="catCliRateDec_${i}" value="${s.clientRateDecor!==undefined?s.clientRateDecor:(s.clientRate||0)}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-amber-300 text-center"></div></div><div class="grid grid-cols-3 gap-2"><div><label class="block text-[10px] text-slate-400 mb-0.5">Min B2B (zł)</label><input type="number" id="catMin_${i}" value="${s.minPrice||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-slate-300 text-center"></div><div><label class="block text-[10px] text-emerald-300 mb-0.5">Doliczka (zł)</label><input type="number" id="catInst_${i}" value="${s.install||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono font-bold text-emerald-400 text-center"></div><div><label class="block text-[10px] text-slate-400 mb-0.5">Narzut (%)</label><input type="number" id="catMarg_${i}" value="${s.defaultMargin||0}" class="w-full input-bg rounded-lg px-2 py-1 text-xs font-mono text-slate-200 text-center"></div></div></div>`;
   });
 }
-
 function openSettingsModal(){
+  pushModalState();
   document.getElementById('setBrandShort').value=brandConfig.shortName||'ARX';
   document.getElementById('setBrandFull').value=brandConfig.fullName||'ARX Wyceny';
   document.getElementById('setBrandContact').value=brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż';
-  const currentPin=getStoredCustomPin();
-  document.getElementById('setAppPin').value=currentPin!==null?currentPin:'';
-  renderCatalogInputsInModal(systemsCatalog);
-  document.getElementById('settingsModal').classList.remove('hidden');
+  const currentPin=getStoredCustomPin();document.getElementById('setAppPin').value=currentPin!==null?currentPin:'';
+  renderCatalogInputsInModal(systemsCatalog);document.getElementById('settingsModal').classList.remove('hidden');
 }
 function loadArxPresetInModal(){renderCatalogInputsInModal(DEFAULT_SYSTEMS);showToast('Wczytano cennik ARX (kliknij Zapisz)');}
 function clearCatalogInModal(){renderCatalogInputsInModal(systemsCatalog.map(s=>({...s,rate:0,rateDecor:0,clientRate:0,clientRateDecor:0,minPrice:0,install:0,defaultMargin:0})));showToast('Wyzerowano pola');}
 function closeSettingsModal(){document.getElementById('settingsModal').classList.add('hidden');}
-
 function saveSettingsFromModal(){
   brandConfig.shortName=document.getElementById('setBrandShort').value.trim()||'ARX';
   brandConfig.fullName=document.getElementById('setBrandFull').value.trim()||'ARX Wyceny';
   brandConfig.contactLine=document.getElementById('setBrandContact').value.trim()||'ARX — Rolety • Moskitiery • Montaż';
-  const newPin=document.getElementById('setAppPin').value.replace(/[^0-9]/g,'').trim();
-  savePinImmediately(newPin);
+  savePinImmediately(document.getElementById('setAppPin').value.replace(/[^0-9]/g,'').trim());
   systemsCatalog.forEach((s,i)=>{
     s.rate=Math.max(0,parseFloat(document.getElementById('catRate_'+i).value)||0);
     s.rateDecor=Math.max(0,parseFloat(document.getElementById('catRateDec_'+i).value)||0);
@@ -856,34 +561,18 @@ function saveSettingsFromModal(){
     s.install=Math.max(0,parseFloat(document.getElementById('catInst_'+i).value)||0);
     s.defaultMargin=Math.max(0,parseFloat(document.getElementById('catMarg_'+i).value)||0);
   });
-  try{
-    localStorage.setItem('arx_brand_config_v16',JSON.stringify(brandConfig));
-    localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(systemsCatalog));
-  }catch(e){}
+  try{localStorage.setItem('arx_brand_config_v16',JSON.stringify(brandConfig));localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(systemsCatalog));}catch(e){}
   onSystemChange();closeSettingsModal();showToast('Zapisano cennik i PIN!');
 }
 
 function exportBackupJSON(){
   const data={brandConfig,userPin:getStoredCustomPin(),systemsCatalog,supplierEmails:getSupplierEmails(),savedProjects:getSavedProjects()};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=url;a.download='kopia_arx_'+getFormattedDate().replace(/\./g,'-')+'.json';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('Pobrano kopię!');
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='kopia_arx_'+getFormattedDate().replace(/\./g,'-')+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('Pobrano kopię!');
 }
 function importBackupJSON(ev){
-  const file=ev.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=(e)=>{
-    try{
-      const data=JSON.parse(e.target.result);
-      if(data.brandConfig)localStorage.setItem('arx_brand_config_v16',JSON.stringify(data.brandConfig));
-      if(data.userPin!==undefined)localStorage.setItem('arx_user_pin',data.userPin);
-      if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(data.systemsCatalog));
-      if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
-      if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
-      loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();showToast('Wczytano kopię!');
-    }catch(err){showToast('Błąd pliku!');}
-  };
+  const file=ev.target.files[0];if(!file)return;const r=new FileReader();
+  r.onload=(e)=>{try{const data=JSON.parse(e.target.result);if(data.brandConfig)localStorage.setItem('arx_brand_config_v16',JSON.stringify(data.brandConfig));if(data.userPin!==undefined)localStorage.setItem('arx_user_pin',data.userPin);if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(data.systemsCatalog));if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));loadAppConfig();loadSupplierEmails();updateSavedProjectsCount();onSystemChange();closeSettingsModal();showToast('Wczytano kopię!');}catch(err){showToast('Błąd pliku!');}};
   r.readAsText(file);
 }
 
@@ -901,17 +590,13 @@ function switchMode(m){
   renderCartAndTotals();
 }
 
-function appendRoomTag(t){
-  const el=document.getElementById('itemRoom'),c=el.value.trim();
-  if(!c)el.value=t;else if(!c.toLowerCase().includes(t.toLowerCase()))el.value=c+' - '+t;
-}
+function appendRoomTag(t){const el=document.getElementById('itemRoom'),c=el.value.trim();if(!c)el.value=t;else if(!c.toLowerCase().includes(t.toLowerCase()))el.value=c+' - '+t;}
 function changeQty(d){const el=document.getElementById('itemQty');el.value=Math.max(1,(parseInt(el.value)||1)+d);recalcCurrentItem();}
 function changeInstall(d){const el=document.getElementById('installFee');el.value=Math.max(0,(parseInt(el.value)||0)+d);recalcCurrentItem();}
 function setMarginPct(v){document.getElementById('marginSlider').value=v;recalcCurrentItem();}
 
 function onSystemChange(){
-  const sys=getCurrentSystemObj();
-  updateColorDropdownForSystem(sys);
+  const sys=getCurrentSystemObj();updateColorDropdownForSystem(sys);
   document.getElementById('installFee').value=sys.install||0;
   document.getElementById('marginSlider').value=(sys.id==='mosk_ramk')?0:(sys.defaultMargin||0);
   document.getElementById('installFeeLabel').innerText=['mosk_plis','mosk_alu','mosk_slim'].includes(sys.id)?'Stała kwota doliczana za 1 szt. (+700 zł):':'Dodatkowa kwota montażu za 1 szt. (zł):';
@@ -919,73 +604,69 @@ function onSystemChange(){
 }
 
 function recalcCurrentItem(){
-  const sys=getCurrentSystemObj();
-  const hasVariants=(sys.id==='mosk_ramk'||sys.id==='mosk_dach');
-  const isFrameScreen=(sys.id==='mosk_ramk');
+  const sys=getCurrentSystemObj(),hasVariants=(sys.id==='mosk_ramk'||sys.id==='mosk_dach'),isFrameScreen=(sys.id==='mosk_ramk');
   document.getElementById('variantSectionBox').classList.toggle('hidden',!hasVariants);
   document.getElementById('mountSectionBox').classList.toggle('hidden',!isFrameScreen);
   document.getElementById('guideRailBox').classList.toggle('hidden',sys.guide!==1);
 
-  const w=Math.max(10,parseFloat(document.getElementById('itemWidth').value)||0);
-  const h=Math.max(10,parseFloat(document.getElementById('itemHeight').value)||0);
+  const rawW=parseFloat(document.getElementById('itemWidth').value)||0;
+  const rawH=parseFloat(document.getElementById('itemHeight').value)||0;
+  const hasValidDims=(rawW>0&&rawH>0);
+  const w=hasValidDims?rawW:0,h=hasValidDims?rawH:0;
   const qty=Math.max(1,parseInt(document.getElementById('itemQty').value)||1);
-  const color=document.getElementById('itemColor').value;
-  const decor=isDecorColor(color);
-  const area=(w/100)*(h/100),perim=2*((w/100)+(h/100));
+  const color=document.getElementById('itemColor').value,decor=isDecorColor(color);
+  const area=hasValidDims?((w/100)*(h/100)):0,perim=hasValidDims?(2*((w/100)+(h/100))):0;
   document.getElementById('calcArea').innerText=area.toFixed(2)+' m²';
   document.getElementById('calcPerim').innerText=perim.toFixed(2)+' mb';
 
   const guideLength=sys.guide===1?(parseFloat(document.getElementById('itemGuideLength').value)||0):0;
   const marginPct=parseInt(document.getElementById('marginSlider').value)||0;
   const installUnit=Math.max(0,parseInt(document.getElementById('installFee').value)||0);
-  const man=parseFloat(document.getElementById('manualB2B').value);
-  const hasManual=!isNaN(man)&&man>0;
-
+  const man=parseFloat(document.getElementById('manualB2B').value),hasManual=!isNaN(man)&&man>0;
   const bRateActive=decor?(sys.rateDecor!==undefined?sys.rateDecor:sys.rate):sys.rate;
   const cRateActive=decor?(sys.clientRateDecor!==undefined?sys.clientRateDecor:sys.clientRate):sys.clientRate;
 
-  let autoB2B=0,baseClientBeforeMargin=0,formulaStr='';
-  if(sys.calcType==='ramkowa'){
-    autoB2B=bRateActive>0?Math.round(area*bRateActive):0;
-    const b2bFinal=hasManual?Math.round(man):autoB2B;
-    baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
-    formulaStr=`Klient: ${area.toFixed(2)} m² × ${cRateActive} zł/m² = ${baseClientBeforeMargin} zł (B2B: ${b2bFinal} zł)`;
-  }else if(sys.calcType==='drzwiowa'){
-    const billArea=Math.max(1.0,area);
-    autoB2B=Math.round(billArea*bRateActive);
-    const b2bFinal=hasManual?Math.round(man):autoB2B;
-    baseClientBeforeMargin=cRateActive>0?Math.round(billArea*cRateActive):b2bFinal;
-    formulaStr=`Rozlicz. ${billArea.toFixed(2)} m² (min 1m²) • B2B: ${bRateActive} zł | Klient: ${cRateActive} zł`;
-  }else if(sys.calcType==='dachowa'){
-    const billArea=Math.max(1.0,area);
-    const bExt=sys.b2bExtra!==undefined?sys.b2bExtra:37,cExt=sys.clientExtra!==undefined?sys.clientExtra:70;
-    autoB2B=Math.round(billArea*bRateActive+bExt);
-    const b2bFinal=hasManual?Math.round(man):autoB2B;
-    baseClientBeforeMargin=cRateActive>0?Math.round(billArea*cRateActive+cExt):b2bFinal;
-    formulaStr=`Rozlicz. ${billArea.toFixed(2)} m² • B2B: ${bRateActive}+${bExt} zł | Klient: ${cRateActive}+${cExt} zł`;
-  }else if(sys.calcType==='harmony'){
-    const baseMin=sys.minPrice||900,stepRate=bRateActive||30;
-    const wSteps=Math.ceil(Math.max(0,w-80)/10),hSteps=Math.ceil(Math.max(0,h-230)/10);
-    autoB2B=Math.round(baseMin+(wSteps*stepRate)+(hSteps*stepRate));
-    const b2bFinal=hasManual?Math.round(man):autoB2B;
-    baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
-    formulaStr=`Tabela Harmony B2B: ${b2bFinal} zł + doliczka ${installUnit} zł`;
-  }else if(sys.calcType==='manual'){
-    autoB2B=Math.round(Math.max(sys.minPrice||0,area*(bRateActive||310)));
-    const b2bFinal=hasManual?Math.round(man):autoB2B;
-    baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
-    formulaStr=`B2B: ${b2bFinal} zł + stała doliczka ${installUnit} zł`;
-  }else{
-    autoB2B=Math.max(sys.minPrice||0,Math.round(area*(bRateActive||150)));
-    const b2bFinal=hasManual?Math.round(man):autoB2B;
-    baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
-    formulaStr=`${area.toFixed(2)} m² × ${bRateActive} zł/m² (min. ${sys.minPrice||0} zł)`;
+  let b2bUnit=0,marginUnit=0,clientUnit=0,profitUnit=0,formulaStr='Wpisz lub podyktuj wymiar...';
+  if(hasValidDims||hasManual){
+    let autoB2B=0,baseClientBeforeMargin=0;
+    if(sys.calcType==='ramkowa'){
+      autoB2B=bRateActive>0?Math.round(area*bRateActive):0;
+      const b2bFinal=hasManual?Math.round(man):autoB2B;
+      baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
+      formulaStr=`Klient: ${area.toFixed(2)} m² × ${cRateActive} zł/m² = ${baseClientBeforeMargin} zł (B2B: ${b2bFinal} zł)`;
+    }else if(sys.calcType==='drzwiowa'){
+      const billArea=Math.max(1.0,area);autoB2B=Math.round(billArea*bRateActive);
+      const b2bFinal=hasManual?Math.round(man):autoB2B;
+      baseClientBeforeMargin=cRateActive>0?Math.round(billArea*cRateActive):b2bFinal;
+      formulaStr=`Rozlicz. ${billArea.toFixed(2)} m² (min 1m²) • B2B: ${bRateActive} zł | Klient: ${cRateActive} zł`;
+    }else if(sys.calcType==='dachowa'){
+      const billArea=Math.max(1.0,area),bExt=sys.b2bExtra!==undefined?sys.b2bExtra:37,cExt=sys.clientExtra!==undefined?sys.clientExtra:70;
+      autoB2B=Math.round(billArea*bRateActive+bExt);
+      const b2bFinal=hasManual?Math.round(man):autoB2B;
+      baseClientBeforeMargin=cRateActive>0?Math.round(billArea*cRateActive+cExt):b2bFinal;
+      formulaStr=`Rozlicz. ${billArea.toFixed(2)} m² • B2B: ${bRateActive}+${bExt} zł | Klient: ${cRateActive}+${cExt} zł`;
+    }else if(sys.calcType==='harmony'){
+      const baseMin=sys.minPrice||900,stepRate=bRateActive||30,wSteps=Math.ceil(Math.max(0,w-80)/10),hSteps=Math.ceil(Math.max(0,h-230)/10);
+      autoB2B=Math.round(baseMin+(wSteps*stepRate)+(hSteps*stepRate));
+      const b2bFinal=hasManual?Math.round(man):autoB2B;
+      baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
+      formulaStr=`Tabela Harmony B2B: ${b2bFinal} zł + doliczka ${installUnit} zł`;
+    }else if(sys.calcType==='manual'){
+      autoB2B=Math.round(Math.max(sys.minPrice||0,area*(bRateActive||310)));
+      const b2bFinal=hasManual?Math.round(man):autoB2B;
+      baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
+      formulaStr=`B2B: ${b2bFinal} zł + stała doliczka ${installUnit} zł`;
+    }else{
+      autoB2B=Math.max(sys.minPrice||0,Math.round(area*(bRateActive||150)));
+      const b2bFinal=hasManual?Math.round(man):autoB2B;
+      baseClientBeforeMargin=cRateActive>0?Math.round(area*cRateActive):b2bFinal;
+      formulaStr=`${area.toFixed(2)} m² × ${bRateActive} zł/m² (min. ${sys.minPrice||0} zł)`;
+    }
+    b2bUnit=hasManual?Math.round(man):autoB2B;
+    marginUnit=Math.round(baseClientBeforeMargin*(marginPct/100));
+    clientUnit=baseClientBeforeMargin+marginUnit+installUnit;
+    profitUnit=clientUnit-b2bUnit;
   }
-
-  const b2bUnit=hasManual?Math.round(man):autoB2B;
-  const marginUnit=Math.round(baseClientBeforeMargin*(marginPct/100));
-  const clientUnit=baseClientBeforeMargin+marginUnit+installUnit;
-  const profitUnit=clientUnit-b2bUnit;
 
   document.getElementById('formulaB2BText').innerText=formulaStr;
   document.getElementById('estB2BDisplay').innerText=b2bUnit+' zł';
@@ -993,43 +674,31 @@ function recalcCurrentItem(){
   document.getElementById('marginPctBadge').innerText=marginPct+'%';
   document.getElementById('previewB2B').innerText=b2bUnit+' zł';
   document.getElementById('previewProfit').innerText=(profitUnit>=0?'+':'')+profitUnit+' zł';
-  document.getElementById('previewProfitSub').innerText=`Klient ${clientUnit} - B2B ${b2bUnit}`;
+  document.getElementById('previewProfitSub').innerText=hasValidDims?`Klient ${clientUnit} - B2B ${b2bUnit}`:'z montażem';
   document.getElementById('previewClientPrice').innerText=clientUnit+' zł';
 
   let mountInfo='';
-  if(isFrameScreen){
-    const mType=document.getElementById('itemMountType').value,cSize=document.getElementById('itemClipSize').value;
-    mountInfo=(mType==='Sprężynki')?'Sprężynki':`Blaszki ${cSize}`;
-  }
-  return{
-    room:document.getElementById('itemRoom').value.trim(),system:sys.name,
-    variant:hasVariants?document.getElementById('itemVariant').value:'',mountInfo,color,
-    width:parseFloat(w.toFixed(1)),height:parseFloat(h.toFixed(1)),guideLength:parseFloat(guideLength.toFixed(1)),
-    qty,area:parseFloat(area.toFixed(2)),b2bUnit,marginPct,marginUnit:profitUnit-installUnit,installUnit,clientUnit
-  };
+  if(isFrameScreen){const mType=document.getElementById('itemMountType').value,cSize=document.getElementById('itemClipSize').value;mountInfo=(mType==='Sprężynki')?'Sprężynki':`Blaszki ${cSize}`;}
+  return{hasValidDims,room:document.getElementById('itemRoom').value.trim(),system:sys.name,variant:hasVariants?document.getElementById('itemVariant').value:'',mountInfo,color,width:parseFloat(w.toFixed(1)),height:parseFloat(h.toFixed(1)),guideLength:parseFloat(guideLength.toFixed(1)),qty,area:parseFloat(area.toFixed(2)),b2bUnit,marginPct,marginUnit:profitUnit-installUnit,installUnit,clientUnit};
 }
 
 function addItemToCart(){
   const sys=getCurrentSystemObj();
   if(sys.id==='mosk_ramk')document.getElementById('marginSlider').value=0;
   const it=recalcCurrentItem();
-  it.id=Date.now();
-  cart.push(it);
+  if(!it.hasValidDims){showToast('Wpisz lub podyktuj najpierw wymiar (Szerokość i Wysokość)!');return;}
+  it.id=Date.now();cart.push(it);
   document.getElementById('itemRoom').value='';
+  document.getElementById('itemWidth').value='';
+  document.getElementById('itemHeight').value='';
+  document.getElementById('itemQty').value='1';
   document.getElementById('manualB2B').value='';
   document.getElementById('marginSlider').value=(sys.id==='mosk_ramk')?0:(sys.defaultMargin||0);
-  recalcCurrentItem();
-  playBeep(950,100);
-  renderCartAndTotals();
-  autoSaveProjectQuiet();
-  showToast('Dodano i zapisano pozycję!');
+  recalcCurrentItem();playBeep(950,100);renderCartAndTotals();autoSaveProjectQuiet();showToast('Dodano i zapisano pozycję!');
 }
 
 function removeCartItem(id){cart=cart.filter(x=>x.id!==id);renderCartAndTotals();autoSaveProjectQuiet();}
-function duplicateCartItem(id){
-  const o=cart.find(x=>x.id===id);
-  if(o){cart.push({...o,id:Date.now()});renderCartAndTotals();autoSaveProjectQuiet();showToast('Zduplikowano pozycję');}
-}
+function duplicateCartItem(id){const o=cart.find(x=>x.id===id);if(o){cart.push({...o,id:Date.now()});renderCartAndTotals();autoSaveProjectQuiet();showToast('Zduplikowano pozycję');}}
 function setDiscountMode(m){
   discountMode=m;
   document.getElementById('btnDiscPln').className=m==='pln'?'px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold':'px-3 py-1 rounded-lg text-slate-400 font-bold';
@@ -1042,12 +711,10 @@ function clearDiscount(){document.getElementById('discountInput').value=0;render
 function computeTotalsObject(){
   let totalSzt=0,sumB2B=0,sumClientBase=0;
   cart.forEach(i=>{totalSzt+=i.qty;sumB2B+=i.b2bUnit*i.qty;sumClientBase+=i.clientUnit*i.qty;});
-  const grossProfit=sumClientBase-sumB2B;
-  const dRaw=Math.max(0,parseFloat(document.getElementById('discountInput').value)||0);
+  const grossProfit=sumClientBase-sumB2B,dRaw=Math.max(0,parseFloat(document.getElementById('discountInput').value)||0);
   let discPln=discountMode==='pct'?Math.round(sumClientBase*(dRaw/100)):Math.round(dRaw);
   if(discPln>sumClientBase)discPln=sumClientBase;
-  const finalClientTotal=sumClientBase-discPln,netProfit=grossProfit-discPln;
-  const profitShare=finalClientTotal>0?Math.round((netProfit/finalClientTotal)*100):0;
+  const finalClientTotal=sumClientBase-discPln,netProfit=grossProfit-discPln,profitShare=finalClientTotal>0?Math.round((netProfit/finalClientTotal)*100):0;
   return{totalSzt,sumB2B,grossProfit,sumClientBase,discPln,finalClientTotal,netProfit,profitShare};
 }
 
@@ -1060,25 +727,8 @@ function renderCartAndTotals(){
     const varBadge=cleanVar?`<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300">${cleanVar}</span>`:'';
     const mountBadge=item.mountInfo?`<span class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-300">${item.mountInfo}</span>`:'';
     const roomTitle=item.room?item.room:`Pozycja #${idx+1}`;
-    const wDet=appMode==='work'?`
-      <div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono">
-        <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span>
-        <span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Zysk: +${rProf} zł</span>
-        ${varBadge}${mountBadge}
-      </div>
-      <div class="flex justify-end gap-2 mt-2">
-        <button type="button" onclick="duplicateCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs">Kopiuj</button>
-        <button type="button" onclick="removeCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-red-950/40 border border-red-500/30 text-red-400 text-xs">Usuń</button>
-      </div>`:'';
-    c.innerHTML+=`<div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3">
-      <div class="flex justify-between items-start">
-        <div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 mr-1.5">#${idx+1}</span><span class="font-bold text-sm text-white">${roomTitle}</span></div>
-        <div class="text-right"><div class="text-[11px] text-slate-400 font-mono">${item.qty} szt. x ${item.clientUnit} zł</div><div class="font-mono font-extrabold text-base text-white">${rCli} zł</div></div>
-      </div>
-      <div class="text-xs text-slate-300 mt-1">${item.system}</div>
-      <div class="text-xs font-mono text-amber-400 mt-0.5">${formatCm(item.width)} x ${formatCm(item.height)} cm${gTxt} • ${item.color} • ${item.area} m²</div>
-      ${wDet}
-    </div>`;
+    const wDet=appMode==='work'?`<div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-800/80 text-[11px] font-mono"><span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300">B2B: ${rB2B} zł</span><span class="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-400">Zysk: +${rProf} zł</span>${varBadge}${mountBadge}</div><div class="flex justify-end gap-2 mt-2"><button type="button" onclick="duplicateCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-xs">Kopiuj</button><button type="button" onclick="removeCartItem(${item.id})" class="px-2.5 py-1 rounded-lg bg-red-950/40 border border-red-500/30 text-red-400 text-xs">Usuń</button></div>`:'';
+    c.innerHTML+=`<div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3"><div class="flex justify-between items-start"><div><span class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 mr-1.5">#${idx+1}</span><span class="font-bold text-sm text-white">${roomTitle}</span></div><div class="text-right"><div class="text-[11px] text-slate-400 font-mono">${item.qty} szt. x ${item.clientUnit} zł</div><div class="font-mono font-extrabold text-base text-white">${rCli} zł</div></div></div><div class="text-xs text-slate-300 mt-1">${item.system}</div><div class="text-xs font-mono text-amber-400 mt-0.5">${formatCm(item.width)} x ${formatCm(item.height)} cm${gTxt} • ${item.color} • ${item.area} m²</div>${wDet}</div>`;
   });
   if(cart.length===0)c.innerHTML='<div class="text-center py-5 text-xs text-slate-500">Koszyk jest pusty. Kliknij POMIAR lub dodaj pozycję.</div>';
   const t=computeTotalsObject();
@@ -1095,13 +745,8 @@ function renderCartAndTotals(){
 }
 
 function speakText(txt,cb){
-  if('speechSynthesis' in window){
-    window.speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(txt);u.lang='pl-PL';u.rate=1.05;
-    if(cb)u.onend=cb;window.speechSynthesis.speak(u);
-  }else if(cb)cb();
+  if('speechSynthesis' in window){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='pl-PL';u.rate=1.05;if(cb)u.onend=cb;window.speechSynthesis.speak(u);}else if(cb)cb();
 }
-
 function buildCleanTranscript(results){
   let combined='';
   for(let i=0;i<results.length;i++){
@@ -1116,16 +761,12 @@ function buildCleanTranscript(results){
   }
   return combined.trim();
 }
-
 function parseSpokenMeasurement(tr){
-  const raw=tr.trim();
+  const raw=tr.trim().replace(/\bi\s*pół\b/gi,'.5').replace(/\bpół\b/gi,'.5');
   const rawNums=raw.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
   const dedupNums=[];
-  for(let i=0;i<rawNums.length;i++){
-    if(i>0&&rawNums[i]===rawNums[i-1]&&rawNums.length>=3)continue;
-    dedupNums.push(rawNums[i]);
-  }
-  let w=parseFloat(document.getElementById('itemWidth').value)||80,h=parseFloat(document.getElementById('itemHeight').value)||140;
+  for(let i=0;i<rawNums.length;i++){if(i>0&&rawNums[i]===rawNums[i-1]&&rawNums.length>=3)continue;dedupNums.push(rawNums[i]);}
+  let w=0,h=0;
   if(dedupNums.length>=2){
     w=parseFloat(dedupNums[dedupNums.length-2].replace(',','.'));
     h=parseFloat(dedupNums[dedupNums.length-1].replace(',','.'));
@@ -1136,7 +777,6 @@ function parseSpokenMeasurement(tr){
   room=room?(room.charAt(0).toUpperCase()+room.slice(1)):document.getElementById('itemRoom').value.trim();
   return{room,width:w,height:h};
 }
-
 function stopAllVoice(){
   voiceListening30s=false;
   if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
@@ -1148,7 +788,6 @@ function stopAllVoice(){
   document.getElementById('voiceBlockedFallback').classList.add('hidden');
   document.getElementById('voiceStateBadge').innerText='1 klik -> wymiar -> „Tak”';
 }
-
 function startVoiceFlow(){
   playBeep(880,120);
   document.getElementById('voiceActiveBanner').classList.remove('hidden');
@@ -1161,8 +800,7 @@ function startVoiceFlow(){
   if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
   voiceListening30s=true;voice30sStart=Date.now();
   let capturedTwoNumbers=false,sessionSavedText='',currentSegmentText='';
-  if(voice30sTimer)clearTimeout(voice30sTimer);
-  if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
+  if(voice30sTimer)clearTimeout(voice30sTimer);if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
   voice30sTimer=setTimeout(()=>{if(voiceListening30s&&!capturedTwoNumbers){stopAllVoice();showToast('Minęło 30s');}},30000);
   try{
     if(activeRecognition)activeRecognition.abort();
@@ -1173,13 +811,14 @@ function startVoiceFlow(){
       const fullTranscript=(sessionSavedText+' '+currentSegmentText).trim();
       const pr=document.getElementById('voiceHeardPreview');
       if(fullTranscript){pr.innerText='Słyszę: „'+fullTranscript+'”';pr.classList.remove('hidden');}
-      const rawNums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
+      const normForMatch=fullTranscript.replace(/\bi\s*pół\b/gi,'.5');
+      const rawNums=normForMatch.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
       const hasSecondDistinct=(rawNums.length>=2&&!(rawNums.length===2&&rawNums[0]===rawNums[1]&&!/(\bna\b|x|\*)/i.test(fullTranscript)));
       if(hasSecondDistinct){
         if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
         voiceDebounceTimer=setTimeout(()=>{
           const finalCheck=(sessionSavedText+' '+currentSegmentText).trim();
-          const finalNums=finalCheck.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
+          const finalNums=finalCheck.replace(/\bi\s*pół\b/gi,'.5').match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
           if(finalNums.length>=2&&!capturedTwoNumbers){
             capturedTwoNumbers=true;voiceListening30s=false;
             if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
@@ -1189,12 +828,7 @@ function startVoiceFlow(){
         },900);
       }
     };
-    activeRecognition.onend=()=>{
-      if(voiceListening30s&&!capturedTwoNumbers&&(Date.now()-voice30sStart)<30000){
-        if(currentSegmentText){sessionSavedText=(sessionSavedText+' '+currentSegmentText).trim();currentSegmentText='';}
-        try{activeRecognition.start();}catch(err){}
-      }
-    };
+    activeRecognition.onend=()=>{if(voiceListening30s&&!capturedTwoNumbers&&(Date.now()-voice30sStart)<30000){if(currentSegmentText){sessionSavedText=(sessionSavedText+' '+currentSegmentText).trim();currentSegmentText='';}try{activeRecognition.start();}catch(err){}}};
     activeRecognition.onerror=(ev)=>{if(ev&&(ev.error==='not-allowed'||ev.error==='service-not-allowed')){voiceListening30s=false;document.getElementById('voiceBlockedFallback').classList.remove('hidden');}};
     activeRecognition.start();
   }catch(e){document.getElementById('voiceBlockedFallback').classList.remove('hidden');}
@@ -1211,53 +845,45 @@ function triggerVoiceConfirmationStep(p){
   pr.classList.remove('hidden');
   document.getElementById('voiceConfirmButtons').classList.remove('hidden');
   document.getElementById('voiceLiveInstruction').innerText='🗣️ Powiedz „TAK” po pytaniu lektora...';
-  speakText((p.room?(p.room+', '):'Wymiar ')+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów. Czy zatwierdzasz?',()=>{
-    playBeep(1040,90);listenForYesNoDirectly();
-  });
+  const spokenW=formatSpokenCm(p.width),spokenH=formatSpokenCm(p.height);
+  const unitWord=(String(p.height).includes('.')||String(p.height).includes(','))?'centymetra':'centymetrów';
+  speakText((p.room?(p.room+', '):'Wymiar ')+spokenW+' na '+spokenH+' '+unitWord+'. Czy zatwierdzasz?',()=>{playBeep(1040,90);listenForYesNoDirectly();});
 }
-
 function listenForYesNoDirectly(){
   document.getElementById('voiceLiveInstruction').innerText='🎤 Powiedz teraz: „TAK” lub „NIE”';
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
   try{
     if(activeRecognition)activeRecognition.abort();
     activeRecognition=new SR();activeRecognition.lang='pl-PL';activeRecognition.continuous=false;activeRecognition.interimResults=false;
-    activeRecognition.onresult=(e)=>{
-      const a=e.results[0][0].transcript.toLowerCase();
-      if(a.includes('tak')||a.includes('zatwierdz')||a.includes('dobra')||a.includes('zgadza'))confirmVoiceItem(true);
-      else if(a.includes('nie')||a.includes('anuluj')||a.includes('odrzuć'))confirmVoiceItem(false);
-    };
+    activeRecognition.onresult=(e)=>{const a=e.results[0][0].transcript.toLowerCase();if(a.includes('tak')||a.includes('zatwierdz')||a.includes('dobra')||a.includes('zgadza'))confirmVoiceItem(true);else if(a.includes('nie')||a.includes('anuluj')||a.includes('odrzuć'))confirmVoiceItem(false);};
     activeRecognition.start();
   }catch(e){}
 }
-
 function onFallbackInput(){
   if(fallbackTimer)clearTimeout(fallbackTimer);
   const v=document.getElementById('voiceFallbackInput').value.trim(),lo=v.toLowerCase();
   if(pendingVoiceItem&&(lo.endsWith('tak')||lo.includes(' tak'))){confirmVoiceItem(true);return;}
   if(pendingVoiceItem&&(lo.endsWith('nie')||lo.includes(' nie'))){confirmVoiceItem(false);return;}
-  const nums=v.match(/[0-9]+(?:[.,][0-9]+)?/g);
+  const nums=v.replace(/\bi\s*pół\b/gi,'.5').match(/[0-9]+(?:[.,][0-9]+)?/g);
   if(!pendingVoiceItem&&nums&&nums.length>=2)fallbackTimer=setTimeout(()=>triggerVoiceConfirmationStep(parseSpokenMeasurement(v)),1200);
 }
-
-function confirmVoiceItem(ok){
-  if(ok&&pendingVoiceItem){addItemToCart();speakText('Zatwierdzono.');}else speakText('Anulowano.');
-  pendingVoiceItem=null;document.getElementById('voiceFallbackInput').value='';stopAllVoice();
-}
+function confirmVoiceItem(ok){if(ok&&pendingVoiceItem){addItemToCart();speakText('Zatwierdzono.');}else speakText('Anulowano.');pendingVoiceItem=null;document.getElementById('voiceFallbackInput').value='';stopAllVoice();}
 
 function getFormattedDate(){return new Date().toLocaleDateString('pl-PL');}
 
 function generateClientOfferText(){
   const cName=document.getElementById('clientName').value.trim(),cAddr=document.getElementById('clientAddress').value.trim();
   const clientHeader=[cName,cAddr].filter(Boolean).join(' • ')||'Klient indywidualny';
-  let L=[`*${brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'}*`,'📋 *WYCENA SYSTEMÓW OSŁON OKIENNYCH*','👤 Klient: '+clientHeader,'📅 Data pomiaru: '+getFormattedDate(),'------------------------------'];
+  let L=[`${brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'}`,'📋 WYCENA SYSTEMÓW OSŁON OKIENNYCH','👤 Klient: '+clientHeader,'📅 Data pomiaru: '+getFormattedDate(),'------------------------------'];
   cart.forEach((it,i)=>{
-    const rSum=it.clientUnit*it.qty,gTxt=it.guideLength>0?' (Prowadnica: '+formatCm(it.guideLength)+' cm)':'';
-    L.push((i+1)+'. *'+it.system+(it.room?` (${it.room})`:'')+'*','   • Kolor: '+it.color,'   • Wymiar: '+formatCm(it.width)+' x '+formatCm(it.height)+' cm'+gTxt+' | Ilość: '+it.qty+' szt.','   • Wartość: '+rSum+' zł');
+    const rSum=it.clientUnit*it.qty;
+    const boldDim=toBoldTextDigits(formatCm(it.width))+' x '+toBoldTextDigits(formatCm(it.height))+' cm';
+    const gTxt=it.guideLength>0?' (Prowadnica: '+toBoldTextDigits(formatCm(it.guideLength))+' cm)':'';
+    L.push(toBoldTextDigits(i+1)+'. '+it.system+(it.room?` (${it.room})`:''),'   • Kolor: '+it.color,'   • Wymiar: '+boldDim+gTxt+' | Ilość: '+toBoldTextDigits(it.qty)+' szt.','   • Wartość: '+toBoldTextDigits(rSum)+' zł');
   });
   const t=computeTotalsObject();L.push('------------------------------');
-  if(t.discPln>0)L.push('Wartość bazowa: '+t.sumClientBase+' zł','Przyznany rabat: -'+t.discPln+' zł');
-  L.push('*RAZEM DO ZAPŁATY (z montażem): '+t.finalClientTotal+' zł*','📞 '+(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'));
+  if(t.discPln>0)L.push('Wartość bazowa: '+toBoldTextDigits(t.sumClientBase)+' zł','Przyznany rabat: -'+toBoldTextDigits(t.discPln)+' zł');
+  L.push('💰 RAZEM DO ZAPŁATY (z montażem): '+toBoldTextDigits(t.finalClientTotal)+' zł','📞 '+(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'));
   return L.join(NL);
 }
 
@@ -1266,12 +892,7 @@ function generateB2BOrderText(){
   const companyBanner=(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż').toUpperCase();
   let L=['========================================','🏢 '+companyBanner,'📦 ZAMÓWIENIE PRODUKCYJNE B2B ('+getFormattedDate()+')','📍 Referencja: '+cliAddr,'========================================'];
   const groupsMap=new Map();
-  cart.forEach(it=>{
-    const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
-    const key=cleanSysName+'|||'+it.color;
-    if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
-    groupsMap.get(key).items.push(it);
-  });
+  cart.forEach(it=>{const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,''),key=cleanSysName+'|||'+it.color;if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});groupsMap.get(key).items.push(it);});
   groupsMap.forEach(grp=>{
     L.push('',`▶ ${grp.system.toUpperCase()} — KOLOR: ${grp.color.toUpperCase()}`,'----------------------------------------');
     grp.items.forEach((it,idx)=>{
@@ -1292,355 +913,213 @@ function generateB2BOrderText(){
 function renderOrderSheetCanvas(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const groupsMap=new Map();
-  cart.forEach(it=>{
-    const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
-    const key=cleanSysName+'|||'+it.color;
-    if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
-    groupsMap.get(key).items.push(it);
-  });
-
-  let totalRows=0;
-  groupsMap.forEach(g=>{totalRows+=g.items.length;});
-  const groupCount=groupsMap.size;
-  const W=1000;
-  const H=Math.max(650,240+(groupCount*78)+(totalRows*56)+110);
-
-  const cv=document.createElement('canvas');
-  cv.width=W;cv.height=H;
-  const ctx=cv.getContext('2d');
-
-  ctx.fillStyle='#ffffff';
-  ctx.fillRect(0,0,W,H);
-
-  ctx.fillStyle='#f07414';
-  ctx.beginPath();ctx.roundRect(40,32,96,18,5);ctx.fill();
-  ctx.fillRect(45,54,7,54);ctx.fillRect(124,54,7,54);
+  cart.forEach(it=>{const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,''),key=cleanSysName+'|||'+it.color;if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});groupsMap.get(key).items.push(it);});
+  let totalRows=0;groupsMap.forEach(g=>{totalRows+=g.items.length;});
+  const W=1000,H=Math.max(650,240+(groupsMap.size*78)+(totalRows*56)+110);
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;const ctx=cv.getContext('2d');
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#f07414';ctx.beginPath();ctx.roundRect(40,32,96,18,5);ctx.fill();ctx.fillRect(45,54,7,54);ctx.fillRect(124,54,7,54);
   for(let r=0;r<4;r++)ctx.fillRect(55,54+(r*8),66,5.5);
-  ctx.fillStyle='#b0b5bc';
-  for(let r=0;r<3;r++){
-    for(let c=0;c<7;c++){
-      ctx.beginPath();ctx.arc(61+(c*9),89+(r*7),2,0,Math.PI*2);ctx.fill();
-    }
-  }
-  ctx.fillStyle='#09254a';
-  ctx.font='900 74px Inter, Arial, sans-serif';
-  ctx.fillText('ARX',142,105);
+  ctx.fillStyle='#b0b5bc';for(let r=0;r<3;r++){for(let c=0;c<7;c++){ctx.beginPath();ctx.arc(61+(c*9),89+(r*7),2,0,Math.PI*2);ctx.fill();}}
+  ctx.fillStyle='#09254a';ctx.font='900 74px Inter, Arial, sans-serif';ctx.fillText('ARX',142,105);
   ctx.beginPath();ctx.roundRect(38,114,270,22,5);ctx.fill();
-  ctx.fillStyle='#ffffff';
-  ctx.font='800 12px Inter, Arial, sans-serif';
-  ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',54,129);
-
-  ctx.fillStyle='#09254a';
-  ctx.textAlign='right';
-  ctx.font='900 24px Inter, Arial, sans-serif';
-  ctx.fillText('ZAMÓWIENIE PRODUKCYJNE',W-40,62);
-  ctx.fillStyle='#334155';
-  ctx.font='700 17px Inter, Arial, sans-serif';
-  ctx.fillText('Data: '+getFormattedDate(),W-40,92);
-  ctx.fillText('Referencja: '+cliAddr,W-40,118);
-  ctx.textAlign='left';
-
-  ctx.fillStyle='#09254a';
-  ctx.fillRect(40,150,W-80,4);
-
+  ctx.fillStyle='#ffffff';ctx.font='800 12px Inter, Arial, sans-serif';ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',54,129);
+  ctx.fillStyle='#09254a';ctx.textAlign='right';ctx.font='900 24px Inter, Arial, sans-serif';ctx.fillText('ZAMÓWIENIE PRODUKCYJNE',W-40,62);
+  ctx.fillStyle='#334155';ctx.font='700 17px Inter, Arial, sans-serif';ctx.fillText('Data: '+getFormattedDate(),W-40,92);ctx.fillText('Referencja: '+cliAddr,W-40,118);ctx.textAlign='left';
+  ctx.fillStyle='#09254a';ctx.fillRect(40,150,W-80,4);
   let y=176;
   groupsMap.forEach(grp=>{
-    ctx.fillStyle='#09254a';
-    ctx.beginPath();ctx.roundRect(40,y,W-80,44,8);ctx.fill();
-    ctx.fillStyle='#ffffff';
-    ctx.font='800 18px Inter, Arial, sans-serif';
-    ctx.fillText(grp.system.toUpperCase(),58,y+28);
-    ctx.fillStyle='#f59e0b';
-    ctx.textAlign='right';
-    ctx.fillText('KOLOR: '+grp.color.toUpperCase(),W-58,y+28);
-    ctx.textAlign='left';
-    y+=44;
-
+    ctx.fillStyle='#09254a';ctx.beginPath();ctx.roundRect(40,y,W-80,44,8);ctx.fill();
+    ctx.fillStyle='#ffffff';ctx.font='800 18px Inter, Arial, sans-serif';ctx.fillText(grp.system.toUpperCase(),58,y+28);
+    ctx.fillStyle='#f59e0b';ctx.textAlign='right';ctx.fillText('KOLOR: '+grp.color.toUpperCase(),W-58,y+28);ctx.textAlign='left';y+=44;
     grp.items.forEach((it,idx)=>{
-      ctx.fillStyle=idx%2===0?'#f8fafc':'#ffffff';
-      ctx.fillRect(42,y,W-84,50);
-      ctx.strokeStyle='#cbd5e1';
-      ctx.lineWidth=1;
-      ctx.strokeRect(42,y,W-84,50);
-
-      ctx.fillStyle='#0f172a';
-      ctx.font='800 18px Inter, Arial, sans-serif';
-      ctx.fillText((idx+1)+'.',60,y+32);
-
+      ctx.fillStyle=idx%2===0?'#f8fafc':'#ffffff';ctx.fillRect(42,y,W-84,50);ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;ctx.strokeRect(42,y,W-84,50);
+      ctx.fillStyle='#0f172a';ctx.font='800 18px Inter, Arial, sans-serif';ctx.fillText((idx+1)+'.',60,y+32);
       const gTxt=it.guideLength>0?` (prowadnica: ${formatCm(it.guideLength)} cm)`:'';
-      ctx.font='900 21px Inter, Arial, sans-serif';
-      ctx.fillText(`${formatCm(it.width)} x ${formatCm(it.height)} cm${gTxt}`,115,y+32);
-
-      ctx.font='900 19px Inter, Arial, sans-serif';
-      ctx.fillText(`${it.qty} szt.`,460,y+32);
-
-      const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar');
-      const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
+      ctx.font='900 21px Inter, Arial, sans-serif';ctx.fillText(`${formatCm(it.width)} x ${formatCm(it.height)} cm${gTxt}`,115,y+32);
+      ctx.font='900 19px Inter, Arial, sans-serif';ctx.fillText(`${it.qty} szt.`,460,y+32);
+      const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar'),hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
       const notes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join('  •  ');
-      ctx.fillStyle='#334155';
-      ctx.font='700 17px Inter, Arial, sans-serif';
-      ctx.fillText(notes||'—',570,y+32);
-      y+=50;
+      ctx.fillStyle='#334155';ctx.font='700 17px Inter, Arial, sans-serif';ctx.fillText(notes||'—',570,y+32);y+=50;
     });
     y+=24;
   });
-
   const t=computeTotalsObject();
-  ctx.fillStyle='#e2e8f0';
-  ctx.beginPath();ctx.roundRect(40,y,W-80,52,8);ctx.fill();
-  ctx.fillStyle='#09254a';
-  ctx.font='900 20px Inter, Arial, sans-serif';
-  ctx.fillText(`ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.`,60,y+33);
-  ctx.textAlign='right';
-  ctx.font='800 17px Inter, Arial, sans-serif';
-  ctx.fillText(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż',W-60,y+33);
-  ctx.textAlign='left';
-
+  ctx.fillStyle='#e2e8f0';ctx.beginPath();ctx.roundRect(40,y,W-80,52,8);ctx.fill();
+  ctx.fillStyle='#09254a';ctx.font='900 20px Inter, Arial, sans-serif';ctx.fillText(`ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.`,60,y+33);
+  ctx.textAlign='right';ctx.font='800 17px Inter, Arial, sans-serif';ctx.fillText(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż',W-60,y+33);ctx.textAlign='left';
   return cv;
 }
 
-// SPRAWDZONY GENERATOR ZAŁĄCZNIKA PDF (DOKŁADNIE TEN Z MAILI 12:01 i 12:03)
 function buildValidPdfBlob(){
-  const cv=renderOrderSheetCanvas();
-  const imgData=cv.toDataURL('image/jpeg',0.95);
-  const {jsPDF}=window.jspdf;
-  const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const cv=renderOrderSheetCanvas(),imgData=cv.toDataURL('image/jpeg',0.95);
+  const {jsPDF}=window.jspdf,pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const pageW=210,margin=10,drawW=pageW-(margin*2),drawH=(cv.height/cv.width)*drawW;
   pdf.addImage(imgData,'JPEG',margin,margin,drawW,Math.min(277,drawH));
-
-  const dataUri=pdf.output('datauristring');
-  const byteString=atob(dataUri.split(',')[1]);
-  const mimeString=dataUri.split(',')[0].split(':')[1].split(';')[0];
-  const ab=new ArrayBuffer(byteString.length);
-  const ia=new Uint8Array(ab);
-  for(let i=0;i<byteString.length;i++){
-    ia[i]=byteString.charCodeAt(i);
-  }
+  const dataUri=pdf.output('datauristring'),byteString=atob(dataUri.split(',')[1]),mimeString=dataUri.split(',')[0].split(':')[1].split(';')[0];
+  const ab=new ArrayBuffer(byteString.length),ia=new Uint8Array(ab);
+  for(let i=0;i<byteString.length;i++)ia[i]=byteString.charCodeAt(i);
   return new Blob([ab],{type:mimeString});
 }
 
 async function shareOrderPDFFile(copySupplierEmail=false){
   if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
-  if(copySupplierEmail){
-    const em=document.getElementById('supplierEmailSelect').value||'';
-    if(em){
-      copyTextToClipboard(em);
-      showToast('Skopiowano e-mail hurtowni ('+em+') — wklej go w pole "Do" w Gmailu!',3800);
-    }
-  }
+  if(copySupplierEmail){const em=document.getElementById('supplierEmailSelect').value||'';if(em){copyTextToClipboard(em);showToast('Skopiowano e-mail hurtowni ('+em+') — wklej go w pole "Do" w Gmailu!',3800);}}
   const cliAddrRaw=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie';
-  const cliClean=cliAddrRaw.replace(/[^a-zA-Z0-9_-]/g,'_');
-  const fileName=`Zamowienie_ARX_${cliClean}.pdf`;
+  const fileName=`Zamowienie_ARX_${cliAddrRaw.replace(/[^a-zA-Z0-9_-]/g,'_')}.pdf`;
   try{
-    const pdfBlob=buildValidPdfBlob();
-    const pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
-    if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
-      await navigator.share({
-        files:[pdfFile],
-        title:`Zamówienie B2B ARX - ${cliAddrRaw}`,
-        text:generateB2BOrderText()
-      });
-      showToast('Wysłano zamówienie z załącznikiem PDF!');
-    }else{
-      downloadOrderPDFFile();
-    }
-  }catch(e){
-    if(e&&e.name!=='AbortError')downloadOrderPDFFile();
-  }
+    const pdfBlob=buildValidPdfBlob(),pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
+    if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){await navigator.share({files:[pdfFile],title:`Zamówienie B2B ARX - ${cliAddrRaw}`,text:generateB2BOrderText()});showToast('Wysłano zamówienie z załącznikiem PDF!');}
+    else downloadOrderPDFFile();
+  }catch(e){if(e&&e.name!=='AbortError')downloadOrderPDFFile();}
 }
-
 function downloadOrderPDFFile(){
   if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
   const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
-  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
-  const pdfBlob=buildValidPdfBlob();
-  const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
-  a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);
-  showToast('Pobrano plik PDF na telefon!');
+  const pdfBlob=buildValidPdfBlob(),url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
+  a.href=url;a.download=`Zamowienie_ARX_${cliAddr}.pdf`;document.body.appendChild(a);a.click();document.body.removeChild(a);showToast('Pobrano plik PDF na telefon!');
 }
-
 function openPrintableOrderWithLogo(){
   if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+  pushModalState();
   const cv=renderOrderSheetCanvas();
-  const dataUrl=cv.toDataURL('image/png');
-  document.getElementById('pdfCardPreviewContainer').innerHTML=`<img src="${dataUrl}" alt="Karta zamówienia ARX" class="w-full h-auto rounded-lg shadow">`;
+  document.getElementById('pdfCardPreviewContainer').innerHTML=`<img src="${cv.toDataURL('image/png')}" alt="Karta zamówienia ARX" class="w-full h-auto rounded-lg shadow">`;
   document.getElementById('pdfPreviewModal').classList.remove('hidden');
 }
-
 function closePdfPreviewModal(){document.getElementById('pdfPreviewModal').classList.add('hidden');}
 
-function copyTextToClipboard(txt){
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).catch(()=>fallbackCopy(txt));else fallbackCopy(txt);
-}
+function copyTextToClipboard(txt){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).catch(()=>fallbackCopy(txt));else fallbackCopy(txt);}
 function fallbackCopy(txt){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-function exportOfferSMS(){
-  const txt=generateClientOfferText();document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';
-  document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.remove('hidden');
-  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano ofertę!');
-}
-function sendDirectSMS(){
-  const txt=generateClientOfferText(),ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();copyTextToClipboard(txt);
-  window.location.href='sms:'+(ph||'')+(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);
-}
-function sendDirectWhatsApp(){
-  const txt=generateClientOfferText();let ph=document.getElementById('clientPhone').value.replace(/[^0-9]/g,'');if(ph.length===9)ph='48'+ph;
-  copyTextToClipboard(txt);window.open('https://wa.me/'+(ph||'')+'?text='+encodeURIComponent(txt),'_blank');
-}
-function exportOrderB2B(){
-  const txt=generateB2BOrderText();document.getElementById('modalTitle').innerText='Zgrupowane zamówienie B2B (ARX)';
-  document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.add('hidden');
-  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano tekst B2B!');
-}
+function exportOfferSMS(){pushModalState();const txt=generateClientOfferText();document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.remove('hidden');document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano ofertę!');}
+function sendDirectSMS(){const txt=generateClientOfferText(),ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();copyTextToClipboard(txt);window.location.href='sms:'+(ph||'')+(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);}
+function sendDirectWhatsApp(){const txt=generateClientOfferText();let ph=document.getElementById('clientPhone').value.replace(/[^0-9]/g,'');if(ph.length===9)ph='48'+ph;copyTextToClipboard(txt);window.open('https://wa.me/'+(ph||'')+'?text='+encodeURIComponent(txt),'_blank');}
+function exportOrderB2B(){pushModalState();const txt=generateB2BOrderText();document.getElementById('modalTitle').innerText='Zgrupowane zamówienie B2B (ARX)';document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.add('hidden');document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano tekst B2B!');}
 function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modalTextarea').value);showToast('Skopiowano do schowka!');}
 function closeExportModal(){document.getElementById('exportModal').classList.add('hidden');}
 
 function getSupplierEmails(){try{const r=localStorage.getItem('arx_supplier_emails_v6');return r?JSON.parse(r):[];}catch(e){return[];}}
 function saveSupplierEmails(l){try{localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(l));}catch(e){}}
-function loadSupplierEmails(){
-  const sel=document.getElementById('supplierEmailSelect');sel.innerHTML='';const list=getSupplierEmails();
-  if(!list.length){const o=document.createElement('option');o.value='';o.innerText='— Brak adresów (dodaj poniżej) —';sel.appendChild(o);}
-  else list.forEach(em=>{const o=document.createElement('option');o.value=em;o.innerText=em;sel.appendChild(o);});
+function loadSupplierEmails(){const sel=document.getElementById('supplierEmailSelect');sel.innerHTML='';const list=getSupplierEmails();if(!list.length){const o=document.createElement('option');o.value='';o.innerText='— Brak adresów (dodaj poniżej) —';sel.appendChild(o);}else list.forEach(em=>{const o=document.createElement('option');o.value=em;o.innerText=em;sel.appendChild(o);});}
+function addSupplierEmail(){const inp=document.getElementById('newSupplierEmail'),em=inp.value.trim();if(!em||!em.includes('@')){showToast('Wpisz poprawny e-mail!');return;}const l=getSupplierEmails();if(!l.includes(em)){l.push(em);saveSupplierEmails(l);loadSupplierEmails();document.getElementById('supplierEmailSelect').value=em;}inp.value='';showToast('Dodano e-mail!');}
+function deleteSelectedEmail(){const sel=document.getElementById('supplierEmailSelect');if(!sel.value)return;saveSupplierEmails(getSupplierEmails().filter(x=>x!==sel.value));loadSupplierEmails();showToast('Usunięto e-mail');}
+
+function saveActiveDraftState(){
+  try{
+    const draft={currentLoadedProjectId,currentOrderStatus,clientName:document.getElementById('clientName').value,clientAddress:document.getElementById('clientAddress').value,clientPhone:document.getElementById('clientPhone').value,discountMode,discountVal:document.getElementById('discountInput').value,cart};
+    localStorage.setItem('arx_active_draft_v1',JSON.stringify(draft));
+  }catch(e){}
 }
-function addSupplierEmail(){
-  const inp=document.getElementById('newSupplierEmail'),em=inp.value.trim();
-  if(!em||!em.includes('@')){showToast('Wpisz poprawny e-mail!');return;}
-  const l=getSupplierEmails();if(!l.includes(em)){l.push(em);saveSupplierEmails(l);loadSupplierEmails();document.getElementById('supplierEmailSelect').value=em;}
-  inp.value='';showToast('Dodano e-mail!');
-}
-function deleteSelectedEmail(){
-  const sel=document.getElementById('supplierEmailSelect');if(!sel.value)return;
-  saveSupplierEmails(getSupplierEmails().filter(x=>x!==sel.value));loadSupplierEmails();showToast('Usunięto e-mail');
+function restoreActiveDraftState(){
+  try{
+    const raw=localStorage.getItem('arx_active_draft_v1');if(!raw)return;
+    const d=JSON.parse(raw);if(!d)return;
+    currentLoadedProjectId=d.currentLoadedProjectId||null;
+    currentOrderStatus=d.currentOrderStatus||'quote';
+    document.getElementById('clientName').value=d.clientName||'';
+    document.getElementById('clientAddress').value=d.clientAddress||'';
+    document.getElementById('clientPhone').value=d.clientPhone||'';
+    discountMode=d.discountMode||'pln';
+    document.getElementById('discountInput').value=d.discountVal||0;
+    cart=Array.isArray(d.cart)?d.cart:[];
+    updateOrderStatusBadge();
+  }catch(e){}
 }
 
 function getSavedProjects(){try{const r=localStorage.getItem('arx_saved_projects');return r?JSON.parse(r):[];}catch(e){return[];}}
 function updateSavedProjectsCount(){document.getElementById('savedCount').innerText=getSavedProjects().length;}
 function autoSaveProjectQuiet(){
+  saveActiveDraftState();
   const cName=document.getElementById('clientName').value.trim(),cAddr=document.getElementById('clientAddress').value.trim(),cPhone=document.getElementById('clientPhone').value.trim();
   if(cart.length===0&&!cName&&!cAddr&&!cPhone)return;
   saveProject(currentOrderStatus,true);
 }
 function saveProject(forcedStatus,quiet=false){
   const statusToSave=forcedStatus||currentOrderStatus||'quote';currentOrderStatus=statusToSave;updateOrderStatusBadge();
-  const clientName=document.getElementById('clientName').value.trim();
-  const address=document.getElementById('clientAddress').value.trim()||clientName||'Pomiar bez adresu';
-  const phone=document.getElementById('clientPhone').value.trim();
+  const clientName=document.getElementById('clientName').value.trim(),address=document.getElementById('clientAddress').value.trim()||clientName||'Pomiar bez adresu',phone=document.getElementById('clientPhone').value.trim();
   const now=new Date(),monthKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),yearKey=String(now.getFullYear());
   const t=computeTotalsObject(),list=getSavedProjects();
   const recordData={date:getFormattedDate(),monthKey,yearKey,status:statusToSave,clientName,address,phone,discountMode,discountVal:document.getElementById('discountInput').value,revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]};
-  if(currentLoadedProjectId){
-    const idx=list.findIndex(x=>x.id===currentLoadedProjectId);
-    if(idx!==-1)list[idx]={...list[idx],...recordData};else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}
-  }else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}
-  try{
-    localStorage.setItem('arx_saved_projects',JSON.stringify(list));updateSavedProjectsCount();
-    if(!quiet){playBeep(statusToSave==='done'?1080:880,110);showToast(statusToSave==='done'?'ZREALIZOWANE!':'Zapisano jako Wycenę');}
-  }catch(e){}
+  if(currentLoadedProjectId){const idx=list.findIndex(x=>x.id===currentLoadedProjectId);if(idx!==-1)list[idx]={...list[idx],...recordData};else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}}
+  else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}
+  try{localStorage.setItem('arx_saved_projects',JSON.stringify(list));saveActiveDraftState();updateSavedProjectsCount();if(!quiet){playBeep(statusToSave==='done'?1080:880,110);showToast(statusToSave==='done'?'ZREALIZOWANE!':'Zapisano jako Wycenę');}}catch(e){}
 }
 
-function clearClientSearch(){
-  const inp=document.getElementById('clientSearchInput');
-  if(inp){inp.value='';renderSavedAndReports();}
-}
-
+function toggleReportSummaryBox(){document.getElementById('repSummaryCollapsible').classList.toggle('hidden');}
+function clearClientSearch(){const inp=document.getElementById('clientSearchInput');if(inp){inp.value='';renderSavedAndReports();}}
 function setReportPeriod(p){
   reportPeriod=p;
-  document.getElementById('tabPeriodMonth').className=p==='month'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
-  document.getElementById('tabPeriodYear').className=p==='year'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
-  document.getElementById('tabPeriodAll').className=p==='all'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
+  document.getElementById('tabPeriodMonth').className=p==='month'?'py-1 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1 rounded-md text-slate-300 font-medium';
+  document.getElementById('tabPeriodYear').className=p==='year'?'py-1 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1 rounded-md text-slate-300 font-medium';
+  document.getElementById('tabPeriodAll').className=p==='all'?'py-1 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1 rounded-md text-slate-300 font-medium';
   populatePeriodFilterOptions();renderSavedAndReports();
 }
 function populatePeriodFilterOptions(){
   const list=getSavedProjects(),sel=document.getElementById('reportFilterSelect');sel.innerHTML='';
   const now=new Date(),cM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),cY=String(now.getFullYear());
-  if(reportPeriod==='month'){
-    sel.classList.remove('hidden');const ms=new Set([cM]);list.forEach(p=>{if(p.monthKey)ms.add(p.monthKey);});
-    Array.from(ms).sort().reverse().forEach(m=>{const o=document.createElement('option');o.value=m;o.innerText='Miesiąc: '+m;sel.appendChild(o);});
-  }else if(reportPeriod==='year'){
-    sel.classList.remove('hidden');const ys=new Set([cY]);list.forEach(p=>{if(p.yearKey)ys.add(p.yearKey);});
-    Array.from(ys).sort().reverse().forEach(y=>{const o=document.createElement('option');o.value=y;o.innerText='Rok: '+y;sel.appendChild(o);});
-  }else sel.classList.add('hidden');
+  if(reportPeriod==='month'){sel.classList.remove('hidden');const ms=new Set([cM]);list.forEach(p=>{if(p.monthKey)ms.add(p.monthKey);});Array.from(ms).sort().reverse().forEach(m=>{const o=document.createElement('option');o.value=m;o.innerText='Miesiąc: '+m;sel.appendChild(o);});}
+  else if(reportPeriod==='year'){sel.classList.remove('hidden');const ys=new Set([cY]);list.forEach(p=>{if(p.yearKey)ys.add(p.yearKey);});Array.from(ys).sort().reverse().forEach(y=>{const o=document.createElement('option');o.value=y;o.innerText='Rok: '+y;sel.appendChild(o);});}
+  else sel.classList.add('hidden');
 }
-function toggleProjectStatus(id){
-  const list=getSavedProjects(),p=list.find(x=>x.id===id);
-  if(p){p.status=p.status==='done'?'quote':'done';if(currentLoadedProjectId===id){currentOrderStatus=p.status;updateOrderStatusBadge();}try{localStorage.setItem('arx_saved_projects',JSON.stringify(list));}catch(e){}renderSavedAndReports();}
-}
+function toggleProjectStatus(id){const list=getSavedProjects(),p=list.find(x=>x.id===id);if(p){p.status=p.status==='done'?'quote':'done';if(currentLoadedProjectId===id){currentOrderStatus=p.status;updateOrderStatusBadge();saveActiveDraftState();}try{localStorage.setItem('arx_saved_projects',JSON.stringify(list));}catch(e){}renderSavedAndReports();}}
 
 function renderSavedAndReports(){
-  const list=getSavedProjects();
-  const fVal=document.getElementById('reportFilterSelect').value;
-  const sFil=document.getElementById('reportStatusFilter').value;
-  const searchRaw=(document.getElementById('clientSearchInput')?document.getElementById('clientSearchInput').value:'').trim().toLowerCase();
-  const searchDigits=searchRaw.replace(/[^0-9]/g,'');
-
+  const list=getSavedProjects(),fVal=document.getElementById('reportFilterSelect').value,sFil=document.getElementById('reportStatusFilter').value;
+  const searchRaw=(document.getElementById('clientSearchInput')?document.getElementById('clientSearchInput').value:'').trim().toLowerCase(),searchDigits=searchRaw.replace(/[^0-9]/g,'');
   const periodMatched=list.filter(p=>{
-    // Jeśli użytkownik wpisuje tekst w wyszukiwarkę klienta, przeszukuj całą bazę niezależnie od miesiąca!
     if(searchRaw.length>0){
-      const hay=[p.clientName||'',p.address||'',p.phone||'',p.date||''].join(' ').toLowerCase();
-      const phoneClean=(p.phone||'').replace(/[^0-9]/g,'');
-      const matchText=hay.includes(searchRaw);
-      const matchPhone=searchDigits.length>=3&&phoneClean.includes(searchDigits);
-      return matchText||matchPhone;
+      const hay=[p.clientName||'',p.address||'',p.phone||'',p.date||''].join(' ').toLowerCase(),phoneClean=(p.phone||'').replace(/[^0-9]/g,'');
+      return hay.includes(searchRaw)||(searchDigits.length>=3&&phoneClean.includes(searchDigits));
     }
     if(reportPeriod==='month'&&(p.monthKey||'2026-10')!==fVal)return false;
     if(reportPeriod==='year'&&(p.yearKey||'2026')!==fVal)return false;
     return true;
   });
-
   let sRev=0,sB2B=0,sProf=0,doneCount=0,quoteCount=0;
   periodMatched.forEach(p=>{if(p.status==='done'){doneCount++;sRev+=(p.revenue||0);sB2B+=(p.b2bCost||0);sProf+=(p.netProfit||0);}else quoteCount++;});
   document.getElementById('repTotalRevenue').innerText=sRev+' zł';
   document.getElementById('repTotalB2B').innerText=sB2B+' zł';
   document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
-  document.getElementById('repCountInfo').innerText=`Zrealizowane: ${doneCount} | Niezrealizowane: ${quoteCount}`;
+  document.getElementById('repCountInfo').innerText=`✓${doneCount} | ⏳${quoteCount}`;
 
   const fil=periodMatched.filter(p=>{const st=p.status||'quote';if(sFil==='done'&&st!=='done')return false;if(sFil==='quote'&&st!=='quote')return false;return true;});
   const c=document.getElementById('savedProjectsList');c.innerHTML='';
-  if(!fil.length){
-    c.innerHTML=searchRaw?`<div class="text-center py-6 text-xs text-slate-400">Brak klienta pasującego do: „${searchRaw}”</div>`:'<div class="text-center py-6 text-xs text-slate-400">Brak pomiarów dla wybranego filtra.</div>';
-    return;
-  }
+  if(!fil.length){c.innerHTML=searchRaw?`<div class="text-center py-6 text-xs text-slate-400">Brak klienta pasującego do: „${searchRaw}”</div>`:'<div class="text-center py-6 text-xs text-slate-400">Brak pomiarów dla wybranego filtra.</div>';return;}
   fil.forEach(p=>{
     const done=p.status==='done';
-    const bdg=done?`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold">✓ Zrealizowane</button>`:`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold">⏳ Niezrealizowane</button>`;
+    const bdg=done?`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold shrink-0">✓ Zrealiz.</button>`:`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold shrink-0">⏳ Wycena</button>`;
     const titleLine=[p.clientName,p.address].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(' • ')||'Pomiar';
-    const itemsCount=(p.cart||[]).reduce((acc,x)=>acc+(x.qty||1),0);
-    c.innerHTML+=`<div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
-      <div class="flex justify-between items-start gap-2"><div><div class="font-bold text-sm text-white">${titleLine}</div><div class="text-xs text-slate-400 font-mono">📞 ${p.phone||'Brak tel.'} • 📅 ${p.date} (${itemsCount} szt.)</div></div>${bdg}</div>
-      <div class="flex justify-between items-center pt-1.5 border-t border-slate-900">
-        <div class="text-xs font-mono"><span class="text-slate-400">Klient: <strong class="text-white">${p.revenue||0} zł</strong></span><span class="text-emerald-400 ml-2">Zysk: <strong>+${p.netProfit||0} zł</strong></span></div>
-        <div class="flex gap-1.5"><button type="button" onclick="loadSavedProject(${p.id})" class="px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">Wczytaj</button><button type="button" onclick="deleteSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button></div>
-      </div>
-    </div>`;
+    const itemsPreview=(p.cart||[]).map(x=>`${formatCm(x.width)}x${formatCm(x.height)} (${x.qty}szt.)`).join(', ');
+    c.innerHTML+=`<div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-1"><div class="flex justify-between items-start gap-1.5"><div class="min-w-0"><div class="font-bold text-xs text-white truncate">${titleLine}</div><div class="text-[11px] text-slate-400 font-mono">📞 ${p.phone||'Brak tel.'} • 📅 ${p.date}</div></div>${bdg}</div>${itemsPreview?`<div class="text-[10px] font-mono text-amber-400/90 truncate">📐 ${itemsPreview}</div>`:''}<div class="flex justify-between items-center pt-1 border-t border-slate-900"><div class="text-[11px] font-mono"><span class="text-slate-400">Klient: <strong class="text-white">${p.revenue||0} zł</strong></span><span class="text-emerald-400 ml-2">Zysk: <strong>+${p.netProfit||0} zł</strong></span></div><div class="flex gap-1.5"><button type="button" onclick="loadSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">Wczytaj</button><button type="button" onclick="deleteSavedProject(${p.id})" class="px-2 py-1 rounded-lg bg-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button></div></div></div>`;
   });
 }
-function openSavedModal(){
-  const inp=document.getElementById('clientSearchInput');
-  if(inp)inp.value='';
-  populatePeriodFilterOptions();renderSavedAndReports();document.getElementById('savedModal').classList.remove('hidden');
-}
+function openSavedModal(){pushModalState();const inp=document.getElementById('clientSearchInput');if(inp)inp.value='';populatePeriodFilterOptions();renderSavedAndReports();document.getElementById('savedModal').classList.remove('hidden');}
 function closeSavedModal(){document.getElementById('savedModal').classList.add('hidden');}
 function loadSavedProject(id){
   const p=getSavedProjects().find(x=>x.id===id);if(!p)return;
   currentLoadedProjectId=p.id;currentOrderStatus=p.status||'quote';updateOrderStatusBadge();
   document.getElementById('clientName').value=p.clientName||'';document.getElementById('clientAddress').value=p.address||'';document.getElementById('clientPhone').value=p.phone||'';
   discountMode=p.discountMode||'pln';document.getElementById('discountInput').value=p.discountVal||0;cart=p.cart||[];
-  closeSavedModal();renderCartAndTotals();showToast('Wczytano pomiar klienta!');
+  saveActiveDraftState();closeSavedModal();renderCartAndTotals();showToast('Wczytano zamówienie klienta!');
 }
 function deleteSavedProject(id){
   const l=getSavedProjects().filter(x=>x.id!==id);
-  if(currentLoadedProjectId===id){currentLoadedProjectId=null;currentOrderStatus='quote';updateOrderStatusBadge();}
+  if(currentLoadedProjectId===id){currentLoadedProjectId=null;currentOrderStatus='quote';updateOrderStatusBadge();saveActiveDraftState();}
   try{localStorage.setItem('arx_saved_projects',JSON.stringify(l));}catch(e){}
   updateSavedProjectsCount();renderSavedAndReports();
 }
 function resetAll(){
   if(!confirm('Rozpocząć nowy, czysty pomiar?'))return;
   currentLoadedProjectId=null;currentOrderStatus='quote';updateOrderStatusBadge();
-  document.getElementById('clientName').value='';document.getElementById('clientAddress').value='';document.getElementById('clientPhone').value='';document.getElementById('discountInput').value=0;
-  cart=[];renderCartAndTotals();showToast('Nowy arkusz pomiarowy');
+  document.getElementById('clientName').value='';document.getElementById('clientAddress').value='';document.getElementById('clientPhone').value='';
+  document.getElementById('itemRoom').value='';document.getElementById('itemWidth').value='';document.getElementById('itemHeight').value='';document.getElementById('itemQty').value='1';document.getElementById('manualB2B').value='';
+  document.getElementById('discountInput').value=0;cart=[];
+  try{localStorage.removeItem('arx_active_draft_v1');}catch(e){}
+  recalcCurrentItem();renderCartAndTotals();showToast('Wyzerowano — nowy arkusz pomiarowy');
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-  loadThemePreference();loadAppConfig();checkPinLockOnStart();loadSupplierEmails();updateSavedProjectsCount();updateOrderStatusBadge();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
+  try{history.replaceState({arxRoot:true},'');}catch(e){}
+  loadThemePreference();loadAppConfig();checkPinLockOnStart();loadSupplierEmails();updateSavedProjectsCount();restoreActiveDraftState();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
 });
 window.addEventListener('pageshow',()=>{onSystemChange();});
 </script>
