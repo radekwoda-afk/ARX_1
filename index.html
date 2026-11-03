@@ -34,17 +34,21 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 </head>
 <body class="font-sans min-h-screen pb-28">
 
-<!-- BLOKADA PIN (DOMYŚLNY PIN: 1234) -->
 <div id="pinLockScreen" class="fixed inset-0 z-50 bg-[#0b0f19] flex items-center justify-center p-4 hidden">
   <div class="card-bg rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl border border-amber-500/40">
     <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl font-bold border border-amber-500/40">
       <i class="fa-solid fa-lock"></i>
     </div>
     <div>
-      <h2 class="font-extrabold text-base text-white">Blokada ARX Wyceny</h2>
-      <p class="text-xs text-slate-400 mt-1">Podaj 4-cyfrowy kod PIN</p>
+      <h2 id="pinScreenTitle" class="font-extrabold text-base text-white">Blokada ARX Wyceny</h2>
+      <p id="pinScreenSub" class="text-xs text-slate-400 mt-1">Podaj swój 4-cyfrowy kod PIN</p>
     </div>
     <input type="password" inputmode="numeric" id="pinInput" maxlength="4" oninput="if(this.value.length===4)verifyPinCode()" placeholder="••••" class="w-full input-bg rounded-2xl py-3 text-center font-mono font-bold text-2xl text-white tracking-widest">
+    <div id="pinErrorMsg" class="hidden text-xs font-bold text-red-400">Nieprawidłowy kod PIN!</div>
+    <label class="flex items-center justify-center gap-2 text-xs text-slate-300 cursor-pointer select-none">
+      <input type="checkbox" id="pinRememberDevice" checked class="w-4 h-4 accent-amber-500 rounded">
+      <span>Zapamiętaj na tym telefonie</span>
+    </label>
     <button type="button" onclick="verifyPinCode()" class="w-full py-3.5 rounded-2xl bg-amber-500 text-slate-950 font-extrabold text-sm shadow-lg active:scale-95 transition">
       Odblokuj aplikację
     </button>
@@ -55,7 +59,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
   <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
 </div>
 
-<!-- GÓRNY PASEK: TYLKO LOGO ARX PO LEWEJ I PRZYCISKI PO PRAWEJ -->
 <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-2 pb-2">
   <div class="max-w-md mx-auto">
     <div class="flex justify-between items-center mb-2">
@@ -398,7 +401,6 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
-  <!-- 7. EKSPORT WYCENY I ZGRUPOWANEGO ZAMÓWIENIA B2B -->
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -456,13 +458,12 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
         <span>⏳ Wycena</span>
       </button>
       <button type="button" onclick="exportOfferSMS()" class="px-3 py-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center gap-1 shadow active:scale-95 transition">
-        <i class="fa-solid fa-comment-sms text-sm"></i> Oferta SMS
+        <i class="fa-solid fa-comment-sms text-sm"></i> SMS
       </button>
     </div>
   </div>
 </footer>
 
-<!-- MODAL PODGLĄDU KARTY ZAMÓWIENIA PDF Z DZIAŁAJĄCYMI PRZYCISKAMI -->
 <div id="pdfPreviewModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5">
   <div class="bg-white rounded-2xl max-w-md w-full p-3 shadow-2xl border border-slate-300 space-y-2.5 max-h-[92vh] flex flex-col text-slate-900">
     <div class="flex justify-between items-center border-b border-slate-200 pb-2">
@@ -563,8 +564,8 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           <input type="text" id="setBrandContact" class="w-full input-bg rounded-lg px-2 py-1.5 text-xs text-white">
         </div>
         <div>
-          <label class="block text-[10px] text-amber-400 mb-1 font-bold">Kod PIN zabezpieczenia (4 cyfry, domyślnie 1234):</label>
-          <input type="text" inputmode="numeric" id="setAppPin" maxlength="4" placeholder="1234" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white text-center">
+          <label class="block text-[10px] text-amber-400 mb-1 font-bold">Twój kod PIN (4 cyfry — zapisuje się od razu):</label>
+          <input type="text" inputmode="numeric" id="setAppPin" maxlength="4" oninput="savePinImmediately(this.value)" placeholder="Wpisz 4 cyfry (lub zostaw puste by wyłączyć)" class="w-full input-bg rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white text-center">
         </div>
       </div>
 
@@ -610,7 +611,7 @@ const STANDARD_COLORS=[
   {val:'Złoty Dąb',label:'Złoty Dąb (dekor)'},{val:'Orzech',label:'Orzech (dekor)'},{val:'Winchester',label:'Winchester (dekor)'},{val:'Mahoń',label:'Mahoń (dekor)'}
 ];
 const ROOF_BLIND_COLORS=[{val:'Biały',label:'Biały'},{val:'Anoda',label:'Anoda (Srebrny)'}];
-const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX — Rolety • Moskitiery • Montaż',pinCode:'1234'};
+const DEFAULT_BRAND={shortName:'ARX',fullName:'ARX Wyceny',contactLine:'ARX — Rolety • Moskitiery • Montaż'};
 const VARIANT_DRAWINGS={
   'Pomiar nr 1':{label:'NR:1',l:'in',r:'in',t:'in',b:'in'},'Pomiar nr 2':{label:'NR:2',l:'out',r:'in',t:'in',b:'in'},
   'Pomiar nr 3':{label:'NR:3',l:'out',r:'out',t:'in',b:'in'},'Pomiar nr 4':{label:'NR:4',l:'in',r:'in',t:'out',b:'in'},
@@ -641,23 +642,75 @@ function toggleTheme(){
   applyThemeMode(next);showToast(next==='light'?'Motyw jasny ☀️':'Motyw ciemny 🌙');
 }
 
-function checkPinLockOnStart(){
-  if(sessionStorage.getItem('arx_pin_unlocked')==='1')return;
-  const activePin=(brandConfig.pinCode!==undefined)?brandConfig.pinCode:'1234';
-  if(activePin&&activePin.trim().length>0){
-    document.getElementById('pinLockScreen').classList.remove('hidden');
+function getStoredCustomPin(){
+  let p=localStorage.getItem('arx_user_pin');if(p!==null)return p;
+  const keys=['arx_brand_config_v16','arx_brand_config_v15','arx_brand_config_v14'];
+  for(const k of keys){
+    try{
+      const raw=localStorage.getItem(k);
+      if(raw){
+        const parsed=JSON.parse(raw);
+        if(parsed.pinCode&&parsed.pinCode.trim()!==''&&parsed.pinCode.trim()!=='1234'){
+          localStorage.setItem('arx_user_pin',parsed.pinCode.trim());
+          return parsed.pinCode.trim();
+        }
+      }
+    }catch(e){}
   }
+  return null;
 }
+
+function savePinImmediately(val){
+  const clean=val.replace(/[^0-9]/g,'').trim();
+  try{
+    localStorage.setItem('arx_user_pin',clean);
+    if(clean==='')localStorage.removeItem('arx_pin_trusted_device');
+  }catch(e){}
+}
+
+function checkPinLockOnStart(){
+  if(sessionStorage.getItem('arx_pin_unlocked')==='1'||localStorage.getItem('arx_pin_trusted_device')==='1')return;
+  const savedPin=getStoredCustomPin();
+  if(savedPin==='')return;
+  if(savedPin===null){
+    document.getElementById('pinScreenTitle').innerText='Ustaw swój kod PIN';
+    document.getElementById('pinScreenSub').innerText='Wpisz swój 4-cyfrowy kod PIN, aby zabezpieczyć aplikację';
+  }else{
+    document.getElementById('pinScreenTitle').innerText='Blokada ARX Wyceny';
+    document.getElementById('pinScreenSub').innerText='Podaj swój 4-cyfrowy kod PIN';
+  }
+  document.getElementById('pinLockScreen').classList.remove('hidden');
+}
+
 function verifyPinCode(){
   const val=document.getElementById('pinInput').value.trim();
-  const activePin=(brandConfig.pinCode!==undefined&&brandConfig.pinCode!=='')?brandConfig.pinCode.trim():'1234';
-  if(val===activePin){
-    sessionStorage.setItem('arx_pin_unlocked','1');
+  if(val.length<4)return;
+  const savedPin=getStoredCustomPin();
+  const remember=document.getElementById('pinRememberDevice').checked;
+
+  if(savedPin===null){
+    try{
+      localStorage.setItem('arx_user_pin',val);
+      sessionStorage.setItem('arx_pin_unlocked','1');
+      if(remember)localStorage.setItem('arx_pin_trusted_device','1');
+    }catch(e){}
+    document.getElementById('pinLockScreen').classList.add('hidden');
+    showToast('Zapisano Twój PIN i odblokowano!');
+    return;
+  }
+
+  if(val===savedPin){
+    try{
+      sessionStorage.setItem('arx_pin_unlocked','1');
+      if(remember)localStorage.setItem('arx_pin_trusted_device','1');
+    }catch(e){}
+    document.getElementById('pinErrorMsg').classList.add('hidden');
     document.getElementById('pinLockScreen').classList.add('hidden');
     showToast('Odblokowano!');
   }else{
-    showToast('Błędny PIN!');
+    document.getElementById('pinErrorMsg').classList.remove('hidden');
     document.getElementById('pinInput').value='';
+    playBeep(320,180);
   }
 }
 
@@ -764,7 +817,8 @@ function openSettingsModal(){
   document.getElementById('setBrandShort').value=brandConfig.shortName||'ARX';
   document.getElementById('setBrandFull').value=brandConfig.fullName||'ARX Wyceny';
   document.getElementById('setBrandContact').value=brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż';
-  document.getElementById('setAppPin').value=(brandConfig.pinCode!==undefined)?brandConfig.pinCode:'1234';
+  const currentPin=getStoredCustomPin();
+  document.getElementById('setAppPin').value=currentPin!==null?currentPin:'';
   renderCatalogInputsInModal(systemsCatalog);
   document.getElementById('settingsModal').classList.remove('hidden');
 }
@@ -776,7 +830,8 @@ function saveSettingsFromModal(){
   brandConfig.shortName=document.getElementById('setBrandShort').value.trim()||'ARX';
   brandConfig.fullName=document.getElementById('setBrandFull').value.trim()||'ARX Wyceny';
   brandConfig.contactLine=document.getElementById('setBrandContact').value.trim()||'ARX — Rolety • Moskitiery • Montaż';
-  brandConfig.pinCode=document.getElementById('setAppPin').value.trim();
+  const newPin=document.getElementById('setAppPin').value.replace(/[^0-9]/g,'').trim();
+  savePinImmediately(newPin);
   systemsCatalog.forEach((s,i)=>{
     s.rate=Math.max(0,parseFloat(document.getElementById('catRate_'+i).value)||0);
     s.rateDecor=Math.max(0,parseFloat(document.getElementById('catRateDec_'+i).value)||0);
@@ -790,11 +845,11 @@ function saveSettingsFromModal(){
     localStorage.setItem('arx_brand_config_v16',JSON.stringify(brandConfig));
     localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(systemsCatalog));
   }catch(e){}
-  onSystemChange();closeSettingsModal();showToast('Zapisano cennik i ustawienia!');
+  onSystemChange();closeSettingsModal();showToast('Zapisano cennik i PIN!');
 }
 
 function exportBackupJSON(){
-  const data={brandConfig,systemsCatalog,supplierEmails:getSupplierEmails(),savedProjects:getSavedProjects()};
+  const data={brandConfig,userPin:getStoredCustomPin(),systemsCatalog,supplierEmails:getSupplierEmails(),savedProjects:getSavedProjects()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download='kopia_arx_'+getFormattedDate().replace(/\./g,'-')+'.json';
@@ -807,6 +862,7 @@ function importBackupJSON(ev){
     try{
       const data=JSON.parse(e.target.result);
       if(data.brandConfig)localStorage.setItem('arx_brand_config_v16',JSON.stringify(data.brandConfig));
+      if(data.userPin!==undefined)localStorage.setItem('arx_user_pin',data.userPin);
       if(data.systemsCatalog)localStorage.setItem('arx_systems_catalog_v16',JSON.stringify(data.systemsCatalog));
       if(data.supplierEmails)localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(data.supplierEmails));
       if(data.savedProjects)localStorage.setItem('arx_saved_projects',JSON.stringify(data.savedProjects));
@@ -1021,525 +1077,6 @@ function renderCartAndTotals(){
   document.getElementById('sumClientTotal').innerText=t.finalClientTotal+' zł';
   document.getElementById('footerProfitVal').innerText=(t.netProfit>=0?'+':'')+t.netProfit+' zł';
   document.getElementById('footerClientVal').innerText=t.finalClientTotal+' zł';
-}
-
-function speakText(txt,cb){
-  if('speechSynthesis' in window){
-    window.speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(txt);u.lang='pl-PL';u.rate=1.05;
-    if(cb)u.onend=cb;window.speechSynthesis.speak(u);
-  }else if(cb)cb();
-}
-
-function buildCleanTranscript(results){
-  let combined='';
-  for(let i=0;i<results.length;i++){
-    const rawPiece=(results[i][0].transcript||'').trim();if(!rawPiece)continue;
-    if(!combined){combined=rawPiece;continue;}
-    const normComb=combined.toLowerCase().replace(/\s*(x|\*|razy)\s*/g,' na ').replace(/[.,!?]/g,'').trim();
-    const normPiece=rawPiece.toLowerCase().replace(/\s*(x|\*|razy)\s*/g,' na ').replace(/[.,!?]/g,'').trim();
-    const fComb=(normComb.match(/^[0-9]+/)||[])[0],fPiece=(normPiece.match(/^[0-9]+/)||[])[0];
-    if(normPiece.startsWith(normComb)||(fComb&&fComb===fPiece&&normPiece.length>=normComb.length))combined=rawPiece;
-    else if(normComb.startsWith(normPiece)){}
-    else if(!normComb.endsWith(normPiece))combined+=' '+rawPiece;
-  }
-  return combined.trim();
-}
-
-function parseSpokenMeasurement(tr){
-  const raw=tr.trim();
-  const rawNums=raw.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
-  const dedupNums=[];
-  for(let i=0;i<rawNums.length;i++){
-    if(i>0&&rawNums[i]===rawNums[i-1]&&rawNums.length>=3)continue;
-    dedupNums.push(rawNums[i]);
-  }
-  let w=parseFloat(document.getElementById('itemWidth').value)||80,h=parseFloat(document.getElementById('itemHeight').value)||140;
-  if(dedupNums.length>=2){
-    w=parseFloat(dedupNums[dedupNums.length-2].replace(',','.'));
-    h=parseFloat(dedupNums[dedupNums.length-1].replace(',','.'));
-    if(w>=350&&h>=350){w=parseFloat((w/10).toFixed(1));h=parseFloat((h/10).toFixed(1));}
-  }
-  let room='';const fm=raw.match(/[0-9]+/);
-  if(fm&&fm.index>0)room=raw.substring(0,fm.index).replace(/\b(i wtedy|wtedy|no to|teraz|dobra|okej|ok|pomiar|okno|wymiar)\b/gi,'').replace(/[,:-]+$/g,'').trim();
-  room=room?(room.charAt(0).toUpperCase()+room.slice(1)):document.getElementById('itemRoom').value.trim();
-  return{room,width:w,height:h};
-}
-
-function stopAllVoice(){
-  voiceListening30s=false;
-  if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
-  if(voiceDebounceTimer){clearTimeout(voiceDebounceTimer);voiceDebounceTimer=null;}
-  if(activeRecognition){try{activeRecognition.abort();}catch(e){}activeRecognition=null;}
-  if('speechSynthesis' in window)window.speechSynthesis.cancel();
-  document.getElementById('voiceActiveBanner').classList.add('hidden');
-  document.getElementById('voiceConfirmButtons').classList.add('hidden');
-  document.getElementById('voiceBlockedFallback').classList.add('hidden');
-  document.getElementById('voiceStateBadge').innerText='1 klik -> wymiar -> „Tak”';
-}
-
-function startVoiceFlow(){
-  playBeep(880,120);
-  document.getElementById('voiceActiveBanner').classList.remove('hidden');
-  document.getElementById('voiceConfirmButtons').classList.add('hidden');
-  document.getElementById('voiceBlockedFallback').classList.add('hidden');
-  document.getElementById('voiceHeardPreview').classList.add('hidden');
-  document.getElementById('voiceLiveInstruction').innerText='🎤 Słucham (30s)... Powiedz sam wymiar w cm';
-  document.getElementById('voiceStateBadge').innerText='🔴 Aktywny (30s)';
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){document.getElementById('voiceBlockedFallback').classList.remove('hidden');return;}
-  voiceListening30s=true;voice30sStart=Date.now();
-  let capturedTwoNumbers=false,sessionSavedText='',currentSegmentText='';
-  if(voice30sTimer)clearTimeout(voice30sTimer);
-  if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
-  voice30sTimer=setTimeout(()=>{if(voiceListening30s&&!capturedTwoNumbers){stopAllVoice();showToast('Minęło 30s');}},30000);
-  try{
-    if(activeRecognition)activeRecognition.abort();
-    activeRecognition=new SR();activeRecognition.lang='pl-PL';activeRecognition.continuous=true;activeRecognition.interimResults=true;
-    activeRecognition.onresult=(e)=>{
-      if(capturedTwoNumbers)return;
-      currentSegmentText=buildCleanTranscript(e.results);
-      const fullTranscript=(sessionSavedText+' '+currentSegmentText).trim();
-      const pr=document.getElementById('voiceHeardPreview');
-      if(fullTranscript){pr.innerText='Słyszę: „'+fullTranscript+'”';pr.classList.remove('hidden');}
-      const rawNums=fullTranscript.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
-      const hasSecondDistinct=(rawNums.length>=2&&!(rawNums.length===2&&rawNums[0]===rawNums[1]&&!/(\bna\b|x|\*)/i.test(fullTranscript)));
-      if(hasSecondDistinct){
-        if(voiceDebounceTimer)clearTimeout(voiceDebounceTimer);
-        voiceDebounceTimer=setTimeout(()=>{
-          const finalCheck=(sessionSavedText+' '+currentSegmentText).trim();
-          const finalNums=finalCheck.match(/[0-9]+(?:[.,][0-9]+)?/g)||[];
-          if(finalNums.length>=2&&!capturedTwoNumbers){
-            capturedTwoNumbers=true;voiceListening30s=false;
-            if(voice30sTimer){clearTimeout(voice30sTimer);voice30sTimer=null;}
-            try{activeRecognition.stop();}catch(err){}
-            triggerVoiceConfirmationStep(parseSpokenMeasurement(finalCheck));
-          }
-        },900);
-      }
-    };
-    activeRecognition.onend=()=>{
-      if(voiceListening30s&&!capturedTwoNumbers&&(Date.now()-voice30sStart)<30000){
-        if(currentSegmentText){sessionSavedText=(sessionSavedText+' '+currentSegmentText).trim();currentSegmentText='';}
-        try{activeRecognition.start();}catch(err){}
-      }
-    };
-    activeRecognition.onerror=(ev)=>{if(ev&&(ev.error==='not-allowed'||ev.error==='service-not-allowed')){voiceListening30s=false;document.getElementById('voiceBlockedFallback').classList.remove('hidden');}};
-    activeRecognition.start();
-  }catch(e){document.getElementById('voiceBlockedFallback').classList.remove('hidden');}
-}
-
-// POTWIERDZENIE GŁOSOWE: TYLKO WYMIAR, BEZ CZYTANIA I WYŚWIETLANIA KOLORU
-function triggerVoiceConfirmationStep(p){
-  pendingVoiceItem=p;
-  document.getElementById('itemRoom').value=p.room;
-  document.getElementById('itemWidth').value=p.width;
-  document.getElementById('itemHeight').value=p.height;
-  recalcCurrentItem();
-  const pr=document.getElementById('voiceHeardPreview');
-  pr.innerText=(p.room||'Wymiar')+': '+formatCm(p.width)+' x '+formatCm(p.height)+' cm';
-  pr.classList.remove('hidden');
-  document.getElementById('voiceConfirmButtons').classList.remove('hidden');
-  document.getElementById('voiceLiveInstruction').innerText='🗣️ Powiedz „TAK” po pytaniu lektora...';
-  speakText((p.room?(p.room+', '):'Wymiar ')+formatCm(p.width)+' na '+formatCm(p.height)+' centymetrów. Czy zatwierdzasz?',()=>{
-    playBeep(1040,90);listenForYesNoDirectly();
-  });
-}
-
-function listenForYesNoDirectly(){
-  document.getElementById('voiceLiveInstruction').innerText='🎤 Powiedz teraz: „TAK” lub „NIE”';
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
-  try{
-    if(activeRecognition)activeRecognition.abort();
-    activeRecognition=new SR();activeRecognition.lang='pl-PL';activeRecognition.continuous=false;activeRecognition.interimResults=false;
-    activeRecognition.onresult=(e)=>{
-      const a=e.results[0][0].transcript.toLowerCase();
-      if(a.includes('tak')||a.includes('zatwierdz')||a.includes('dobra')||a.includes('zgadza'))confirmVoiceItem(true);
-      else if(a.includes('nie')||a.includes('anuluj')||a.includes('odrzuć'))confirmVoiceItem(false);
-    };
-    activeRecognition.start();
-  }catch(e){}
-}
-
-function onFallbackInput(){
-  if(fallbackTimer)clearTimeout(fallbackTimer);
-  const v=document.getElementById('voiceFallbackInput').value.trim(),lo=v.toLowerCase();
-  if(pendingVoiceItem&&(lo.endsWith('tak')||lo.includes(' tak'))){confirmVoiceItem(true);return;}
-  if(pendingVoiceItem&&(lo.endsWith('nie')||lo.includes(' nie'))){confirmVoiceItem(false);return;}
-  const nums=v.match(/[0-9]+(?:[.,][0-9]+)?/g);
-  if(!pendingVoiceItem&&nums&&nums.length>=2)fallbackTimer=setTimeout(()=>triggerVoiceConfirmationStep(parseSpokenMeasurement(v)),1200);
-}
-
-function confirmVoiceItem(ok){
-  if(ok&&pendingVoiceItem){addItemToCart();speakText('Zatwierdzono.');}else speakText('Anulowano.');
-  pendingVoiceItem=null;document.getElementById('voiceFallbackInput').value='';stopAllVoice();
-}
-
-function getFormattedDate(){return new Date().toLocaleDateString('pl-PL');}
-
-function generateClientOfferText(){
-  const cName=document.getElementById('clientName').value.trim(),cAddr=document.getElementById('clientAddress').value.trim();
-  const clientHeader=[cName,cAddr].filter(Boolean).join(' • ')||'Klient indywidualny';
-  let L=[`*${brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'}*`,'📋 *WYCENA SYSTEMÓW OSŁON OKIENNYCH*','👤 Klient: '+clientHeader,'📅 Data pomiaru: '+getFormattedDate(),'------------------------------'];
-  cart.forEach((it,i)=>{
-    const rSum=it.clientUnit*it.qty,gTxt=it.guideLength>0?' (Prowadnica: '+formatCm(it.guideLength)+' cm)':'';
-    L.push((i+1)+'. *'+it.system+(it.room?` (${it.room})`:'')+'*','   • Kolor: '+it.color,'   • Wymiar: '+formatCm(it.width)+' x '+formatCm(it.height)+' cm'+gTxt+' | Ilość: '+it.qty+' szt.','   • Wartość: '+rSum+' zł');
-  });
-  const t=computeTotalsObject();L.push('------------------------------');
-  if(t.discPln>0)L.push('Wartość bazowa: '+t.sumClientBase+' zł','Przyznany rabat: -'+t.discPln+' zł');
-  L.push('*RAZEM DO ZAPŁATY (z montażem): '+t.finalClientTotal+' zł*','📞 '+(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'));
-  return L.join(NL);
-}
-
-function generateB2BOrderText(){
-  const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
-  const companyBanner=(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż').toUpperCase();
-  let L=['========================================','🏢 '+companyBanner,'📦 ZAMÓWIENIE PRODUKCYJNE B2B ('+getFormattedDate()+')','📍 Referencja: '+cliAddr,'========================================'];
-  const groupsMap=new Map();
-  cart.forEach(it=>{
-    const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
-    const key=cleanSysName+'|||'+it.color;
-    if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
-    groupsMap.get(key).items.push(it);
-  });
-  groupsMap.forEach(grp=>{
-    L.push('',`▶ ${grp.system.toUpperCase()} — KOLOR: ${grp.color.toUpperCase()}`,'----------------------------------------');
-    grp.items.forEach((it,idx)=>{
-      const dimPart=toBoldTextDigits(formatCm(it.width))+' x '+toBoldTextDigits(formatCm(it.height))+' cm';
-      const guidePart=it.guideLength>0?` (prowadnica: ${toBoldTextDigits(formatCm(it.guideLength))} cm)`:'';
-      const qtyPart='('+toBoldTextDigits(it.qty)+' szt.)';
-      const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar');
-      const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
-      const rightNotes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join('  |  ');
-      L.push(`${toBoldTextDigits(idx+1)}.  ${dimPart}${guidePart}  ${qtyPart}${rightNotes?('            '+rightNotes):''}`);
-    });
-  });
-  const t=computeTotalsObject();
-  L.push('','========================================','ŁĄCZNIE DO PRODUKCJI: '+toBoldTextDigits(t.totalSzt)+' szt.','Zamawiający: '+(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż'));
-  return L.join(NL);
-}
-
-// NATYWNY GENERATOR KARTY ZAMÓWIENIA ARX NA CANVAS + PDF (100% POPRAWNY PLIK W GMAILU I WHATSAPPIE)
-function renderOrderSheetCanvas(){
-  const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
-  const groupsMap=new Map();
-  cart.forEach(it=>{
-    const cleanSysName=it.system.replace(/\s*\(drzwiowa\/tarasowa\)/gi,'');
-    const key=cleanSysName+'|||'+it.color;
-    if(!groupsMap.has(key))groupsMap.set(key,{system:cleanSysName,color:it.color,items:[]});
-    groupsMap.get(key).items.push(it);
-  });
-
-  let totalRows=0;
-  groupsMap.forEach(g=>{totalRows+=g.items.length;});
-  const groupCount=groupsMap.size;
-  const W=1000;
-  const H=Math.max(650,240+(groupCount*78)+(totalRows*56)+110);
-
-  const cv=document.createElement('canvas');
-  cv.width=W;cv.height=H;
-  const ctx=cv.getContext('2d');
-
-  // Białe tło
-  ctx.fillStyle='#ffffff';
-  ctx.fillRect(0,0,W,H);
-
-  // Rysowanie Logo ARX w lewym górnym rogu
-  ctx.fillStyle='#f07414';
-  ctx.beginPath();ctx.roundRect(40,32,96,18,5);ctx.fill();
-  ctx.fillRect(45,54,7,54);ctx.fillRect(124,54,7,54);
-  for(let r=0;r<4;r++)ctx.fillRect(55,54+(r*8),66,5.5);
-  ctx.fillStyle='#b0b5bc';
-  for(let r=0;r<3;r++){
-    for(let c=0;c<7;c++){
-      ctx.beginPath();ctx.arc(61+(c*9),89+(r*7),2,0,Math.PI*2);ctx.fill();
-    }
-  }
-  ctx.fillStyle='#09254a';
-  ctx.font='900 74px Inter, Arial, sans-serif';
-  ctx.fillText('ARX',142,105);
-  ctx.beginPath();ctx.roundRect(38,114,270,22,5);ctx.fill();
-  ctx.fillStyle='#ffffff';
-  ctx.font='800 12px Inter, Arial, sans-serif';
-  ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',54,129);
-
-  // Prawy nagłówek zamówienia
-  ctx.fillStyle='#09254a';
-  ctx.textAlign='right';
-  ctx.font='900 24px Inter, Arial, sans-serif';
-  ctx.fillText('ZAMÓWIENIE PRODUKCYJNE',W-40,62);
-  ctx.fillStyle='#334155';
-  ctx.font='700 17px Inter, Arial, sans-serif';
-  ctx.fillText('Data: '+getFormattedDate(),W-40,92);
-  ctx.fillText('Referencja: '+cliAddr,W-40,118);
-  ctx.textAlign='left';
-
-  // Linia pod nagłówkiem
-  ctx.fillStyle='#09254a';
-  ctx.fillRect(40,150,W-80,4);
-
-  let y=176;
-  groupsMap.forEach(grp=>{
-    // Belka grupy (Granatowa z pomarańczowym kolorem)
-    ctx.fillStyle='#09254a';
-    ctx.beginPath();ctx.roundRect(40,y,W-80,44,8);ctx.fill();
-    ctx.fillStyle='#ffffff';
-    ctx.font='800 18px Inter, Arial, sans-serif';
-    ctx.fillText(grp.system.toUpperCase(),58,y+28);
-    ctx.fillStyle='#f59e0b';
-    ctx.textAlign='right';
-    ctx.fillText('KOLOR: '+grp.color.toUpperCase(),W-58,y+28);
-    ctx.textAlign='left';
-    y+=44;
-
-    grp.items.forEach((it,idx)=>{
-      ctx.fillStyle=idx%2===0?'#f8fafc':'#ffffff';
-      ctx.fillRect(42,y,W-84,50);
-      ctx.strokeStyle='#cbd5e1';
-      ctx.lineWidth=1;
-      ctx.strokeRect(42,y,W-84,50);
-
-      ctx.fillStyle='#0f172a';
-      ctx.font='800 18px Inter, Arial, sans-serif';
-      ctx.fillText((idx+1)+'.',60,y+32);
-
-      const gTxt=it.guideLength>0?` (prowadnica: ${formatCm(it.guideLength)} cm)`:'';
-      ctx.font='900 21px Inter, Arial, sans-serif';
-      ctx.fillText(`${formatCm(it.width)} x ${formatCm(it.height)} cm${gTxt}`,115,y+32);
-
-      ctx.font='900 19px Inter, Arial, sans-serif';
-      ctx.fillText(`${it.qty} szt.`,460,y+32);
-
-      const cleanVar=(it.variant||'').replace(/^Wariant/i,'Pomiar');
-      const hasCustomRoom=it.room&&it.room.trim()!==''&&it.room.trim().toLowerCase()!=='okno z pomiaru';
-      const notes=[cleanVar,it.mountInfo,hasCustomRoom?it.room.trim():''].filter(Boolean).join('  •  ');
-      ctx.fillStyle='#334155';
-      ctx.font='700 17px Inter, Arial, sans-serif';
-      ctx.fillText(notes||'—',570,y+32);
-      y+=50;
-    });
-    y+=24;
-  });
-
-  // Stopka podsumowania
-  const t=computeTotalsObject();
-  ctx.fillStyle='#e2e8f0';
-  ctx.beginPath();ctx.roundRect(40,y,W-80,52,8);ctx.fill();
-  ctx.fillStyle='#09254a';
-  ctx.font='900 20px Inter, Arial, sans-serif';
-  ctx.fillText(`ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.`,60,y+33);
-  ctx.textAlign='right';
-  ctx.font='800 17px Inter, Arial, sans-serif';
-  ctx.fillText(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż',W-60,y+33);
-  ctx.textAlign='left';
-
-  return cv;
-}
-
-function buildValidPdfBlob(){
-  const cv=renderOrderSheetCanvas();
-  const imgData=cv.toDataURL('image/jpeg',0.95);
-  const {jsPDF}=window.jspdf;
-  const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const pageW=210;
-  const margin=10;
-  const drawW=pageW-(margin*2);
-  const drawH=(cv.height/cv.width)*drawW;
-  pdf.addImage(imgData,'JPEG',margin,margin,drawW,Math.min(277,drawH));
-  return pdf.output('blob');
-}
-
-async function shareOrderPDFFile(){
-  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
-  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
-  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
-  try{
-    const pdfBlob=buildValidPdfBlob();
-    const pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
-    if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
-      await navigator.share({
-        files:[pdfFile],
-        title:`Zamówienie B2B ARX - ${cliAddr}`,
-        text:generateB2BOrderText()
-      });
-      showToast('Wysłano plik PDF!');
-    }else{
-      downloadOrderPDFFile();
-    }
-  }catch(e){
-    if(e&&e.name!=='AbortError')downloadOrderPDFFile();
-  }
-}
-
-function downloadOrderPDFFile(){
-  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
-  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
-  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
-  const pdfBlob=buildValidPdfBlob();
-  const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
-  a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);
-  showToast('Pobrano plik PDF na telefon!');
-}
-
-function openPrintableOrderWithLogo(){
-  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
-  const cv=renderOrderSheetCanvas();
-  const dataUrl=cv.toDataURL('image/png');
-  const box=document.getElementById('pdfCardPreviewContainer');
-  box.innerHTML=`<img src="${dataUrl}" alt="Karta zamówienia ARX" class="w-full h-auto rounded-lg shadow">`;
-  document.getElementById('pdfPreviewModal').classList.remove('hidden');
-}
-
-function closePdfPreviewModal(){
-  document.getElementById('pdfPreviewModal').classList.add('hidden');
-}
-
-function copyTextToClipboard(txt){
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).catch(()=>fallbackCopy(txt));else fallbackCopy(txt);
-  showToast('Skopiowano do schowka!');
-}
-function fallbackCopy(txt){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-function exportOfferSMS(){
-  const txt=generateClientOfferText();document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';
-  document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.remove('hidden');
-  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);
-}
-function sendDirectSMS(){
-  const txt=generateClientOfferText(),ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();copyTextToClipboard(txt);
-  window.location.href='sms:'+(ph||'')+(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);
-}
-function sendDirectWhatsApp(){
-  const txt=generateClientOfferText();let ph=document.getElementById('clientPhone').value.replace(/[^0-9]/g,'');if(ph.length===9)ph='48'+ph;
-  copyTextToClipboard(txt);window.open('https://wa.me/'+(ph||'')+'?text='+encodeURIComponent(txt),'_blank');
-}
-function exportOrderB2B(){
-  const txt=generateB2BOrderText();document.getElementById('modalTitle').innerText='Zgrupowane zamówienie B2B (ARX)';
-  document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.add('hidden');
-  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);
-}
-function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modalTextarea').value);}
-function closeExportModal(){document.getElementById('exportModal').classList.add('hidden');}
-
-function getSupplierEmails(){try{const r=localStorage.getItem('arx_supplier_emails_v6');return r?JSON.parse(r):[];}catch(e){return[];}}
-function saveSupplierEmails(l){try{localStorage.setItem('arx_supplier_emails_v6',JSON.stringify(l));}catch(e){}}
-function loadSupplierEmails(){
-  const sel=document.getElementById('supplierEmailSelect');sel.innerHTML='';const list=getSupplierEmails();
-  if(!list.length){const o=document.createElement('option');o.value='';o.innerText='— Brak adresów (dodaj poniżej) —';sel.appendChild(o);}
-  else list.forEach(em=>{const o=document.createElement('option');o.value=em;o.innerText=em;sel.appendChild(o);});
-}
-function addSupplierEmail(){
-  const inp=document.getElementById('newSupplierEmail'),em=inp.value.trim();
-  if(!em||!em.includes('@')){showToast('Wpisz poprawny e-mail!');return;}
-  const l=getSupplierEmails();if(!l.includes(em)){l.push(em);saveSupplierEmails(l);loadSupplierEmails();document.getElementById('supplierEmailSelect').value=em;}
-  inp.value='';showToast('Dodano e-mail!');
-}
-function deleteSelectedEmail(){
-  const sel=document.getElementById('supplierEmailSelect');if(!sel.value)return;
-  saveSupplierEmails(getSupplierEmails().filter(x=>x!==sel.value));loadSupplierEmails();showToast('Usunięto e-mail');
-}
-function sendOrderByEmail(){
-  const em=document.getElementById('supplierEmailSelect').value||'';if(!em){showToast('Najpierw dodaj e-mail hurtowni!');return;}
-  const cli=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie';
-  const txt=generateB2BOrderText();copyTextToClipboard(txt);
-  window.location.href='mailto:'+em+'?subject='+encodeURIComponent(`Zamówienie B2B ${brandConfig.shortName||'ARX'} - `+cli)+'&body='+encodeURIComponent(txt);
-}
-
-function getSavedProjects(){try{const r=localStorage.getItem('arx_saved_projects');return r?JSON.parse(r):[];}catch(e){return[];}}
-function updateSavedProjectsCount(){document.getElementById('savedCount').innerText=getSavedProjects().length;}
-function autoSaveProjectQuiet(){
-  const cName=document.getElementById('clientName').value.trim(),cAddr=document.getElementById('clientAddress').value.trim(),cPhone=document.getElementById('clientPhone').value.trim();
-  if(cart.length===0&&!cName&&!cAddr&&!cPhone)return;
-  saveProject(currentOrderStatus,true);
-}
-function saveProject(forcedStatus,quiet=false){
-  const statusToSave=forcedStatus||currentOrderStatus||'quote';currentOrderStatus=statusToSave;updateOrderStatusBadge();
-  const clientName=document.getElementById('clientName').value.trim();
-  const address=document.getElementById('clientAddress').value.trim()||clientName||'Pomiar bez adresu';
-  const phone=document.getElementById('clientPhone').value.trim();
-  const now=new Date(),monthKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),yearKey=String(now.getFullYear());
-  const t=computeTotalsObject(),list=getSavedProjects();
-  const recordData={date:getFormattedDate(),monthKey,yearKey,status:statusToSave,clientName,address,phone,discountMode,discountVal:document.getElementById('discountInput').value,revenue:t.finalClientTotal,b2bCost:t.sumB2B,netProfit:t.netProfit,cart:[...cart]};
-  if(currentLoadedProjectId){
-    const idx=list.findIndex(x=>x.id===currentLoadedProjectId);
-    if(idx!==-1)list[idx]={...list[idx],...recordData};else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}
-  }else{currentLoadedProjectId=Date.now();list.unshift({id:currentLoadedProjectId,...recordData});}
-  try{
-    localStorage.setItem('arx_saved_projects',JSON.stringify(list));updateSavedProjectsCount();
-    if(!quiet){playBeep(statusToSave==='done'?1080:880,110);showToast(statusToSave==='done'?'ZREALIZOWANE!':'Zapisano jako Wycenę');}
-  }catch(e){}
-}
-
-function setReportPeriod(p){
-  reportPeriod=p;
-  document.getElementById('tabPeriodMonth').className=p==='month'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
-  document.getElementById('tabPeriodYear').className=p==='year'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
-  document.getElementById('tabPeriodAll').className=p==='all'?'py-1.5 rounded-md bg-amber-500 text-slate-950 font-bold':'py-1.5 rounded-md text-slate-300 font-medium';
-  populatePeriodFilterOptions();renderSavedAndReports();
-}
-function populatePeriodFilterOptions(){
-  const list=getSavedProjects(),sel=document.getElementById('reportFilterSelect');sel.innerHTML='';
-  const now=new Date(),cM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),cY=String(now.getFullYear());
-  if(reportPeriod==='month'){
-    sel.classList.remove('hidden');const ms=new Set([cM]);list.forEach(p=>{if(p.monthKey)ms.add(p.monthKey);});
-    Array.from(ms).sort().reverse().forEach(m=>{const o=document.createElement('option');o.value=m;o.innerText='Miesiąc: '+m;sel.appendChild(o);});
-  }else if(reportPeriod==='year'){
-    sel.classList.remove('hidden');const ys=new Set([cY]);list.forEach(p=>{if(p.yearKey)ys.add(p.yearKey);});
-    Array.from(ys).sort().reverse().forEach(y=>{const o=document.createElement('option');o.value=y;o.innerText='Rok: '+y;sel.appendChild(o);});
-  }else sel.classList.add('hidden');
-}
-function toggleProjectStatus(id){
-  const list=getSavedProjects(),p=list.find(x=>x.id===id);
-  if(p){p.status=p.status==='done'?'quote':'done';if(currentLoadedProjectId===id){currentOrderStatus=p.status;updateOrderStatusBadge();}try{localStorage.setItem('arx_saved_projects',JSON.stringify(list));}catch(e){}renderSavedAndReports();}
-}
-function renderSavedAndReports(){
-  const list=getSavedProjects(),fVal=document.getElementById('reportFilterSelect').value,sFil=document.getElementById('reportStatusFilter').value;
-  const periodMatched=list.filter(p=>{
-    if(reportPeriod==='month'&&(p.monthKey||'2026-10')!==fVal)return false;
-    if(reportPeriod==='year'&&(p.yearKey||'2026')!==fVal)return false;
-    return true;
-  });
-  let sRev=0,sB2B=0,sProf=0,doneCount=0,quoteCount=0;
-  periodMatched.forEach(p=>{if(p.status==='done'){doneCount++;sRev+=(p.revenue||0);sB2B+=(p.b2bCost||0);sProf+=(p.netProfit||0);}else quoteCount++;});
-  document.getElementById('repTotalRevenue').innerText=sRev+' zł';
-  document.getElementById('repTotalB2B').innerText=sB2B+' zł';
-  document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
-  document.getElementById('repCountInfo').innerText=`Zrealizowane: ${doneCount} | Niezrealizowane: ${quoteCount}`;
-  const fil=periodMatched.filter(p=>{const st=p.status||'quote';if(sFil==='done'&&st!=='done')return false;if(sFil==='quote'&&st!=='quote')return false;return true;});
-  const c=document.getElementById('savedProjectsList');c.innerHTML='';
-  if(!fil.length){c.innerHTML='<div class="text-center py-6 text-xs text-slate-400">Brak pomiarów dla wybranego filtra.</div>';return;}
-  fil.forEach(p=>{
-    const done=p.status==='done';
-    const bdg=done?`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold">✓ Zrealizowane</button>`:`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold">⏳ Niezrealizowane</button>`;
-    const titleLine=[p.clientName,p.address].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(' • ')||'Pomiar';
-    c.innerHTML+=`<div class="bg-slate-950 border border-slate-800 rounded-xl p-3 space-y-2">
-      <div class="flex justify-between items-start"><div><div class="font-bold text-sm text-white">${titleLine}</div><div class="text-xs text-slate-400 font-mono">${p.phone||'Brak tel.'} • ${p.date}</div></div>${bdg}</div>
-      <div class="flex justify-between items-center pt-1.5 border-t border-slate-900">
-        <div class="text-xs font-mono"><span class="text-slate-400">Klient: <strong class="text-white">${p.revenue||0} zł</strong></span><span class="text-emerald-400 ml-2">Zysk: <strong>+${p.netProfit||0} zł</strong></span></div>
-        <div class="flex gap-1.5"><button type="button" onclick="loadSavedProject(${p.id})" class="px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">Wczytaj</button><button type="button" onclick="deleteSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button></div>
-      </div>
-    </div>`;
-  });
-}
-function openSavedModal(){populatePeriodFilterOptions();renderSavedAndReports();document.getElementById('savedModal').classList.remove('hidden');}
-function closeSavedModal(){document.getElementById('savedModal').classList.add('hidden');}
-function loadSavedProject(id){
-  const p=getSavedProjects().find(x=>x.id===id);if(!p)return;
-  currentLoadedProjectId=p.id;currentOrderStatus=p.status||'quote';updateOrderStatusBadge();
-  document.getElementById('clientName').value=p.clientName||'';document.getElementById('clientAddress').value=p.address||'';document.getElementById('clientPhone').value=p.phone||'';
-  discountMode=p.discountMode||'pln';document.getElementById('discountInput').value=p.discountVal||0;cart=p.cart||[];
-  closeSavedModal();renderCartAndTotals();showToast('Wczytano pomiar!');
-}
-function deleteSavedProject(id){
-  const l=getSavedProjects().filter(x=>x.id!==id);
-  if(currentLoadedProjectId===id){currentLoadedProjectId=null;currentOrderStatus='quote';updateOrderStatusBadge();}
-  try{localStorage.setItem('arx_saved_projects',JSON.stringify(l));}catch(e){}
-  updateSavedProjectsCount();renderSavedAndReports();
-}
-function resetAll(){
-  if(!confirm('Rozpocząć nowy, czysty pomiar?'))return;
-  currentLoadedProjectId=null;currentOrderStatus='quote';updateOrderStatusBadge();
-  document.getElementById('clientName').value='';document.getElementById('clientAddress').value='';document.getElementById('clientPhone').value='';document.getElementById('discountInput').value=0;
-  cart=[];renderCartAndTotals();showToast('Nowy arkusz pomiarowy');
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
