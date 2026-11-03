@@ -55,8 +55,8 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
   </div>
 </div>
 
-<div id="toastBox" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-sm">
-  <i class="fa-solid fa-circle-check"></i><span id="toastMsg">Gotowe!</span>
+<div id="toastBox" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-xs text-center max-w-[92vw]">
+  <i class="fa-solid fa-circle-check shrink-0"></i><span id="toastMsg">Gotowe!</span>
 </div>
 
 <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-3 pt-2 pb-2">
@@ -140,6 +140,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
+  <!-- 2. SZYBKI POMIAR GŁOSOWY (TYLKO WYMIAR, BEZ KOLORU) -->
   <section id="voiceSection" class="card-bg rounded-2xl p-3 shadow-lg border-amber-500/30">
     <div class="flex justify-between items-center mb-2">
       <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400"><i class="fa-solid fa-microphone-lines mr-1"></i> SZYBKI POMIAR GŁOSOWY (30S)</span>
@@ -168,6 +169,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
+  <!-- 3. NOWA POZYCJA POMIAROWA -->
   <section id="editorSection" class="card-bg rounded-2xl p-3 shadow-lg space-y-3">
     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
       <div class="flex items-center gap-2">
@@ -399,6 +401,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
   </section>
 
+  <!-- 7. EKSPORT WYCENY I PROSTE POBIERANIE / WYSYŁKA PDF B2B -->
   <section class="card-bg rounded-2xl p-3 shadow-lg space-y-2.5">
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
@@ -411,15 +414,15 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     </div>
 
     <div id="b2bExportSection" class="space-y-2 pt-1">
-      <button type="button" id="btnSharePdfMain" onclick="shareOrderPDFFile()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition">
-        <i class="fa-solid fa-share-from-square"></i> Udostępnij plik PDF z Logo ARX (Gmail / WhatsApp)
+      <button type="button" id="btnSharePdfMain" onclick="downloadOrderPDFFile()" class="w-full py-3 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-md active:scale-95 transition">
+        <i class="fa-solid fa-download text-sm"></i> Pobierz gotowy PDF z Logo ARX na telefon
       </button>
       <div class="grid grid-cols-2 gap-2">
         <button type="button" onclick="exportOrderB2B()" class="py-2.5 px-2 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5">
           <i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)
         </button>
         <button type="button" onclick="openPrintableOrderWithLogo()" class="py-2.5 px-2 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
-          <i class="fa-solid fa-file-pdf"></i> Podgląd Karty PDF
+          <i class="fa-solid fa-file-pdf"></i> Podgląd Karty / WA
         </button>
       </div>
       <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-2">
@@ -432,8 +435,8 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
           <input type="email" id="newSupplierEmail" placeholder="Wpisz e-mail hurtowni..." class="flex-1 min-w-0 input-bg rounded-xl px-2.5 py-2 text-xs text-white">
           <button type="button" onclick="addSupplierEmail()" class="px-2.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-amber-400 font-bold text-xs shrink-0">+ Dodaj</button>
         </div>
-        <button type="button" onclick="sendOrderByEmail()" class="w-full py-2.5 px-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow">
-          <i class="fa-solid fa-paper-plane"></i> Wyślij zgrupowane zamówienie mailem (ARX)
+        <button type="button" onclick="downloadPdfAndOpenEmail()" class="w-full py-3 px-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
+          <i class="fa-solid fa-paper-plane"></i> Pobierz PDF + Otwórz Maila do Hurtowni (ARX)
         </button>
       </div>
     </div>
@@ -465,15 +468,15 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
 <div id="pdfPreviewModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-2.5">
   <div class="bg-white rounded-2xl max-w-md w-full p-3 shadow-2xl border border-slate-300 space-y-2.5 max-h-[92vh] flex flex-col text-slate-900">
     <div class="flex justify-between items-center border-b border-slate-200 pb-2">
-      <span class="font-extrabold text-xs uppercase tracking-wider text-slate-700"><i class="fa-solid fa-file-pdf text-amber-500 mr-1"></i> Podgląd Karty Zamówienia ARX</span>
+      <span class="font-extrabold text-xs uppercase tracking-wider text-slate-700"><i class="fa-solid fa-file-pdf text-amber-500 mr-1"></i> Karta Zamówienia ARX</span>
       <button type="button" onclick="closePdfPreviewModal()" class="w-8 h-8 rounded-lg bg-slate-200 text-slate-800 font-bold flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="grid grid-cols-2 gap-2">
-      <button type="button" onclick="shareOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
-        <i class="fa-solid fa-share-from-square"></i> Udostępnij PDF (Gmail / WA)
-      </button>
       <button type="button" onclick="downloadOrderPDFFile()" class="py-2.5 px-2 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
         <i class="fa-solid fa-download"></i> Pobierz PDF na tel.
+      </button>
+      <button type="button" onclick="shareOrderPDFWhatsApp()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 transition">
+        <i class="fa-brands fa-whatsapp text-sm"></i> Wyślij na WhatsApp
       </button>
     </div>
     <div id="pdfCardPreviewContainer" class="overflow-y-auto flex-1 border border-slate-300 rounded-xl p-1 bg-slate-100"></div>
@@ -734,9 +737,9 @@ function onMountTypeChange(){
   document.getElementById('clipSizeWrapper').classList.toggle('hidden',document.getElementById('itemMountType').value==='Sprężynki');
   recalcCurrentItem();
 }
-function showToast(m){
+function showToast(m,ms=2600){
   const b=document.getElementById('toastBox');document.getElementById('toastMsg').innerText=m;
-  b.classList.remove('hidden');setTimeout(()=>b.classList.add('hidden'),2200);
+  b.classList.remove('hidden');setTimeout(()=>b.classList.add('hidden'),ms);
 }
 function playBeep(f=880,d=120){
   try{const c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;g.gain.value=0.15;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>{o.stop();c.close();},d);}catch(e){}
@@ -1382,49 +1385,65 @@ function renderOrderSheetCanvas(){
   return cv;
 }
 
-function buildValidPdfBlob(){
+function createJsPdfInstance(){
   const cv=renderOrderSheetCanvas();
   const imgData=cv.toDataURL('image/jpeg',0.95);
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const pageW=210,margin=10,drawW=pageW-(margin*2),drawH=(cv.height/cv.width)*drawW;
   pdf.addImage(imgData,'JPEG',margin,margin,drawW,Math.min(277,drawH));
-  
-  const dataUri = pdf.output('datauristring');
-  const byteString = atob(dataUri.split(',')[1]);
-  const mimeString = dataUri.split(',')[0].split(':')[1].split(';')[0];
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ab], {type: mimeString});
+  return pdf;
 }
 
-async function shareOrderPDFFile(){
-  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+function getOrderPdfFilename(){
   const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
-  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
+  return `Zamowienie_ARX_${cliAddr}.pdf`;
+}
+
+// TWARDE POBRANIE PLIKU PDF NA TELEFON (DO FOLDERU POBRANE)
+function downloadOrderPDFFile(){
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return false;}
+  const fileName=getOrderPdfFilename();
+  const pdf=createJsPdfInstance();
+  pdf.save(fileName);
+  copyTextToClipboard(generateB2BOrderText());
+  showToast('Pobrano plik '+fileName+' do folderu Pobrane!',3500);
+  return true;
+}
+
+// 1 KLIK: POBIERZ TWARDY PDF + OTWÓRZ GOTOWEGO MAILA DO HURTOWNI
+function downloadPdfAndOpenEmail(){
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+  const em=document.getElementById('supplierEmailSelect').value||'';
+  if(!em){showToast('Najpierw wybierz lub dodaj e-mail hurtowni!');return;}
+  const fileName=getOrderPdfFilename();
+  const pdf=createJsPdfInstance();
+  pdf.save(fileName);
+  const cli=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie';
+  const txt=generateB2BOrderText();
+  copyTextToClipboard(txt);
+  showToast('Pobrano PDF! W Gmailu kliknij spinacz 📎 i wybierz plik z Pobranych.',4500);
+  setTimeout(()=>{
+    window.location.href='mailto:'+em+'?subject='+encodeURIComponent(`Zamówienie B2B ${brandConfig.shortName||'ARX'} - `+cli)+'&body='+encodeURIComponent(txt);
+  },650);
+}
+
+// UDOSTĘPNIANIE NA WHATSAPP (Z PODGLĄDU KARTY)
+async function shareOrderPDFWhatsApp(){
+  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
+  const fileName=getOrderPdfFilename();
   try{
-    const pdfBlob=buildValidPdfBlob();
+    const pdf=createJsPdfInstance();
+    const pdfBlob=pdf.output('blob');
     const pdfFile=new File([pdfBlob],fileName,{type:'application/pdf'});
     if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
-      await navigator.share({files:[pdfFile],title:`Zamówienie B2B ARX - ${cliAddr}`,text:generateB2BOrderText()});
-      showToast('Wysłano plik PDF!');
-    }else downloadOrderPDFFile();
+      await navigator.share({files:[pdfFile],title:fileName,text:generateB2BOrderText()});
+    }else{
+      downloadOrderPDFFile();
+    }
   }catch(e){
     if(e&&e.name!=='AbortError')downloadOrderPDFFile();
   }
-}
-
-function downloadOrderPDFFile(){
-  if(cart.length===0){showToast('Dodaj najpierw pozycję do koszyka!');return;}
-  const cliAddr=(document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'zlecenie').replace(/[^a-zA-Z0-9_-]/g,'_');
-  const fileName=`Zamowienie_ARX_${cliAddr}.pdf`;
-  const pdfBlob=buildValidPdfBlob();
-  const url=URL.createObjectURL(pdfBlob),a=document.createElement('a');
-  a.href=url;a.download=fileName;document.body.appendChild(a);a.click();document.body.removeChild(a);
-  showToast('Pobrano plik PDF na telefon!');
 }
 
 function openPrintableOrderWithLogo(){
@@ -1439,13 +1458,12 @@ function closePdfPreviewModal(){document.getElementById('pdfPreviewModal').class
 
 function copyTextToClipboard(txt){
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).catch(()=>fallbackCopy(txt));else fallbackCopy(txt);
-  showToast('Skopiowano do schowka!');
 }
 function fallbackCopy(txt){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
 function exportOfferSMS(){
   const txt=generateClientOfferText();document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';
   document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.remove('hidden');
-  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);
+  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano ofertę!');
 }
 function sendDirectSMS(){
   const txt=generateClientOfferText(),ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();copyTextToClipboard(txt);
@@ -1458,9 +1476,9 @@ function sendDirectWhatsApp(){
 function exportOrderB2B(){
   const txt=generateB2BOrderText();document.getElementById('modalTitle').innerText='Zgrupowane zamówienie B2B (ARX)';
   document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.add('hidden');
-  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);
+  document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano tekst B2B!');
 }
-function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modalTextarea').value);}
+function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modalTextarea').value);showToast('Skopiowano do schowka!');}
 function closeExportModal(){document.getElementById('exportModal').classList.add('hidden');}
 
 function getSupplierEmails(){try{const r=localStorage.getItem('arx_supplier_emails_v6');return r?JSON.parse(r):[];}catch(e){return[];}}
@@ -1479,12 +1497,6 @@ function addSupplierEmail(){
 function deleteSelectedEmail(){
   const sel=document.getElementById('supplierEmailSelect');if(!sel.value)return;
   saveSupplierEmails(getSupplierEmails().filter(x=>x!==sel.value));loadSupplierEmails();showToast('Usunięto e-mail');
-}
-function sendOrderByEmail(){
-  const em=document.getElementById('supplierEmailSelect').value||'';if(!em){showToast('Najpierw dodaj e-mail hurtowni!');return;}
-  const cli=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie';
-  const txt=generateB2BOrderText();copyTextToClipboard(txt);
-  window.location.href='mailto:'+em+'?subject='+encodeURIComponent(`Zamówienie B2B ${brandConfig.shortName||'ARX'} - `+cli)+'&body='+encodeURIComponent(txt);
 }
 
 function getSavedProjects(){try{const r=localStorage.getItem('arx_saved_projects');return r?JSON.parse(r):[];}catch(e){return[];}}
@@ -1546,7 +1558,7 @@ function renderSavedAndReports(){
   document.getElementById('repTotalRevenue').innerText=sRev+' zł';
   document.getElementById('repTotalB2B').innerText=sB2B+' zł';
   document.getElementById('repTotalProfit').innerText=(sProf>=0?'+':'')+sProf+' zł';
-  document.getElementById('repCountInfo',).innerText=`Zrealizowane: ${doneCount} | Niezrealizowane: ${quoteCount}`;
+  document.getElementById('repCountInfo').innerText=`Zrealizowane: ${doneCount} | Niezrealizowane: ${quoteCount}`;
   const fil=periodMatched.filter(p=>{const st=p.status||'quote';if(sFil==='done'&&st!=='done')return false;if(sFil==='quote'&&st!=='quote')return false;return true;});
   const c=document.getElementById('savedProjectsList');c.innerHTML='';
   if(!fil.length){c.innerHTML='<div class="text-center py-6 text-xs text-slate-400">Brak pomiarów dla wybranego filtra.</div>';return;}
