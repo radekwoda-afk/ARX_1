@@ -57,14 +57,7 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
   <div class="max-w-md mx-auto">
     <div class="flex justify-between items-center mb-2">
       <div id="arxLogoHeader" class="bg-white rounded-xl px-2 py-1 shadow border border-slate-700 shrink-0 flex items-center justify-center">
-        <svg width="114" height="38" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
-          <rect x="12" y="8" width="106" height="20" rx="5" fill="#f07414"/><rect x="17" y="31" width="7" height="62" fill="#f07414"/><rect x="106" y="31" width="7" height="62" fill="#f07414"/>
-          <rect x="27" y="31" width="76" height="6.5" fill="#f07414"/><rect x="27" y="40" width="76" height="6.5" fill="#f07414"/><rect x="27" y="49" width="76" height="6.5" fill="#f07414"/><rect x="27" y="58" width="76" height="6.5" fill="#f07414"/>
-          <g fill="#b0b5bc"><circle cx="33" cy="70" r="2.2"/><circle cx="45" cy="70" r="2.2"/><circle cx="57" cy="70" r="2.2"/><circle cx="69" cy="70" r="2.2"/><circle cx="81" cy="70" r="2.2"/><circle cx="95" cy="70" r="2.2"/><circle cx="33" cy="78" r="2.2"/><circle cx="45" cy="78" r="2.2"/><circle cx="57" cy="78" r="2.2"/><circle cx="69" cy="78" r="2.2"/><circle cx="81" cy="78" r="2.2"/><circle cx="95" cy="78" r="2.2"/><circle cx="33" cy="86" r="2.2"/><circle cx="45" cy="86" r="2.2"/><circle cx="57" cy="86" r="2.2"/><circle cx="69" cy="86" r="2.2"/><circle cx="81" cy="86" r="2.2"/><circle cx="95" cy="86" r="2.2"/></g>
-          <text x="122" y="92" font-family="Inter,Arial,sans-serif" font-weight="900" font-size="86" fill="#09254a" letter-spacing="-2">ARX</text>
-          <rect x="8" y="100" width="344" height="24" rx="6" fill="#09254a"/>
-          <text x="180" y="117" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14.5" fill="#ffffff" letter-spacing="1.2">ROLETY • MOSKITIERY • MONTAŻ</text>
-        </svg>
+        <canvas id="arxHeaderLogoCanvas" width="256" height="100" class="h-[38px] w-auto block"></canvas>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
         <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-xl card-bg flex items-center justify-center text-amber-400 active:scale-95 transition"><i id="themeIcon" class="fa-solid fa-sun text-sm"></i></button>
@@ -451,6 +444,40 @@ let pendingVoiceItem=null,activeRecognition=null,fallbackTimer=null,reportPeriod
 let voice30sTimer=null,voiceDebounceTimer=null,voice30sStart=0,voiceListening30s=false;
 let systemsCatalog=[],brandConfig={...DEFAULT_BRAND};
 const NL=String.fromCharCode(10);
+
+function drawExactArxLogo(ctx,x,y,w,h){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(w/1280,h/500);
+  ctx.fillStyle='#ef7113';
+  ctx.beginPath();ctx.roundRect(28,15,426,78,18);ctx.fill();
+  ctx.fillRect(51,103,21,254);
+  ctx.fillRect(410,103,21,254);
+  for(let r=0;r<4;r++)ctx.fillRect(81,103+(r*30),321,22);
+  ctx.fillStyle='#c4c7cc';
+  for(let r=0;r<6;r++){
+    for(let c=0;c<16;c++){
+      ctx.beginPath();ctx.arc(98+(c*19.1),236+(r*20),5.5,0,Math.PI*2);ctx.fill();
+    }
+  }
+  ctx.fillStyle='#08244b';
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+  ctx.font='900 352px Inter, Arial, sans-serif';
+  ctx.fillText('ARX',458,357);
+  ctx.beginPath();ctx.roundRect(14,386,1248,98,20);ctx.fill();
+  ctx.fillStyle='#ffffff';
+  ctx.textAlign='center';
+  ctx.font='800 56px Inter, Arial, sans-serif';
+  ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',638,455);
+  ctx.restore();
+}
+function renderHeaderLogo(){
+  const cv=document.getElementById('arxHeaderLogoCanvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  drawExactArxLogo(ctx,0,0,cv.width,cv.height);
+}
 
 function isDecorColor(c){return ['Złoty Dąb','Orzech','Winchester','Mahoń','Anoda'].some(d=>c.includes(d));}
 function toBoldTextDigits(str){const map={'0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵'};return String(str).replace(/[0-9]/g,d=>map[d]||d);}
@@ -918,18 +945,13 @@ function renderOrderSheetCanvas(){
   const W=1000,H=Math.max(650,240+(groupsMap.size*78)+(totalRows*56)+110);
   const cv=document.createElement('canvas');cv.width=W;cv.height=H;const ctx=cv.getContext('2d');
   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='#f07414';ctx.beginPath();ctx.roundRect(40,32,96,18,5);ctx.fill();ctx.fillRect(45,54,7,54);ctx.fillRect(124,54,7,54);
-  for(let r=0;r<4;r++)ctx.fillRect(55,54+(r*8),66,5.5);
-  ctx.fillStyle='#b0b5bc';for(let r=0;r<3;r++){for(let c=0;c<7;c++){ctx.beginPath();ctx.arc(61+(c*9),89+(r*7),2,0,Math.PI*2);ctx.fill();}}
-  ctx.fillStyle='#09254a';ctx.font='900 74px Inter, Arial, sans-serif';ctx.fillText('ARX',142,105);
-  ctx.beginPath();ctx.roundRect(38,114,270,22,5);ctx.fill();
-  ctx.fillStyle='#ffffff';ctx.font='800 12px Inter, Arial, sans-serif';ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',54,129);
-  ctx.fillStyle='#09254a';ctx.textAlign='right';ctx.font='900 24px Inter, Arial, sans-serif';ctx.fillText('ZAMÓWIENIE PRODUKCYJNE',W-40,62);
+  drawExactArxLogo(ctx,38,22,310,121);
+  ctx.fillStyle='#08244b';ctx.textAlign='right';ctx.font='900 24px Inter, Arial, sans-serif';ctx.fillText('ZAMÓWIENIE PRODUKCYJNE',W-40,62);
   ctx.fillStyle='#334155';ctx.font='700 17px Inter, Arial, sans-serif';ctx.fillText('Data: '+getFormattedDate(),W-40,92);ctx.fillText('Referencja: '+cliAddr,W-40,118);ctx.textAlign='left';
-  ctx.fillStyle='#09254a';ctx.fillRect(40,150,W-80,4);
+  ctx.fillStyle='#08244b';ctx.fillRect(40,152,W-80,4);
   let y=176;
   groupsMap.forEach(grp=>{
-    ctx.fillStyle='#09254a';ctx.beginPath();ctx.roundRect(40,y,W-80,44,8);ctx.fill();
+    ctx.fillStyle='#08244b';ctx.beginPath();ctx.roundRect(40,y,W-80,44,8);ctx.fill();
     ctx.fillStyle='#ffffff';ctx.font='800 18px Inter, Arial, sans-serif';ctx.fillText(grp.system.toUpperCase(),58,y+28);
     ctx.fillStyle='#f59e0b';ctx.textAlign='right';ctx.fillText('KOLOR: '+grp.color.toUpperCase(),W-58,y+28);ctx.textAlign='left';y+=44;
     grp.items.forEach((it,idx)=>{
@@ -946,7 +968,7 @@ function renderOrderSheetCanvas(){
   });
   const t=computeTotalsObject();
   ctx.fillStyle='#e2e8f0';ctx.beginPath();ctx.roundRect(40,y,W-80,52,8);ctx.fill();
-  ctx.fillStyle='#09254a';ctx.font='900 20px Inter, Arial, sans-serif';ctx.fillText(`ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.`,60,y+33);
+  ctx.fillStyle='#08244b';ctx.font='900 20px Inter, Arial, sans-serif';ctx.fillText(`ŁĄCZNIE DO PRODUKCJI: ${t.totalSzt} szt.`,60,y+33);
   ctx.textAlign='right';ctx.font='800 17px Inter, Arial, sans-serif';ctx.fillText(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż',W-60,y+33);ctx.textAlign='left';
   return cv;
 }
@@ -1119,9 +1141,9 @@ function resetAll(){
 
 window.addEventListener('DOMContentLoaded',()=>{
   try{history.replaceState({arxRoot:true},'');}catch(e){}
-  loadThemePreference();loadAppConfig();checkPinLockOnStart();loadSupplierEmails();updateSavedProjectsCount();restoreActiveDraftState();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
+  renderHeaderLogo();loadThemePreference();loadAppConfig();checkPinLockOnStart();loadSupplierEmails();updateSavedProjectsCount();restoreActiveDraftState();onSystemChange();onMountTypeChange();updateVariantDrawing();renderCartAndTotals();
 });
-window.addEventListener('pageshow',()=>{onSystemChange();});
+window.addEventListener('pageshow',()=>{renderHeaderLogo();onSystemChange();});
 </script>
 </body>
 </html>
