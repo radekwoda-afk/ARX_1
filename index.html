@@ -283,10 +283,13 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
     <div class="flex items-center gap-2 mb-1"><i class="fa-solid fa-share-nodes text-amber-500 text-xs"></i><h2 class="font-bold text-xs uppercase tracking-wider text-slate-300">OFERTA DLA KLIENTA I ZAMÓWIENIE B2B</h2></div>
     <div class="grid grid-cols-2 gap-2">
       <button type="button" onclick="sendDirectSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow"><i class="fa-solid fa-comment-sms"></i> Wyślij SMS</button>
-      <button type="button" onclick="exportOfferSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-brands fa-whatsapp text-emerald-400"></i> Podgląd / WhatsApp</button>
+      <button type="button" onclick="exportOfferSMS()" class="py-2.5 px-2 rounded-xl bg-emerald-600/20 border border-emerald-500/50 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-brands fa-whatsapp text-emerald-400"></i> Podgląd / WA</button>
     </div>
+    <button type="button" onclick="sendNeighborCouponSMS()" class="w-full py-2.5 px-3 rounded-xl bg-purple-600/30 border border-purple-500/50 text-purple-300 font-extrabold text-xs flex items-center justify-center gap-2 shadow active:scale-95 transition">
+      <i class="fa-solid fa-gift"></i> 🎁 Wyślij Kupon Sąsiedzki SMS (z przypomnieniem SIM 2)
+    </button>
     <div id="b2bExportSection" class="space-y-2 pt-1">
-      <button type="button" id="btnSharePdfMain" onclick="shareOrderPDFFile(false)" class="w-full py-3 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-md active:scale-95 transition"><i class="fa-solid fa-share-from-square text-sm"></i> Udostępnij plik PDF z Logo ARX (Gmail / WhatsApp)</button>
+      <button type="button" id="btnSharePdfMain" onclick="shareOrderPDFFile(false)" class="w-full py-3 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-md active:scale-95 transition"><i class="fa-solid fa-share-from-square text-sm"></i> Udostępnij plik PDF z Logo ARX (Gmail / WA)</button>
       <div class="grid grid-cols-2 gap-2">
         <button type="button" onclick="exportOrderB2B()" class="py-2.5 px-2 rounded-xl bg-slate-800/90 border border-slate-700 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-solid fa-list-ul"></i> Tekst B2B (Grupy)</button>
         <button type="button" onclick="openPrintableOrderWithLogo()" class="py-2.5 px-2 rounded-xl bg-blue-600/25 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-solid fa-file-pdf"></i> Podgląd Karty PDF</button>
@@ -342,6 +345,23 @@ html.light #clientBanner{background:linear-gradient(to bottom right,#dbeafe,#eff
       <button type="button" onclick="copyModalTextAgain()" class="flex-1 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-xs">Kopiuj ponownie</button>
       <button type="button" onclick="closeExportModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs">Zamknij</button>
     </div>
+  </div>
+</div>
+
+<!-- MODAL OSTRZEŻENIA O KARCIE SIM 2 -->
+<div id="sim2WarningModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="card-bg rounded-3xl max-w-xs w-full p-6 text-center space-y-4 shadow-2xl border border-purple-500/50">
+    <div class="w-14 h-14 mx-auto rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl font-bold border border-purple-500/40">
+      <i class="fa-solid fa-sim-card"></i>
+    </div>
+    <div>
+      <h2 class="font-extrabold text-base text-white">Wysyłka z numeru FIRMOWEGO</h2>
+      <p class="text-xs text-slate-300 mt-2">Pamiętaj, aby przed zatwierdzeniem SMS-a w telefonie wybrać kartę <strong class="text-purple-400 font-bold">SIM 2</strong>!</p>
+    </div>
+    <button type="button" id="sim2ProceedBtn" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-amber-500 text-slate-950 font-extrabold text-sm shadow-lg active:scale-95 transition">
+      Rozumiem, otwórz SMS
+    </button>
+    <button type="button" onclick="document.getElementById('sim2WarningModal').classList.add('hidden')" class="w-full py-2 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs">Anuluj</button>
   </div>
 </div>
 
@@ -446,50 +466,25 @@ let systemsCatalog=[],brandConfig={...DEFAULT_BRAND};
 const NL=String.fromCharCode(10);
 
 function drawExactArxLogo(ctx,x,y,w,h){
-  ctx.save();
-  ctx.translate(x,y);
-  ctx.scale(w/1280,h/500);
-  ctx.fillStyle='#ef7113';
-  ctx.beginPath();ctx.roundRect(28,15,426,78,18);ctx.fill();
-  ctx.fillRect(51,103,21,254);
-  ctx.fillRect(410,103,21,254);
+  ctx.save();ctx.translate(x,y);ctx.scale(w/1280,h/500);
+  ctx.fillStyle='#ef7113';ctx.beginPath();ctx.roundRect(28,15,426,78,18);ctx.fill();
+  ctx.fillRect(51,103,21,254);ctx.fillRect(410,103,21,254);
   for(let r=0;r<4;r++)ctx.fillRect(81,103+(r*30),321,22);
   ctx.fillStyle='#c4c7cc';
-  for(let r=0;r<6;r++){
-    for(let c=0;c<16;c++){
-      ctx.beginPath();ctx.arc(98+(c*19.1),236+(r*20),5.5,0,Math.PI*2);ctx.fill();
-    }
-  }
-  ctx.fillStyle='#08244b';
-  ctx.textAlign='left';ctx.textBaseline='alphabetic';
-  ctx.font='900 352px Inter, Arial, sans-serif';
-  ctx.fillText('ARX',458,357);
+  for(let r=0;r<6;r++){for(let c=0;c<16;c++){ctx.beginPath();ctx.arc(98+(c*19.1),236+(r*20),5.5,0,Math.PI*2);ctx.fill();}}
+  ctx.fillStyle='#08244b';ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.font='900 352px Inter, Arial, sans-serif';ctx.fillText('ARX',458,357);
   ctx.beginPath();ctx.roundRect(14,386,1248,98,20);ctx.fill();
-  ctx.fillStyle='#ffffff';
-  ctx.textAlign='center';
-  ctx.font='800 56px Inter, Arial, sans-serif';
-  ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',638,455);
+  ctx.fillStyle='#ffffff';ctx.textAlign='center';ctx.font='800 56px Inter, Arial, sans-serif';ctx.fillText('ROLETY • MOSKITIERY • MONTAŻ',638,455);
   ctx.restore();
 }
-function renderHeaderLogo(){
-  const cv=document.getElementById('arxHeaderLogoCanvas');
-  if(!cv)return;
-  const ctx=cv.getContext('2d');
-  ctx.clearRect(0,0,cv.width,cv.height);
-  drawExactArxLogo(ctx,0,0,cv.width,cv.height);
-}
+function renderHeaderLogo(){const cv=document.getElementById('arxHeaderLogoCanvas');if(!cv)return;const ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.width,cv.height);drawExactArxLogo(ctx,0,0,cv.width,cv.height);}
 
 function isDecorColor(c){return ['Złoty Dąb','Orzech','Winchester','Mahoń','Anoda'].some(d=>c.includes(d));}
 function toBoldTextDigits(str){const map={'0':'𝟬','1':'𝟭','2':'𝟮','3':'𝟯','4':'𝟰','5':'𝟱','6':'𝟲','7':'𝟳','8':'𝟴','9':'𝟵'};return String(str).replace(/[0-9]/g,d=>map[d]||d);}
-function formatSpokenCm(v){
-  const s=formatCm(v);
-  if(s.endsWith('.5'))return s.slice(0,-2)+' i pół';
-  if(s.includes('.'))return s.replace('.',' przecinek ');
-  return s;
-}
+function formatSpokenCm(v){const s=formatCm(v);if(s.endsWith('.5'))return s.slice(0,-2)+' i pół';if(s.includes('.'))return s.replace('.',' przecinek ');return s;}
 function pushModalState(){try{history.pushState({arxModal:true},'');}catch(e){}}
 window.addEventListener('popstate',()=>{
-  const modals=['savedModal','pdfPreviewModal','settingsModal','exportModal'];
+  const modals=['savedModal','pdfPreviewModal','settingsModal','exportModal','sim2WarningModal'];
   let closed=false;
   modals.forEach(id=>{const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')){el.classList.add('hidden');closed=true;}});
   if(!closed){try{history.pushState({arxRoot:true},'');}catch(e){}}
@@ -914,6 +909,26 @@ function generateClientOfferText(){
   return L.join(NL);
 }
 
+function generateNeighborCouponText(){
+  return `Dziękuję za skorzystanie z usług firmy ARX! Zostawiam dla Państwa specjalny Kupon Sąsiedzki: jeśli z Państwa polecenia zgłosi się do nas sąsiad lub znajomy i zrealizujemy dla niego zamówienie na kwotę powyżej 1000 zł, w podziękowaniu prześlę Państwu bon o wartości 50 zł na Allegro (wystarczy, że przy kontakcie powoła się na Państwa dane). Pozdrawiam, ARX — Rolety • Moskitiery • Montaż`;
+}
+
+function sendNeighborCouponSMS(){
+  const txt=generateNeighborCouponText();
+  const ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();
+  copyTextToClipboard(txt);
+  
+  // Otwórz modal z ostrzeżeniem o karcie SIM 2
+  const modal=document.getElementById('sim2WarningModal');
+  const btn=document.getElementById('sim2ProceedBtn');
+  modal.classList.remove('hidden');
+  
+  btn.onclick=()=>{
+    modal.classList.add('hidden');
+    window.location.href='sms:'+(ph||'')+(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);
+  };
+}
+
 function generateB2BOrderText(){
   const cliAddr=document.getElementById('clientAddress').value.trim()||document.getElementById('clientName').value.trim()||'Zlecenie standardowe';
   const companyBanner=(brandConfig.contactLine||'ARX — Rolety • Moskitiery • Montaż').toUpperCase();
@@ -1012,8 +1027,29 @@ function closePdfPreviewModal(){document.getElementById('pdfPreviewModal').class
 
 function copyTextToClipboard(txt){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).catch(()=>fallbackCopy(txt));else fallbackCopy(txt);}
 function fallbackCopy(txt){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-function exportOfferSMS(){pushModalState();const txt=generateClientOfferText();document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.remove('hidden');document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano ofertę!');}
-function sendDirectSMS(){const txt=generateClientOfferText(),ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();copyTextToClipboard(txt);window.location.href='sms:'+(ph||'')+(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);}
+function exportOfferSMS(){
+  pushModalState();
+  const txt=generateClientOfferText();
+  document.getElementById('modalTitle').innerText='Oferta dla Klienta (SMS / WhatsApp)';
+  document.getElementById('modalTextarea').value=txt;
+  document.getElementById('modalClientSendActions').classList.remove('hidden');
+  document.getElementById('exportModal').classList.remove('hidden');
+  copyTextToClipboard(txt);
+  showToast('Skopiowano ofertę!');
+}
+function sendDirectSMS(){
+  const txt=generateClientOfferText(),ph=document.getElementById('clientPhone').value.replace(/\s+/g,'').trim();
+  copyTextToClipboard(txt);
+  
+  const modal=document.getElementById('sim2WarningModal');
+  const btn=document.getElementById('sim2ProceedBtn');
+  modal.classList.remove('hidden');
+  
+  btn.onclick=()=>{
+    modal.classList.add('hidden');
+    window.location.href='sms:'+(ph||'')+(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?')+'body='+encodeURIComponent(txt);
+  };
+}
 function sendDirectWhatsApp(){const txt=generateClientOfferText();let ph=document.getElementById('clientPhone').value.replace(/[^0-9]/g,'');if(ph.length===9)ph='48'+ph;copyTextToClipboard(txt);window.open('https://wa.me/'+(ph||'')+'?text='+encodeURIComponent(txt),'_blank');}
 function exportOrderB2B(){pushModalState();const txt=generateB2BOrderText();document.getElementById('modalTitle').innerText='Zgrupowane zamówienie B2B (ARX)';document.getElementById('modalTextarea').value=txt;document.getElementById('modalClientSendActions').classList.add('hidden');document.getElementById('exportModal').classList.remove('hidden');copyTextToClipboard(txt);showToast('Skopiowano tekst B2B!');}
 function copyModalTextAgain(){copyTextToClipboard(document.getElementById('modalTextarea').value);showToast('Skopiowano do schowka!');}
@@ -1111,7 +1147,7 @@ function renderSavedAndReports(){
     const bdg=done?`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold shrink-0">✓ Zrealiz.</button>`:`<button type="button" onclick="toggleProjectStatus(${p.id})" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[10px] font-bold shrink-0">⏳ Wycena</button>`;
     const titleLine=[p.clientName,p.address].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join(' • ')||'Pomiar';
     const itemsPreview=(p.cart||[]).map(x=>`${formatCm(x.width)}x${formatCm(x.height)} (${x.qty}szt.)`).join(', ');
-    c.innerHTML+=`<div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-1"><div class="flex justify-between items-start gap-1.5"><div class="min-w-0"><div class="font-bold text-xs text-white truncate">${titleLine}</div><div class="text-[11px] text-slate-400 font-mono">📞 ${p.phone||'Brak tel.'} • 📅 ${p.date}</div></div>${bdg}</div>${itemsPreview?`<div class="text-[10px] font-mono text-amber-400/90 truncate">📐 ${itemsPreview}</div>`:''}<div class="flex justify-between items-center pt-1 border-t border-slate-900"><div class="text-[11px] font-mono"><span class="text-slate-400">Klient: <strong class="text-white">${p.revenue||0} zł</strong></span><span class="text-emerald-400 ml-2">Zysk: <strong>+${p.netProfit||0} zł</strong></span></div><div class="flex gap-1.5"><button type="button" onclick="loadSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">Wczytaj</button><button type="button" onclick="deleteSavedProject(${p.id})" class="px-2 py-1 rounded-lg bg-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button></div></div></div>`;
+    c.innerHTML+=`<div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-1"><div class="flex justify-between items-start gap-1.5"><div class="min-w-0"><div class="font-bold text-xs text-white truncate">${titleLine}</div><div class="text-[11px] text-slate-400 font-mono">📞 ${p.phone||'Brak tel.'} • 📅 ${p.date}</div></div>${bdg}</div>${itemsPreview?`<div class="text-[10px] font-mono text-amber-400/90 truncate">📐 ${itemsPreview}</div>`:''}<div class="flex justify-between items-center pt-1 border-t border-slate-900"><div class="text-[11px] font-mono"><span class="text-slate-400">Klient: <strong class="text-white">${p.revenue||0} zł</strong></span><span class="text-emerald-400 ml-2">Zysk: <strong>+${p.netProfit||0} zł</strong></span></div><div class="flex gap-1.5"><button type="button" onclick="loadSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">Wczytaj</button><button type="button" onclick="deleteSavedProject(${p.id})" class="px-2.5 py-1 rounded-lg bg-slate-800 text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button></div></div></div>`;
   });
 }
 function openSavedModal(){pushModalState();const inp=document.getElementById('clientSearchInput');if(inp)inp.value='';populatePeriodFilterOptions();renderSavedAndReports();document.getElementById('savedModal').classList.remove('hidden');}
